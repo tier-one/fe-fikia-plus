@@ -31,7 +31,8 @@ export default function Dashboard() {
   ]
 
   return (
-    <div>
+    <div className="">
+      <div className="m-10">
       <Card title="Total Clients" icon="/client.svg" change={3.3} changeIcon="/increase.svg" amount={1500} period="last week" />
       <Button
         value="Create fund"
@@ -39,6 +40,7 @@ export default function Dashboard() {
         onClick={handleCLick}
       />
       <Table headers={headers} data={data} />
+    </div>
     </div>
   )
 }
