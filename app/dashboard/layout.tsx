@@ -1,5 +1,7 @@
-
+import { Jost } from 'next/font/google'
 import Navbar from '../components/Navbar'
+
+// const jost = Jost({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Dashboard',

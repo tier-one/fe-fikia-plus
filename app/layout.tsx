@@ -1,7 +1,6 @@
 import './globals.css'
-import { Inter, Jost } from 'next/font/google'
+import { Jost } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
 const jost = Jost({ subsets: ['latin'] })
 
 export const metadata = {
