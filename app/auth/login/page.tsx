@@ -26,8 +26,8 @@ export default function Login() {
   return (
     <main className='h-3/4 w-1/3 box-shadow'>
       <div className='w-full h-1/4 text-center text-white'>
-        <h1 className='text-4xl font-extrabold'>Welcome Back!</h1>
-        <p className='font-thin py-3'>Gain valuable insights into your collective funds with our user-friendly platform for fund managers.</p>
+        <h1 className='text-4xl font-bold'>Welcome Back!</h1>
+        <p className='font-light py-3'>Gain valuable insights into your collective funds with our user-friendly platform for fund managers.</p>
       </div>
       <div className='bg-white rounded-lg shadow-lg h-3/4 px-10 py-16'>
         <div className='py-5'>
