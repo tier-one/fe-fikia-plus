@@ -52,7 +52,7 @@ export default function Dashboard() {
       <div className="lg:flex justify-between p-6">
         <Card title="Total Clients" imageAlt="Total Clients" icon="/client.svg" change={3.3} changeIcon="/increase.svg" amount={1500} period="last week" />
         <Card title="Total funds" imageAlt="Total funds"  icon="/total-funds.svg" change={3.3} changeIcon="/increase.svg" amount={1500} period="last week" />
-        <Card title="Total market Cap" imageAlt="Total market Cap" icon="/market-Cap.svg" change={3.3} changeIcon="/increase.svg" amount={1500} period="last week" />
+        <Card title="Total market Cap" imageAlt="Total market Cap" icon="/market-cap.svg" change={3.3} changeIcon="/increase.svg" amount={1500} period="last week" />
         <Card title="Total transactions" imageAlt="Total transactions" icon="/total-transactions.svg" change={3.3} changeIcon="/increase.svg" amount={1500} period="last week" />
 
       </div>
