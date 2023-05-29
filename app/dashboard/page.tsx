@@ -14,7 +14,7 @@ export default function Dashboard() {
       name: 'John Doe',
       age: 30,
       country: 'USA',
-      city:"New youk"
+      city:"New york"
     },
     {
       name: 'Jane Smith',
@@ -31,7 +31,7 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="">
+    <div className="bg-[#eaeaed] h-full">
       <div className="m-10">
       <Card title="Total Clients" icon="/client.svg" change={3.3} changeIcon="/increase.svg" amount={1500} period="last week" />
       <Button
@@ -39,7 +39,11 @@ export default function Dashboard() {
         styling='bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg'
         onClick={handleCLick}
       />
-      <Table headers={headers} data={data} />
+      <Table headers={headers} data={data} title="Funds types"
+      buttonText="Create fund"
+         buttonStyling='bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg'
+        buttonOnClick={handleCLick}
+      />
     </div>
     </div>
   )
