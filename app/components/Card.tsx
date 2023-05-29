@@ -8,20 +8,14 @@ interface CardProps {
     change: number;
     changeIcon: string;
     period: string;
+    imageAlt:string
 }
 
-const Card = ({
-    title,
-    icon,
-    amount,
-    change,
-    changeIcon,
-    period,
-}: CardProps) => (
-    <div className="max-w-sm rounded-lg overflow-hidden shadow-lg ">
+const Card = ({ title, icon, amount, change, changeIcon, period,imageAlt }: CardProps) => (
+    <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white flex-grow p-3 m-2">
         <div className="flex justify-between mx-4">
             <p className="text-xl mb-2 text-[#475569]">{title}</p>
-            <Image src={icon} width={20} height={20} alt="client" />
+            <Image src={icon} width={20} height={20} alt={imageAlt} />
         </div>
         <div className="mx-4 text-[#475569] font-bold text-4xl">
             <p>{amount}</p>
