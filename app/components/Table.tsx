@@ -21,7 +21,8 @@ const Table = ({
     viewAllOnClick
 }: TableProps) => {
     return (
-        <div className="mt-10 rounded-lg bg-white p-4 mb-4 ">
+        <div className="mt-10 rounded-lg bg-white p-4 mb-4 flex-grow">
+            
             <div className="flex justify-between">
                 <p className="text-[#475569] font-semibold text-xl">{title}</p>
                 <Button
@@ -31,11 +32,10 @@ const Table = ({
                 />
             </div>
             <div className="flex justify-end p-4 pb-0">
-                <p 
-                className="text-[#002674] font-semibold text-xl cursor-pointer"
+                <p
+                    className="text-[#002674] font-semibold text-xl cursor-pointer"
                     onClick={viewAllOnClick}
                 >View all</p>
-
             </div>
             <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
@@ -63,9 +63,7 @@ const Table = ({
                                         key={cellIndex}
                                         className={`py-2 px-4 border-b border-gray-200 text-left text-[#475569] `}
                                     >
-                                        <h3 className={`${cellIndex === 1 ? ' bg-[#F2F3F5] rounded-full text-center w-[40] h-[40] ' : ''}`}>
-                                           <span> {cell}</span>
-                                        </h3>
+                                        {typeof cell === 'number' ? cell.toLocaleString() : cell}
                                     </td>
                                 ))}
                                 <td
