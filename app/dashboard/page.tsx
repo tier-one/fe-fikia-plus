@@ -51,7 +51,7 @@ export default function Dashboard() {
       No: 6,
       name: 'Ejo heza fund',
       fund: 3000,
-      country: 3.3,
+      country: -3.3,
       city: 345455656.34
     },
     {
@@ -71,13 +71,6 @@ export default function Dashboard() {
 
       <div className='flex flex-col justify-center lg:mx-20'>
         <p className="text-[#475569] font-bold text-4xl py-4">Overview</p>
-
-        {/* <div className="lg:flex lg:justify-between ">
-          <Card title="Total Clients" imageAlt="Total Clients" icon="/client.svg" change={3.3} changeIcon="/increase.svg" amount={1500} period="last week" styles="lg:mr-3 mb-3" />
-          <Card title="Total funds" imageAlt="Total funds" icon="/total-funds.svg" change={3.3} changeIcon="/increase.svg" amount={1500} period="last week" styles="mr-3 mb-3" />
-          <Card title="Total market Cap" imageAlt="Total market Cap" icon="/market-cap.svg" change={3.3} changeIcon="/increase.svg" amount={1500} period="last week" styles="mr-3 mb-3" />
-          <Card title="Total transactions" imageAlt="Total transactions" icon="/total-transactions.svg" change={3.3} changeIcon="/increase.svg" amount={1500} period="last week" />
-        </div> */}
         <div className="flex lg:justify-between flex-col lg:flex-row flex-wrap">
           <Card
             title="Total Clients"
@@ -130,6 +123,8 @@ export default function Dashboard() {
             buttonStyling="bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg"
             buttonOnClick={handleCLick}
             viewAllOnClick={handleCLick}
+            marketCapIndex={4}
+            changeIndex={3}
           />
         </div>
       </div>
