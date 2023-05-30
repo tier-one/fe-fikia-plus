@@ -12,7 +12,7 @@ export default function Navbar() {
 
   return (
     <div className='bg-[#00133B] h-[13vh]'>
-      <div className="flex  text-white mx-20">
+      <div className="flex  text-white lg:mx-20">
       <div className='w-1/2 flex justify-around'>
         <div className='w-1/3 flex '>
           <Image src={Logo} alt='Fikia Plus Logo' />

@@ -13,7 +13,7 @@ interface CardProps {
 }
 
 const Card = ({ title, icon, amount, change, changeIcon, period,imageAlt,styles }: CardProps) => (
-    <div className={` max-w-sm rounded-lg overflow-hidden shadow-lg bg-white flex-grow p-3 ${styles}`}>
+    <div className={` max-w-sm rounded-lg overflow-hidden shadow-lg bg-white flex-grow p-3 sm:mb-3 ${styles}`} >
         <div className="flex justify-between mx-4">
             <p className="text-xl mb-2 text-[#475569]">{title}</p>
             <Image src={icon} width={20} height={20} alt={imageAlt} />
