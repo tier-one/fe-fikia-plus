@@ -69,7 +69,7 @@ export default function Dashboard() {
 
     <div className="bg-[#eaeaed] min-h-[87vh] ">
 
-      <div className='flex flex-col justify-center lg:mx-20'>
+      <div className='flex flex-col justify-center lg:mx-[15rem]'>
         <p className="text-[#475569] font-bold text-4xl py-4">Overview</p>
         <div className="flex lg:justify-between flex-col lg:flex-row flex-wrap">
           <Card
