@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Arrow from '../../../public/arrow.svg'
 import InputField from '@/app/components/InputField'
 import { useState } from 'react'
-
+import Button from '@/app/components/Button' 
 const inputFieldStylingProps = {
   container: {
     className: 'flex flex-col space w-full'
@@ -21,8 +21,8 @@ export default function ResetPassword() {
   const [password, setPassword] = useState('')
   
   return (
-    <main className='bg-white rounded-lg shadow-lg h-1/2 w-1/3 px-16'>
-      <Link href='/auth/login' className='pt-12 flex'>
+    <main className='bg-white rounded-lg shadow-lg min-h-1/2 w-1/3 px-16 py-4'>
+      <Link href='/auth/login' className='pt-8 flex'>
         <Image src={Arrow} alt='arrow' />
         <span className='text-[#002674] mx-1 text-sm'>Return back</span>
       </Link>
@@ -52,6 +52,9 @@ export default function ResetPassword() {
             onChange={setPassword}
             {...inputFieldStylingProps}
           />
+        </div>
+        <div className='flex flex-col space w-full  py-3'>
+          <Button styling='bg-[#002674] text-white py-2 px-4 mt-2  rounded-lg ' value='Change password' />
         </div>
       </div>
     </main>

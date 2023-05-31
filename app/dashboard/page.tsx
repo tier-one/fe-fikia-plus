@@ -49,19 +49,50 @@ export default function Dashboard() {
     },
     {
       No: 6,
-      name: 'Ejo heza fund',
+      name: 'Bk fund',
       fund: 3000,
       country: -3.3,
       city: 345455656.34
     },
     {
       No: 7,
-      name: 'Ejo heza fund',
+      name: 'Equity fund',
       fund: 3000,
       country: 3.3,
       city: 345455656.34
     }
     ,
+    {
+      No: 8,
+      name: 'I&M fund',
+      fund: 3000,
+      country: 3.3,
+      city: 345455656.34
+    }
+    ,
+    {
+      No: 9,
+      name: 'KCB fund',
+      fund: 3000,
+      country: 3.3,
+      city: 345455656.34
+    }
+    ,
+    {
+      No: 10,
+      name: 'Access fund',
+      fund: 3000,
+      country: 3.3,
+      city: 345455656.34
+    }
+    ,
+    {
+      No: 11,
+      name: 'RIM fund',
+      fund: 3000,
+      country: 3.3,
+      city: 345455656.34
+    },
 
   ];
 
@@ -114,7 +145,7 @@ export default function Dashboard() {
           />
         </div>
 
-        <div className="flex flex-1">
+        <div className="flex flex-grow min-h-[60vh]">
           <Table
             headers={headers}
             data={data}
