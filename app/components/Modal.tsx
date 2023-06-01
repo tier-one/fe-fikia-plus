@@ -2,9 +2,10 @@ interface ModalProps {
     children: React.ReactNode;
     isOpen: boolean;
     onClose: () => void;
+    title: string
 }
 
-const Modal = ({ children, isOpen, onClose }: ModalProps) => {
+const Modal = ({ children, isOpen, onClose, title }: ModalProps) => {
 
     return (
         <>
@@ -13,7 +14,7 @@ const Modal = ({ children, isOpen, onClose }: ModalProps) => {
                     <div className="bg-white w-1/2 p-6 rounded-lg relative">
                         <button
                             onClick={onClose}
-                            className="absolute top-0 right-0 m-4 text-white hover:text-gray-300"
+                            className="absolute top-0 right-0 m-4 text-black hover:text-gray-300"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -30,6 +31,7 @@ const Modal = ({ children, isOpen, onClose }: ModalProps) => {
                                 />
                             </svg>
                         </button>
+                        <p >{title}</p>
                         {children}
                     </div>
                 </div>

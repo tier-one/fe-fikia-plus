@@ -26,7 +26,7 @@ export default function ForgotPassword() {
   }
 
   return (
-    <main className='bg-white rounded-lg shadow-lg min-h-1/2 w-1/3 px-16 py-4'>
+    <main className='bg-white flex flex-col  justify-center  rounded-xl shadow-lg min-h-[70vh] w-1/3 px-16 py-4'>
       <Link href='/auth/login' className='pt-5 flex'>
         <Image src={Arrow} alt='arrow' />
         <span className='text-[#002674] mx-1 text-sm'>Return back</span>

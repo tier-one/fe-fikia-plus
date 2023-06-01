@@ -55,7 +55,7 @@ export default function Login() {
             {...inputFieldStylingProps}
           />
         </div>
-        
+
         <div className='flex justify-between px-9'>
           <CheckBox />
           <Link href='/auth/forgot-password' className='text-base underline'>Forgot Password?</Link>
@@ -63,10 +63,7 @@ export default function Login() {
         <div className='flex flex-col space w-full px-8 py-3'>
           <Button styling='bg-[#002674] text-white py-2 px-4 mt-2  rounded-lg ' value='Log in' />
         </div>
-        <div className='flex justify-center px-9'>
-          <span>Don’t have an account?<Link href='/auth/forgot-password' className='text-base font-semibold text-[#002674] no-underline'> Create account</Link> </span> 
-          
-        </div>
+
       </div>
     </main>
   )
