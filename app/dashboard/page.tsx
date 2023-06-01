@@ -128,7 +128,7 @@ export default function Dashboard() {
     },
 
   ];
-  const fundTypes:string[]=[
+  const fundTypes: string[] = [
     "Bk fund",
     "Equity Fund"
   ]
@@ -199,11 +199,11 @@ export default function Dashboard() {
             <div className='py-3'>
               <InputField
                 value={fundName}
-                placeholder='Enter your email here'
+                placeholder='Enter Fund name'
                 required={false}
                 type='text'
                 className='text-xs'
-                label='Email'
+                label='Fund name'
                 onChange={handleFundName}
                 {...inputFieldStylingProps}
               />
@@ -211,9 +211,8 @@ export default function Dashboard() {
             <div className='py-3'>
               <SelectBox
                 value={fundType}
-
                 required={false}
-               values={fundTypes}
+                values={fundTypes}
                 className='text-xs'
                 label='Fund type'
                 onChange={handleFundType}

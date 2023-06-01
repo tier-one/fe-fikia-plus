@@ -2,15 +2,15 @@ interface ModalProps {
     children: React.ReactNode;
     isOpen: boolean;
     onClose: () => void;
-   
+
 }
 
-const Modal = ({ children, isOpen, onClose,  }: ModalProps) => {
+const Modal = ({ children, isOpen, onClose, }: ModalProps) => {
 
     return (
         <>
             {isOpen && (
-                <div className="fixed inset-0 flex items-center justify-center z-50">
+                <div className="fixed inset-0 flex items-center  shadow-lg bg-gray-700 opacity-95 justify-center z-50">
                     <div className="bg-white w-1/2 py-6 rounded-lg relative">
                         <button
                             onClick={onClose}

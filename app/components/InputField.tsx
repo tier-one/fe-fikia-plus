@@ -43,7 +43,7 @@ export default function InputField({
         value={value}
         placeholder={placeholder}
         onChange={handleChange}
-        className={props.input?.className}
+        className={`${props.input?.className} focus:outline-none`}
         {...props}
         
       />
