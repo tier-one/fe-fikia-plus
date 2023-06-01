@@ -188,7 +188,6 @@ export default function Dashboard() {
             buttonText="Create fund"
             buttonStyling="bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg"
             buttonOnClick={openModal}
-            viewAllOnClick={handleCLick}
             marketCapIndex={4}
             changeIndex={3}
           />

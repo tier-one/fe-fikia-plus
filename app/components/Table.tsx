@@ -12,7 +12,6 @@ interface TableProps {
     buttonStyling?: string;
     buttonIcon?: string;
     buttonOnClick?: () => void;
-    viewAllOnClick?: () => void;
     changeIndex?: number;
     marketCapIndex?: number;
     itemsPerPage?: number;
@@ -25,7 +24,6 @@ const Table = ({
     buttonText,
     buttonStyling,
     buttonOnClick,
-    viewAllOnClick,
     changeIndex,
     marketCapIndex,
     itemsPerPage = 7,
@@ -58,14 +56,6 @@ const Table = ({
             <div className="flex justify-between">
                 <p className="text-[#475569] font-semibold text-xl">{title}</p>
                 <Button value={buttonText} styling={buttonStyling} onClick={buttonOnClick} />
-            </div>
-            <div className="flex justify-end p-4 pb-0">
-                <p
-                    className="text-[#002674] font-semibold text-xl cursor-pointer"
-                    onClick={viewAllOnClick}
-                >
-                    View all
-                </p>
             </div>
             <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
