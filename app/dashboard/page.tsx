@@ -6,6 +6,7 @@ import Table from '../components/Table';
 import Modal from "../components/Modal";
 import InputField from "@/app/components/InputField";
 import Button from "@/app/components/Button";
+import SelectBox from "@/app/components/SelectBox";
 
 const inputFieldStylingProps = {
   container: {
@@ -21,17 +22,22 @@ const inputFieldStylingProps = {
 
 export default function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [fundName, setFundName] = useState('')
+  const [fundType, setFundType] = useState('')
+
+  const handleFundName = (fundName: string) => {
+    setFundName(fundName)
+  }
+  const handleFundType = (fundType: string) => {
+    setFundType(fundType)
+  }
   const openModal = () => {
     setIsOpen(true)
   }
   const closeModal = () => {
     setIsOpen(false)
   }
-  const handleEmail = (email: string) => {
-    setEmail(email)
-  }
+
   const handleCLick = () => {
     console.log("hello");
   };
@@ -122,6 +128,10 @@ export default function Dashboard() {
     },
 
   ];
+  const fundTypes:string[]=[
+    "Bk fund",
+    "Equity Fund"
+  ]
 
   return (
     <div className="bg-[#eaeaed] min-h-[87vh] ">
@@ -183,42 +193,37 @@ export default function Dashboard() {
             changeIndex={3}
           />
         </div>
-        <Modal isOpen={isOpen} onClose={closeModal} title="Create fund ">
-          <div className='bg-white rounded-lg shadow-lg h-3/4 px-10 py-5'>
+        <Modal isOpen={isOpen} onClose={closeModal} >
+          <div className='bg-white rounded-lg  h-1/1 px-10 py-5'>
+            <p className="px-8 text-[#475569] font-semibold">Create Fund</p>
             <div className='py-3'>
               <InputField
-                value={email}
-                placeholder='Enter fund name'
+                value={fundName}
+                placeholder='Enter your email here'
                 required={false}
                 type='text'
                 className='text-xs'
-                label='Fund name'
-                onChange={handleEmail}
+                label='Email'
+                onChange={handleFundName}
                 {...inputFieldStylingProps}
               />
             </div>
             <div className='py-3'>
-              <InputField
-                value={password}
-                placeholder='Enter your password here'
+              <SelectBox
+                value={fundType}
+
                 required={false}
-                type='text'
+               values={fundTypes}
                 className='text-xs'
-                label='Password'
-                onChange={handleEmail}
+                label='Fund type'
+                onChange={handleFundType}
                 {...inputFieldStylingProps}
               />
             </div>
-
-            <div className="flex">
-              <div className='flex flex-col space w-full px-8 py-3'>
-                <Button styling='bg-[#002674] text-white py-2 px-4 mt-2  rounded-lg ' value='Create fund' />
-              </div>
-              <div className='flex flex-col space w-full px-8 py-3'>
-                <Button styling='bg-[#F0F4F8] text-[#475569] py-2 px-4 mt-2  rounded-lg ' value='Cancel' />
-              </div>
+            <div className="flex justify-end px-8 ">
+              <Button styling='bg-[#002674] text-white py-2 px-4 mt-2  rounded-lg ' value='Create fund' />
+              <Button styling='bg-[#F0F4F8] text-[#475569] py-2 px-4 mt-2 ml-4 rounded-lg ' value='Cancel' />
             </div>
-
           </div>
         </Modal>
       </div>
