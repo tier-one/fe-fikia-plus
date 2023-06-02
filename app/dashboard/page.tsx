@@ -153,10 +153,7 @@ export default function Dashboard() {
     setIsOpen(false)
   }
 
-  const handleCLick = () => {
-    console.log("hello");
-  };
-
+  
   
   const fundTypes: string[] = [
     "Bk fund",
