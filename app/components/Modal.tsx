@@ -11,10 +11,10 @@ const Modal = ({ children, isOpen, onClose, }: ModalProps) => {
         <>
             {isOpen && (
                 <div className="fixed inset-0 flex items-center  shadow-lg bg-gray-700 opacity-95 justify-center z-50">
-                    <div className="bg-white w-1/2 py-6 rounded-lg relative">
+                    <div className="bg-white w-1/2 py-6 rounded-lg relative ">
                         <button
                             onClick={onClose}
-                            className="absolute top-0 right-0 m-4 text-black hover:text-gray-300"
+                            className="absolute top-0 right-0 m-10 text-black hover:text-gray-300 "
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

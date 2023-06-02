@@ -19,7 +19,122 @@ const inputFieldStylingProps = {
     className: 'py-3 px-5 rounded-lg mt-2 border border-gray-300 placeholder:text-gray-600'
   },
 }
+const headers = ['No', 'Fund name', 'Fund', "24h%", "Market Cap"];
 
+const data = [
+  {
+    "No": 1,
+    "name": "Unguka fund",
+    "fund": 3000,
+    "country": 3.3,
+    "city": 345455656.34
+  },
+  {
+    "No": 2,
+    "name": "Terimbere fund",
+    "fund": 3000,
+    "country": 3.3,
+    "city": 345455656.34
+  },
+  {
+    "No": 3,
+    "name": "Umwalimu fund",
+    "fund": 3000,
+    "country": 3.3,
+    "city": 345455656.34
+  },
+  {
+    "No": 4,
+    "name": "Ejo heza fund",
+    "fund": 3000,
+    "country": 3.3,
+    "city": 345455656.34
+  },
+  {
+    "No": 5,
+    "name": "Ejo heza fund",
+    "fund": 3000,
+    "country": 3.3,
+    "city": 345455656.34
+  },
+  {
+    "No": 6,
+    "name": "Bk fund",
+    "fund": 3000,
+    "country": -3.3,
+    "city": 345455656.34
+  },
+  {
+    "No": 7,
+    "name": "Equity fund",
+    "fund": 3000,
+    "country": 3.3,
+    "city": 345455656.34
+  },
+  {
+    "No": 8,
+    "name": "I&M fund",
+    "fund": 3000,
+    "country": 3.3,
+    "city": 345455656.34
+  },
+  {
+    "No": 9,
+    "name": "KCB fund",
+    "fund": 3000,
+    "country": 3.3,
+    "city": 345455656.34
+  },
+  {
+    "No": 10,
+    "name": "Access fund",
+    "fund": 3000,
+    "country": 3.3,
+    "city": 345455656.34
+  },
+  {
+    "No": 11,
+    "name": "RIM fund",
+    "fund": 3000,
+    "country": 3.3,
+    "city": 345455656.34
+  },
+  {
+    "No": 12,
+    "name": "Unguka fund",
+    "fund": 3000,
+    "country": 3.3,
+    "city": 345455656.34
+  },
+  {
+    "No": 13,
+    "name": "Terimbere fund",
+    "fund": 3000,
+    "country": 3.3,
+    "city": 345455656.34
+  },
+  {
+    "No": 14,
+    "name": "Umwalimu fund",
+    "fund": 3000,
+    "country": 3.3,
+    "city": 345455656.34
+  },
+  {
+    "No": 15,
+    "name": "Ejo heza fund",
+    "fund": 3000,
+    "country": 3.3,
+    "city": 345455656.34
+  },
+  {
+    "No": 16,
+    "name": "Ejo heza fund",
+    "fund": 3000,
+    "country": 3.3,
+    "city": 345455656.34
+  }
+]
 export default function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
   const [fundName, setFundName] = useState('')
@@ -42,92 +157,7 @@ export default function Dashboard() {
     console.log("hello");
   };
 
-  const headers = ['No', 'Fund name', 'Fund', "24h%", "Market Cap"];
-
-  const data = [
-    {
-      No: 1,
-      name: 'Unguka fund',
-      fund: 3000,
-      country: 3.3,
-      city: 345455656.34
-    },
-    {
-      No: 2,
-      name: 'Terimbere fund',
-      fund: 3000,
-      country: 3.3,
-      city: 345455656.34
-    },
-    {
-      No: 3,
-      name: 'Umwalimu fund',
-      fund: 3000,
-      country: 3.3,
-      city: 345455656.34
-    },
-    {
-      No: 4,
-      name: 'Ejo heza fund',
-      fund: 3000,
-      country: 3.3,
-      city: 345455656.34
-    },
-    {
-      No: 5,
-      name: 'Ejo heza fund',
-      fund: 3000,
-      country: 3.3,
-      city: 345455656.34
-    },
-    {
-      No: 6,
-      name: 'Bk fund',
-      fund: 3000,
-      country: -3.3,
-      city: 345455656.34
-    },
-    {
-      No: 7,
-      name: 'Equity fund',
-      fund: 3000,
-      country: 3.3,
-      city: 345455656.34
-    }
-    ,
-    {
-      No: 8,
-      name: 'I&M fund',
-      fund: 3000,
-      country: 3.3,
-      city: 345455656.34
-    }
-    ,
-    {
-      No: 9,
-      name: 'KCB fund',
-      fund: 3000,
-      country: 3.3,
-      city: 345455656.34
-    }
-    ,
-    {
-      No: 10,
-      name: 'Access fund',
-      fund: 3000,
-      country: 3.3,
-      city: 345455656.34
-    }
-    ,
-    {
-      No: 11,
-      name: 'RIM fund',
-      fund: 3000,
-      country: 3.3,
-      city: 345455656.34
-    },
-
-  ];
+  
   const fundTypes: string[] = [
     "Bk fund",
     "Equity Fund"
@@ -190,6 +220,7 @@ export default function Dashboard() {
             buttonOnClick={openModal}
             marketCapIndex={4}
             changeIndex={3}
+            itemsPerPage={7}
           />
         </div>
         <Modal isOpen={isOpen} onClose={closeModal} >

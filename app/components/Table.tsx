@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Button from "./Button";
+import PaginatedData from "./Pagination";
 
 interface TableProps {
     headers: string[];
@@ -14,7 +15,7 @@ interface TableProps {
     buttonOnClick?: () => void;
     changeIndex?: number;
     marketCapIndex?: number;
-    itemsPerPage?: number;
+    itemsPerPage: number;
 }
 
 const Table = ({
@@ -26,7 +27,7 @@ const Table = ({
     buttonOnClick,
     changeIndex,
     marketCapIndex,
-    itemsPerPage = 7,
+    itemsPerPage ,
 }: TableProps) => {
     const [currentPage, setCurrentPage] = useState(1);
     const lastIndex = currentPage * itemsPerPage;
@@ -34,22 +35,10 @@ const Table = ({
     const currentData = data.slice(firstIndex, lastIndex);
 
     const totalPages = Math.ceil(data.length / itemsPerPage);
-
-    const goToPage = (page: number) => {
+    const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
 
-    const goToPreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage((prevPage) => prevPage - 1);
-        }
-    };
-
-    const goToNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage((prevPage) => prevPage + 1);
-        }
-    };
 
     return (
         <div className="mt-10 rounded-lg bg-white p-4 mb-4 flex-grow">
@@ -110,31 +99,12 @@ const Table = ({
                     </tbody>
                 </table>
             </div>
+            
             <div className="flex justify-center mt-4">
-                <button
-                    className="px-4 py-2 border border-gray-300 rounded-md mr-2"
-                    onClick={goToPreviousPage}
-                    disabled={currentPage === 1}
-                >
-                    Previous
-                </button>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                    <button
-                        key={page}
-                        className={`px-4 py-2 border border-gray-300 rounded-md ${page === currentPage ? "bg-[#002674] text-white" : ""
-                            }`}
-                        onClick={() => goToPage(page)}
-                    >
-                        {page}
-                    </button>
-                ))}
-                <button
-                    className="px-4 py-2 border border-gray-300 rounded-md ml-2"
-                    onClick={goToNextPage}
-                    disabled={currentPage === totalPages}
-                >
-                    Next
-                </button>
+                <PaginatedData pageSize={itemsPerPage}
+                    totalItems={data.length}
+                    currentPage={currentPage}
+                    handlePageChange={handlePageChange} />
             </div>
         </div>
     );
