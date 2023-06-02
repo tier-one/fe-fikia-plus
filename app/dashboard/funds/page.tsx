@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from "react";
-import Card from "@/app/components/Card";
 import Table from '@/app/components/Table';
 import Modal from "@/app/components/Modal";
 import InputField from "@/app/components/InputField";
@@ -39,10 +38,6 @@ export default function Funds() {
   const closeModal = () => {
     setIsOpen(false)
   }
-
-  const handleCLick = () => {
-    console.log("hello");
-  };
 
   const headers = ['No', 'Fund name', 'Unit Price', "24h%", "Market Cap"];
 
@@ -146,9 +141,9 @@ export default function Funds() {
             buttonText="Create fund"
             buttonStyling="bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg"
             buttonOnClick={openModal}
-           
             marketCapIndex={4}
             changeIndex={3}
+            itemsPerPage={7}
           />
         </div>
         <Modal isOpen={isOpen} onClose={closeModal} >
