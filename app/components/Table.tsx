@@ -16,6 +16,7 @@ interface TableProps {
     changeIndex?: number;
     marketCapIndex?: number;
     itemsPerPage: number;
+    isTableRowLink?: boolean
 }
 
 const Table = ({
@@ -27,7 +28,8 @@ const Table = ({
     buttonOnClick,
     changeIndex,
     marketCapIndex,
-    itemsPerPage ,
+    itemsPerPage,
+    isTableRowLink
 }: TableProps) => {
     const [currentPage, setCurrentPage] = useState(1);
     const lastIndex = currentPage * itemsPerPage;
@@ -65,7 +67,8 @@ const Table = ({
                     </thead>
                     <tbody>
                         {currentData.map((row, rowIndex) => (
-                            <tr key={rowIndex}>
+
+                            <tr key={rowIndex} >
                                 {Object.values(row).map((cell, cellIndex) => (
                                     <td
                                         key={cellIndex}
@@ -99,7 +102,7 @@ const Table = ({
                     </tbody>
                 </table>
             </div>
-            
+
             <div className="flex justify-center mt-4">
                 <PaginatedData pageSize={itemsPerPage}
                     totalItems={data.length}
