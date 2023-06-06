@@ -218,6 +218,7 @@ export default function Dashboard() {
             marketCapIndex={4}
             changeIndex={3}
             itemsPerPage={7}
+            displayButton={true}
           />
         </div>
         <Modal isOpen={isOpen} onClose={closeModal} >

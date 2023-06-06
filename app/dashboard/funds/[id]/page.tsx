@@ -51,7 +51,7 @@ const data = [
 
 ]
 export default function Dashboard() {
-  
+
     const [isOpen, setIsOpen] = useState(false);
     const [fundName, setFundName] = useState('')
     const [fundType, setFundType] = useState('')
@@ -92,7 +92,7 @@ export default function Dashboard() {
                     <p className="text-[#475569] font-bold text-2xl py-4">Funds</p>
                 </div>
                 <div className="border-b border-gray-300 mb-4  ">
-                    <button className={`py-2 text-xl text-center border-b-2 font-medium text-[#475569] ${activeTab === "fund-transactions" ?'border-[#0EA4E8]':''} leading-5 focus:outline-none focus:border-[#0EA4E8]`} onClick={() => handleTabClick("fund-transactions")}>
+                    <button className={`py-2 text-xl text-center border-b-2 font-medium text-[#475569] ${activeTab === "fund-transactions" ? 'border-[#0EA4E8]' : ''} leading-5 focus:outline-none focus:border-[#0EA4E8]`} onClick={() => handleTabClick("fund-transactions")}>
                         Fund transactions
                     </button>
 
@@ -144,6 +144,7 @@ export default function Dashboard() {
                                 buttonStyling="bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg"
                                 buttonOnClick={openModal}
                                 itemsPerPage={7}
+                                displayButton={false}
                             />
                         </div>
                         <Modal isOpen={isOpen} onClose={closeModal} >
@@ -178,7 +179,7 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </Modal>
-                    </div> : <Settings/>}
+                    </div> : <Settings />}
 
             </div>
         </div>

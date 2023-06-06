@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Button from "./Button";
 import PaginatedData from "./Pagination";
+import Link from "next/link";
 
 interface TableProps {
     headers: string[];
@@ -16,7 +17,9 @@ interface TableProps {
     changeIndex?: number;
     marketCapIndex?: number;
     itemsPerPage: number;
-    isTableRowLink?: boolean
+    isTableRowLink?: boolean,
+    idIndex?: number,
+    displayButton?: boolean
 }
 
 const Table = ({
@@ -29,7 +32,9 @@ const Table = ({
     changeIndex,
     marketCapIndex,
     itemsPerPage,
-    isTableRowLink
+    isTableRowLink,
+    idIndex,
+    displayButton
 }: TableProps) => {
     const [currentPage, setCurrentPage] = useState(1);
     const lastIndex = currentPage * itemsPerPage;
@@ -46,7 +51,7 @@ const Table = ({
         <div className="mt-10 rounded-lg bg-white p-4 mb-4 flex-grow">
             <div className="flex justify-between">
                 <p className="text-[#475569] font-semibold text-xl">{title}</p>
-                <Button value={buttonText} styling={buttonStyling} onClick={buttonOnClick} />
+                {displayButton ? <Button value={buttonText} styling={buttonStyling} onClick={buttonOnClick} /> : <></>}
             </div>
             <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
@@ -67,37 +72,59 @@ const Table = ({
                     </thead>
                     <tbody>
                         {currentData.map((row, rowIndex) => (
+                           
+                              <tr key={rowIndex} >
+                                        {Object.values(row).map((cell, cellIndex) => (
+                                             <td
+                                                key={cellIndex}
+                                                className={`py-2 px-4 border-b border-gray-200 text-left text-[#475569]`}
+                                            >
+                                                {isTableRowLink && idIndex !== undefined ? <Link key={cellIndex} href={`/dashboard/funds/${Object.values(row)[idIndex]}`} className="bg-red-500">
+                                                    <p
+                                                        className={`${changeIndex === cellIndex && cell > 0
+                                                            ? "text-[#22C45E]"
+                                                            : changeIndex === cellIndex && cell < 0
+                                                                ? "text-red-500"
+                                                                : ""
+                                                            }`}
+                                                    >
+                                                        {changeIndex === cellIndex && cell > 0
+                                                            ? `+${cell}%`
+                                                            : changeIndex === cellIndex && cell < 0
+                                                                ? `${cell}%`
+                                                                : typeof cell === "number" && marketCapIndex !== cellIndex
+                                                                    ? cell.toLocaleString()
+                                                                    : marketCapIndex === cellIndex
+                                                                        ? `$${cell.toLocaleString()}`
+                                                                        : cell}
+                                                    </p>
+                                                </Link> : <>
+                                                        <p
+                                                            className={`${changeIndex === cellIndex && cell > 0
+                                                                ? "text-[#22C45E]"
+                                                                : changeIndex === cellIndex && cell < 0
+                                                                    ? "text-red-500"
+                                                                    : ""
+                                                                }`}
+                                                        >
+                                                            {changeIndex === cellIndex && cell > 0
+                                                                ? `+${cell}%`
+                                                                : changeIndex === cellIndex && cell < 0
+                                                                    ? `${cell}%`
+                                                                    : typeof cell === "number" && marketCapIndex !== cellIndex
+                                                                        ? cell.toLocaleString()
+                                                                        : marketCapIndex === cellIndex
+                                                                            ? `$${cell.toLocaleString()}`
+                                                                            : cell}
+                                                        </p>
+                                                </>}
+                                            </td>
 
-                            <tr key={rowIndex} >
-                                {Object.values(row).map((cell, cellIndex) => (
-                                    <td
-                                        key={cellIndex}
-                                        className={`py-2 px-4 border-b border-gray-200 text-left text-[#475569]`}
-                                    >
-                                        <p
-                                            className={`${changeIndex === cellIndex && cell > 0
-                                                ? "text-[#22C45E]"
-                                                : changeIndex === cellIndex && cell < 0
-                                                    ? "text-red-500"
-                                                    : ""
-                                                }`}
-                                        >
-                                            {changeIndex === cellIndex && cell > 0
-                                                ? `+${cell}%`
-                                                : changeIndex === cellIndex && cell < 0
-                                                    ? `${cell}%`
-                                                    : typeof cell === "number" && marketCapIndex !== cellIndex
-                                                        ? cell.toLocaleString()
-                                                        : marketCapIndex === cellIndex
-                                                            ? `$${cell.toLocaleString()}`
-                                                            : cell}
-                                        </p>
-                                    </td>
-                                ))}
-                                <td className="py-4 px-4 border-b border-gray-200 text-left text-[#475569] flex justify-end">
-                                    <Image src="/more.svg" alt="more" width={8} height={13} />
-                                </td>
-                            </tr>
+                                        ))}
+                                        <td className="py-4 px-4 border-b border-gray-200 text-left text-[#475569] flex justify-end">
+                                            <Image src="/more.svg" alt="more" width={8} height={13} />
+                                        </td>
+                                    </tr>
                         ))}
                     </tbody>
                 </table>

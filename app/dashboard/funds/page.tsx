@@ -130,7 +130,8 @@ export default function Funds() {
     "Equity Fund"
   ]
   return (
-   <div className="flex flex-col justify-center lg:mx-[15rem]">
+        <div className="bg-[#eaeaed] min-h-[87vh] ">
+   <div className=" flex flex-col justify-center lg:mx-[15rem]">
         <p className="text-[#475569] font-bold text-4xl py-4">Funds</p>
         <div className="flex flex-grow min-h-[75vh]">
           <Table
@@ -142,7 +143,10 @@ export default function Funds() {
             buttonOnClick={openModal}
             marketCapIndex={4}
             changeIndex={3}
-            itemsPerPage={7}
+          itemsPerPage={7} 
+          idIndex={0}
+          isTableRowLink={true}
+          displayButton={true}
           />
         </div>
         <Modal isOpen={isOpen} onClose={closeModal} >
@@ -177,6 +181,7 @@ export default function Funds() {
             </div>
           </div>
         </Modal>
+      </div>
       </div>
   )
 }
