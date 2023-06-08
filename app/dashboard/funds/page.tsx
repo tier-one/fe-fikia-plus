@@ -133,7 +133,7 @@ export default function Funds() {
         <div className="bg-[#eaeaed] min-h-[87vh] ">
    <div className=" flex flex-col justify-center lg:mx-[9rem]">
         <p className="text-[#475569] font-bold text-4xl py-4">Funds</p>
-        <div className="flex flex-grow min-h-[75vh]">
+        <div className="flex flex-grow min-h-[66vh]">
           <Table
             headers={headers}
             data={data}
