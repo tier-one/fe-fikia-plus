@@ -18,7 +18,7 @@ const inputFieldStylingProps = {
         className: 'py-3 px-5 rounded-lg mt-2 border border-gray-300 placeholder:text-gray-600'
     },
 }
-const headers = ['Client name', 'Transaction type', 'Debit(RWF)', "Credit", "Number of units", "Market gain", "Market loss", "Net asset value", "Date"];
+const headers = ['Client name', 'Transaction type', 'Debit(RWF)', "Credit", "Number of units", "Net asset value", "Date"];
 
 const data = [
     {
@@ -27,20 +27,17 @@ const data = [
         'Debit(RWF)': "-",
         "Credit": 50000,
         "Number of units": 50000,
-        "Market gain": "-",
-        "Market loss": "-",
+       
         "Net asset value": 50000,
         "Date": "12 May,2023"
     },
 
     {
-        'Client name': "Jenny Wilson",
+        'Client': "Jenny Wilson",
         "transaction type": "Contribution",
         'Debit(RWF)': 100000,
         "Credit": 40000,
         "Number of units": 50300,
-        "Market gain": 200,
-        "Market loss": "-",
         "Net asset value": 50300,
         "Date": "12 May,2023"
     }
@@ -58,7 +55,7 @@ export default function Dashboard() {
 
     return (
         <div className="bg-[#eaeaed] min-h-[87vh] ">
-            <div className='flex flex-col  lg:mx-[15rem] '>
+            <div className='flex flex-col  lg:mx-[9rem] '>
                 <div className="flex mt-3">
                     <Link href="/dashboard/funds" className="mr-3 text-[#475569] font-semibold">
                         Funds

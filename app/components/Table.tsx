@@ -121,7 +121,7 @@ const Table = ({
                                             </td>
 
                                         ))}
-                                        <td className="py-4 px-4 border-b border-gray-200 text-left text-[#475569] flex justify-end">
+                                        <td className="py-4 px-4 border-b border-gray-200 text-left text-[#475569] flex justify-center">
                                             <Image src="/more.svg" alt="more" width={8} height={13} />
                                         </td>
                                     </tr>
