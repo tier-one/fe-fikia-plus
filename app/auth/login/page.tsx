@@ -3,6 +3,7 @@ import InputField from '@/app/components/InputField'
 import CheckBox from '@/app/components/CheckBox'
 import { useState } from 'react'
 import Link from 'next/link'
+import Button from '@/app/components/Button'
 
 const inputFieldStylingProps = {
   container: {
@@ -24,13 +25,13 @@ export default function Login() {
     setEmail(email)
   }
   return (
-    <main className='h-3/4 w-1/3 box-shadow'>
+    <main className='min-h-3/4 w-1/3 box-shadow py-4'>
       <div className='w-full h-1/4 text-center text-white'>
         <h1 className='text-4xl font-bold'>Welcome Back!</h1>
         <p className='font-light py-3'>Gain valuable insights into your collective funds with our user-friendly platform for fund managers.</p>
       </div>
-      <div className='bg-white rounded-lg shadow-lg h-3/4 px-10 py-16'>
-        <div className='py-5'>
+      <div className='bg-white rounded-lg shadow-lg h-3/4 px-10 py-5'>
+        <div className='py-3'>
           <InputField
             value={email}
             placeholder='Enter your email here'
@@ -42,7 +43,7 @@ export default function Login() {
             {...inputFieldStylingProps}
           />
         </div>
-        <div className='py-5'>
+        <div className='py-3'>
           <InputField
             value={password}
             placeholder='Enter your password here'
@@ -54,10 +55,15 @@ export default function Login() {
             {...inputFieldStylingProps}
           />
         </div>
-        <div className='flex justify-between px-9 py-5'>
+
+        <div className='flex justify-between px-9'>
           <CheckBox />
           <Link href='/auth/forgot-password' className='text-base underline'>Forgot Password?</Link>
         </div>
+        <div className='flex flex-col space w-full px-8 py-3'>
+          <Button styling='bg-[#002674] text-white py-2 px-4 mt-2  rounded-lg ' value='Log in' />
+        </div>
+
       </div>
     </main>
   )
