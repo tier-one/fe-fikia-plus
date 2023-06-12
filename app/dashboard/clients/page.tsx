@@ -21,34 +21,37 @@ const inputFieldStylingProps = {
 };
 
 export default function Clients() {
-  const headers = ["First name", "Date of birth", "address", "Transaction date", "Attachments", "actions"];
+  const headers = [
+    "First name",
+    "Date of birth",
+    "address",
+    "Transaction date",
+    "Attachments",
+    "actions",
+  ];
 
   const data = [
     {
       "First name": "Cameron Williamson",
       "Date of birth": "December 19, 1994",
-      "address": "Bowery, New York",
+      address: "Bowery, New York",
       "Transaction date": "12 Jan 2023",
-      "Attachments": "ID_Proof.pdf",
-     
+      Attachments: "ID_Proof.pdf",
     },
     {
       "First name": "Cameron Williamson",
       "Date of birth": "December 19, 1994",
-      "address": "Bowery, New York",
+      address: "Bowery, New York",
       "Transaction date": "12 Jan 2023",
-      "Attachments": "ID_Proof.pdf",
-     
+      Attachments: "ID_Proof.pdf",
     },
     {
       "First name": "Cameron Williamson",
       "Date of birth": "December 19, 1994",
-      "address": "Bowery, New York",
+      address: "Bowery, New York",
       "Transaction date": "12 Jan 2023",
-      "Attachments": "ID_Proof.pdf",
-     
+      Attachments: "ID_Proof.pdf",
     },
-   
   ];
 
   return (
