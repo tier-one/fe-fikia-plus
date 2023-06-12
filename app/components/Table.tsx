@@ -5,7 +5,6 @@ import Image from "next/image";
 import Button from "./Button";
 import PaginatedData from "./Pagination";
 import Link from "next/link";
-
 interface TableProps {
     headers: string[];
     data: object[];
@@ -19,7 +18,10 @@ interface TableProps {
     itemsPerPage: number;
     isTableRowLink?: boolean,
     idIndex?: number,
-    displayButton?: boolean
+    displayButton?: boolean,
+    displayApprove?:boolean,
+    attachmentIndex?:number,
+    actionIndex?:number
 }
 
 const Table = ({
@@ -34,7 +36,10 @@ const Table = ({
     itemsPerPage,
     isTableRowLink,
     idIndex,
-    displayButton
+    displayButton,
+    displayApprove,
+    attachmentIndex,
+    actionIndex
 }: TableProps) => {
     const [currentPage, setCurrentPage] = useState(1);
     const lastIndex = currentPage * itemsPerPage;
@@ -60,14 +65,14 @@ const Table = ({
                             {headers.map((header, index) => (
                                 <th
                                     key={index}
-                                    className="py-2 px-4 border-b border-gray-200 text-left text-[#475569]"
+                                    className={`py-2 px-4 border-b border-gray-200 text-left text-[#475569] ${actionIndex===index?'flex justify-between':""}`}
                                 >
                                     {header}
                                 </th>
                             ))}
-                            <th className="py-4 px-4 border-b border-gray-200 text-left text-[#475569] flex justify-end">
+                           {!displayApprove? <th className="py-4 px-4 border-b border-gray-200 text-left text-[#475569] flex justify-end">
                                 More
-                            </th>
+                                </th>:<></>}
                         </tr>
                     </thead>
                     <tbody>
@@ -98,7 +103,10 @@ const Table = ({
                                                                         ? `$${cell.toLocaleString()}`
                                                                         : cell}
                                                     </p>
-                                                </Link> : <>
+                                                </Link> :attachmentIndex===cellIndex?<div className="flex flex-row">
+                                                <Image src="/attachmnet.svg" alt="attachment" width={10} height={10} />
+                                                <span className="ml-3 text-[#2563EA]"> {cell}</span>
+                                                </div>: <>
                                                         <p
                                                             className={`${changeIndex === cellIndex && cell > 0
                                                                 ? "text-[#22C45E]"
@@ -121,9 +129,17 @@ const Table = ({
                                             </td>
 
                                         ))}
-                                        <td className="py-4 px-4 border-b border-gray-200 text-left text-[#475569] flex justify-center">
-                                            <Image src="/more.svg" alt="more" width={8} height={13} />
-                                        </td>
+                                       
+                                        {displayApprove?(
+                                            <td className="py-4 px-4 border-b border-gray-200 text-left text-[#475569] flex justify-between">
+                                            <div className="">
+                                                <Button value="Approve" styling={buttonStyling} onClick={buttonOnClick} />
+                                                <Button value="Reject" styling="bg-white text-[#002674] py-2 px-4 mt-2 ml-4 rounded-lg border border-[#002674]" onClick={buttonOnClick} />
+                                            </div>
+                                            </td>
+                                        ): <td className="py-4 px-4 border-b border-gray-200 text-left text-[#475569] flex justify-center">
+                                        <Image src="/more.svg" alt="more" width={8} height={13} />
+                                    </td>}
                                     </tr>
                         ))}
                     </tbody>

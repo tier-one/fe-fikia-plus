@@ -20,94 +20,42 @@ const inputFieldStylingProps = {
   },
 };
 
-export default function Funds() {
-  const headers = ["No", "Fund name", "Unit Price", "24h%", "Market Cap"];
+export default function Clients() {
+  const headers = ["First name", "Date of birth", "address", "Transaction date", "Attachments", "actions"];
 
   const data = [
     {
-      No: 1,
-      name: "Unguka fund",
-      unitPrice: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
+      "First name": "Cameron Williamson",
+      "Date of birth": "December 19, 1994",
+      "address": "Bowery, New York",
+      "Transaction date": "12 Jan 2023",
+      "Attachments": "ID_Proof.pdf",
+     
     },
     {
-      No: 2,
-      name: "Terimbere fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
+      "First name": "Cameron Williamson",
+      "Date of birth": "December 19, 1994",
+      "address": "Bowery, New York",
+      "Transaction date": "12 Jan 2023",
+      "Attachments": "ID_Proof.pdf",
+     
     },
     {
-      No: 3,
-      name: "Umwalimu fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
+      "First name": "Cameron Williamson",
+      "Date of birth": "December 19, 1994",
+      "address": "Bowery, New York",
+      "Transaction date": "12 Jan 2023",
+      "Attachments": "ID_Proof.pdf",
+     
     },
-    {
-      No: 4,
-      name: "Ejo heza fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 5,
-      name: "Ejo heza fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 6,
-      name: "Bk fund",
-      fund: 3000,
-      change: -3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 7,
-      name: "Equity fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 8,
-      name: "I&M fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 9,
-      name: "KCB fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 10,
-      name: "Access fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 11,
-      name: "RIM fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
+   
   ];
 
   return (
     <div className="bg-[#eaeaed] min-h-[87vh] ">
-      <div className=" flex flex-col justify-center lg:mx-[9rem]">
+      <div className=" flex flex-col justify-center lg:mx-[8rem]">
         <p className="text-[#475569] font-bold text-3xl py-3">Clients</p>
-        <div className="flex flex-grow min-h-[66vh]">
+        <div className="flex flex-grow min-h-[75vh]">
           <Table
             headers={headers}
             data={data}
@@ -121,6 +69,9 @@ export default function Funds() {
             idIndex={0}
             isTableRowLink={false}
             displayButton={false}
+            displayApprove={true}
+            attachmentIndex={4}
+            actionIndex={5}
           />
         </div>
       </div>
