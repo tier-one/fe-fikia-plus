@@ -23,6 +23,7 @@ interface TableProps {
   displayApprove?: boolean;
   attachmentIndex?: number;
   actionIndex?: number;
+  displayMore?: boolean;
 }
 
 const Table = ({
@@ -41,6 +42,7 @@ const Table = ({
   displayApprove,
   attachmentIndex,
   actionIndex,
+  displayMore
 }: TableProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const lastIndex = currentPage * itemsPerPage;
@@ -94,7 +96,7 @@ const Table = ({
                   {header}
                 </th>
               ))}
-              {!displayApprove ? (
+              {displayMore ? (
                 <th className="py-4 px-4 border-b border-gray-200 text-left text-[#475569] flex justify-end">
                   More
                 </th>
@@ -192,11 +194,11 @@ const Table = ({
                       />
                     </div>
                   </td>
-                ) : (
+                ) : displayMore?(
                   <td className="py-4 px-4 border-b border-gray-200 text-left text-[#475569] flex justify-center">
                     <Image src="/more.svg" alt="more" width={8} height={13} />
                   </td>
-                )}
+                ):<></>}
               </tr>
             ))}
           </tbody>

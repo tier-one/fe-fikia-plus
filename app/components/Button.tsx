@@ -18,7 +18,7 @@ export default function Button({
         <button className={styling} onClick={onClick}>
             <div className='flex'>
                 {icon ? <Image alt='icon' src={icon} width={20} height={20} /> : ''}
-                <div className='w-full'>{value}</div>
+                <div className='w-full ml-1'>{value}</div>
             </div>
         </button>
     )

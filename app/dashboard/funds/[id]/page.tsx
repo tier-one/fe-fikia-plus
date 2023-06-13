@@ -7,7 +7,7 @@ import Card from "@/app/components/Card";
 import Table from "@/app/components/Table";
 import Settings from "@/app/components/Settings";
 import Assets from "@/app/components/Assets";
-
+import FundTopBar from "@/app/components/FundTopBar";
 const inputFieldStylingProps = {
   container: {
     className: "flex flex-col space w-full px-8",
@@ -53,8 +53,6 @@ const data = [
   },
 ];
 export default function Dashboard() {
-  const [fundName, setFundName] = useState("");
-  const [fundType, setFundType] = useState("");
   const [activeTab, setActiveTab] = useState("fund-transactions");
 
   const handleTabClick = (tab: string) => {
@@ -137,11 +135,21 @@ export default function Dashboard() {
               />
             </div>
 
-            <div className="flex flex-grow min-h-[60vh]">
+            <div className="flex  flex-col flex-grow min-h-[58vh] bg-white rounded-lg">
+              <div className="flex justify-between mx-8 py-4 ">
+                <p className="text-[#475569] font-semibold  text-3xl   w-1/4 py-2">
+                  Transactions
+                </p>
+                <FundTopBar
+                  newTransactionName="New Transaction"
+                  newTransactionOnClick={() => {}}
+                  exportOnclick={() => {}}
+                />
+              </div>
               <Table
                 headers={headers}
                 data={data}
-                title="Transactions"
+                title=""
                 buttonText="Create fund"
                 buttonStyling="bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg"
                 buttonOnClick={() => {}}
