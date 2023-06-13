@@ -136,15 +136,17 @@ export default function Dashboard() {
             </div>
 
             <div className="flex  flex-col flex-grow min-h-[58vh] bg-white rounded-lg">
-              <div className="flex justify-between mx-8 py-4 ">
-                <p className="text-[#475569] font-semibold  text-3xl   w-1/4 py-2">
+              <div className="flex justify-between mx-8 py-4" >
+                <p className="text-[#475569] font-semibold  text-3xl   w-1/4 py-2" >
                   Transactions
                 </p>
+                
                 <FundTopBar
                   newTransactionName="New Transaction"
                   newTransactionOnClick={() => {}}
                   exportOnclick={() => {}}
                 />
+               
               </div>
               <Table
                 headers={headers}

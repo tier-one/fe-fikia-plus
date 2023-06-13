@@ -1,6 +1,7 @@
-import React from "react";
+import {useState} from 'react'
 import FundTopBar from "@/app/components/FundTopBar"
 import Table from "@/app/components/Table"
+import NewAssetModal from "@/app/components/NewTransactionModal"
 
 const headers = ["No", "Asset name", "Unit Price", "24h%", "Market Cap"];
 
@@ -84,6 +85,14 @@ const headers = ["No", "Asset name", "Unit Price", "24h%", "Market Cap"];
     },
   ];
 const Assets = () => {
+  const [isNewAssetModalOpen, setIsNewAssetModalOpen] = useState(false);
+  const openNewAssetModal = () => {
+    setIsNewAssetModalOpen(true);
+  }
+  const closeNewAssetModal = () => {
+    setIsNewAssetModalOpen(false);
+  }
+
   return (
     <div className="min-h-[60h] bg-white rounded-xl mb-4">
       <div className="flex justify-between mx-8 py-4 ">
@@ -92,7 +101,7 @@ const Assets = () => {
         </p>
         <FundTopBar
           newTransactionName="New Asset"
-          newTransactionOnClick={() => {}}
+          newTransactionOnClick={openNewAssetModal}
           exportOnclick={() => {}}
         />
       </div>
@@ -113,6 +122,7 @@ const Assets = () => {
             displayMore={false}
           />
         </div>
+        <NewAssetModal isModalOpen={isNewAssetModalOpen} closeModal={closeNewAssetModal} />
     </div>
   );
 };

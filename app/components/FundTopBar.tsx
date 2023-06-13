@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Button from "./Button";
-import InputField from "@/app/components/InputField";
 
 interface FundTopBarProps {
   newTransactionName: string;
@@ -27,7 +26,7 @@ const FundTopBar = ({
   exportOnclick,
 }: FundTopBarProps) => {
   return (
-    <div className="flex justify-end w-1/2">
+    <div className="flex justify-end w-3/4 " >
       <div className="relative w-1/2 mt-2">
         <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <Image
