@@ -46,7 +46,7 @@ const handleTransactionType = (type: string) => {
   };
   return (
     <Modal isOpen={isModalOpen} onClose={closeModal}>
-    <div className="bg-white rounded-lg  h-1/1 px-10 py-5">
+    <div className="bg-white rounded-lg  h-1/1 px-10 py-3">
       <p className="text-3xl pb-2 text-[#475569] border-b border-[#FOF4F8]">
       New transaction 
       </p>
