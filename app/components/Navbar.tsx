@@ -27,7 +27,7 @@ export default function Navbar() {
         <div>
           <Image src={Waves} alt='waves' />
         </div>
-        <div className='absolute h-full  w-1/3 flex justify-between items-center'>
+        <div className='absolute h-full w-1/5 flex justify-between items-center'>
           <NotificationBell />
           <ProfileButton />
         </div>

@@ -105,7 +105,7 @@ const Assets = () => {
           exportOnclick={() => {}}
         />
       </div>
-      <div className="flex flex-grow min-h-[58vh]">
+      <div className="flex flex-grow max-h-[48vh]">
           <Table
             headers={headers}
             data={data}

@@ -135,7 +135,7 @@ export default function Dashboard() {
               />
             </div>
 
-            <div className="flex  flex-col flex-grow min-h-[58vh] bg-white rounded-lg">
+            <div className="flex  flex-col flex-grow max-h-[48vh] bg-white p-5 rounded-[24px]">
               <div className="flex justify-between mx-8 py-4" >
                 <p className="text-[#475569] font-semibold  text-3xl   w-1/4 py-2" >
                   Transactions
@@ -153,7 +153,7 @@ export default function Dashboard() {
                 data={data}
                 title=""
                 buttonText="Create fund"
-                buttonStyling="bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg"
+                buttonStyling="bg-[#002674] text-white  rounded-lg"
                 buttonOnClick={() => {}}
                 itemsPerPage={7}
                 displayButton={false}

@@ -58,7 +58,7 @@ export default function Clients() {
     <div className="bg-[#eaeaed] min-h-[87vh] ">
       <div className=" flex flex-col justify-center lg:mx-[8rem]">
         <p className="text-[#475569] font-bold text-3xl py-3">Clients</p>
-        <div className="flex flex-grow min-h-[75vh]">
+        <div className="flex flex-grow max-h-[75vh]">
           <Table
             headers={headers}
             data={data}

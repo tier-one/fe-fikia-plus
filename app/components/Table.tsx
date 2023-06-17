@@ -69,7 +69,7 @@ const Table = ({
     setIsRejectOpen(false);
   };
   return (
-    <div className="mt-10 rounded-lg bg-white p-4 mb-4 flex-grow">
+    <div className="mt-10 rounded-[24px] bg-white p-10 mb-4 flex-grow">
       <div className="flex justify-between">
         <p className="text-[#475569] font-semibold text-xl">{title}</p>
         {displayButton ? (
