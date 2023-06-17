@@ -30,7 +30,7 @@ export default function Login() {
         <h1 className='text-4xl font-bold'>Welcome Back!</h1>
         <p className='font-light py-3'>Gain valuable insights into your collective funds with our user-friendly platform for fund managers.</p>
       </div>
-      <div className='bg-white rounded-lg shadow-lg h-3/4 px-10 py-5'>
+      <div className='bg-white rounded-[24px] shadow-lg h-3/4 px-10 py-10'>
         <div className='py-3'>
           <InputField
             value={email}

@@ -152,8 +152,6 @@ export default function Dashboard() {
   const closeModal = () => {
     setIsOpen(false)
   }
-
-  
   
   const fundTypes: string[] = [
     "Bk fund",

@@ -21,7 +21,7 @@ export default function ResetPassword() {
   const [password, setPassword] = useState('')
   
   return (
-    <main className='bg-white rounded-lg shadow-lg min-h-1/2 w-1/3 px-16 py-4'>
+    <main className='bg-white rounded-[24px] shadow-lg min-h-1/2 w-1/3 px-16 py-4'>
       <Link href='/auth/login' className='pt-8 flex'>
         <Image src={Arrow} alt='arrow' />
         <span className='text-[#002674] mx-1 text-sm'>Return back</span>
