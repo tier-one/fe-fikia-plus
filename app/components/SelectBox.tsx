@@ -54,7 +54,7 @@ export default function SelectBox({
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center justify-center px-2 text-gray-700 mr-2 mt-3">
 
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-6 w-6">
-                        <path fill-rule="evenodd" d="M6 8l4 4 4-4H6z" />
+                        <path fillRule ="evenodd" d="M6 8l4 4 4-4H6z" />
                     </svg>
                 </div>
             </div>

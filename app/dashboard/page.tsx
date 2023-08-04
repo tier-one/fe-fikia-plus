@@ -205,7 +205,7 @@ export default function Dashboard() {
           />
         </div>
 
-        <div className="flex flex-grow min-h-[60vh]">
+        <div className="flex flex-grow min-h-[60vh] w-full overflow-scroll">
           <Table
             headers={headers}
             data={data}
