@@ -1,7 +1,7 @@
 import { NextAuthOptions, User } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
-import  { emailLogin } from "./actions";
+import emailLogin from "./actions/email_login/emailLogin";
 
 
 export const authOptions: NextAuthOptions = {
@@ -23,7 +23,7 @@ export const authOptions: NextAuthOptions = {
                 return null;
               }
             }
-          })
+        })
     ],
 
     session: {

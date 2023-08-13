@@ -20,9 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={jost.className}>
+      <body suppressHydrationWarning className={jost.className}>
         <Provider session={session}>
-          {children}
+            {children}
         </Provider>
       </body>
     </html>

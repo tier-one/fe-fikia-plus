@@ -5,6 +5,7 @@ import Link from 'next/link';
 import InputField from '@/app/components/InputField';
 import { useState } from 'react';
 import Button from '@/app/components/Button';
+import forgotPassword from '@/lib/actions/forgot_password/forgotPassword';
 
 const inputFieldStylingProps = {
   container: {
@@ -19,10 +20,18 @@ const inputFieldStylingProps = {
 }
 
 export default function ForgotPassword() {
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleEmail = (email: string) => {
     setEmail(email)
+  }
+
+  const handleSubmit = async () => {
+    setIsLoading(true)
+    const results = await forgotPassword(email);
+    setIsLoading(false);
+    console.log(results.data);
   }
 
   return (
@@ -45,7 +54,7 @@ export default function ForgotPassword() {
             {...inputFieldStylingProps}
         />
         <div className='flex flex-col space w-full  py-3'>
-          <Button styling='bg-[#002674] text-white py-2 px-4 mt-2  rounded-lg ' value='Receive instructions' />
+          <Button onClick={handleSubmit} isLoading={isLoading} styling='bg-[#002674] text-white py-2 px-4 mt-2  rounded-lg ' value='Receive instructions' />
         </div>
       </div>
       
