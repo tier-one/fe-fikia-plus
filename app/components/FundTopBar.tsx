@@ -48,12 +48,14 @@ const FundTopBar = ({
         value={newTransactionName}
         styling="bg-[#002674] text-white py-3 px-4 mt-1 ml-4 rounded-lg"
         onClick={newTransactionOnClick}
+        isDisabled={false}
       />
       <Button
         value="export"
         icon="/export.svg"
         styling="bg-white text-[#002674] py-2 px-4 mt-2 ml-4 rounded-lg border border-[#002674]"
         onClick={exportOnclick}
+        isDisabled={false}
       />
     </div>
   );

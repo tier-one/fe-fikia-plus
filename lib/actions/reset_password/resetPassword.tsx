@@ -1,6 +1,16 @@
 import API from "@/utils/apiCall";
 import { toast } from 'react-toastify';
 
+interface CustomError extends Error {
+    response?: {
+      data: {
+        errors: {
+            hash: string;
+        };
+      };
+    };
+}
+
 const resetPassword = async (password: string | null | undefined, token: string | null | undefined, router: any) => {
     const data = {
         password,
@@ -21,12 +31,39 @@ const resetPassword = async (password: string | null | undefined, token: string 
         });
 
 
-        router.push('/auth/login')
+        router.push('/login')
 
 
         return res;
     } catch (error) {
-        throw error;
+        const customError = error as CustomError;
+        
+        if (customError.response && customError.response.data && customError.response.data.errors.hash) {
+          const errorMessage = customError.response.data.errors.hash;
+          toast.error(errorMessage, {
+            position: 'top-right',
+            autoClose: 6000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+          });
+        } else {
+            toast.error('An error occurred.', {
+              position: 'top-right',
+              autoClose: 6000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'colored',
+            });
+        }
+        
+        return error;
     }
 }
 
