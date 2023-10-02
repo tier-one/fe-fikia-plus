@@ -77,6 +77,7 @@ const Table = ({
             value={buttonText}
             styling={buttonStyling}
             onClick={buttonOnClick}
+            isDisabled={false}
           />
         ) : (
           <></>
@@ -186,11 +187,13 @@ const Table = ({
                         value="Approve"
                         styling={buttonStyling}
                         onClick={openApproveModal}
+                        isDisabled={false}
                       />
                       <Button
                         value="Reject"
                         styling="bg-white text-[#002674] py-2 px-4 mt-2 ml-4 rounded-lg border border-[#002674]"
                         onClick={openRejectModal}
+                        isDisabled={false}
                       />
                     </div>
                   </td>
@@ -225,11 +228,13 @@ const Table = ({
               value="Approve"
               styling={buttonStyling}
               onClick={() => {}}
+              isDisabled={false}
             />
             <Button
               value="Cancel"
               styling="bg-[#F0F4F8]  text-[#002674] py-2 px-4 mt-2 ml-4 rounded-lg"
               onClick={() => {}}
+              isDisabled={false}
             />
           </div>
         </div>
@@ -244,11 +249,12 @@ const Table = ({
             be undone.{" "}
           </p>
           <div className="flex justify-end mt-4">
-            <Button value="Reject" styling={buttonStyling} onClick={() => {}} />
+            <Button value="Reject" styling={buttonStyling} onClick={() => {}} isDisabled={false} />
             <Button
               value="Cancel"
               styling="bg-[#F0F4F8]  text-[#002674] py-2 px-4 mt-2 ml-4 rounded-lg"
               onClick={() => {}}
+              isDisabled={false}
             />
           </div>
         </div>

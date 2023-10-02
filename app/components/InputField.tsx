@@ -1,10 +1,16 @@
+"use client";
+
+import Image from "next/image"
 
 interface InputProps{
   value?: string
   label?: string
   placeholder?: string
   type?: string
-  onChange?: (value: string)=> void
+  name?: string
+  icon?: string
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string
   required?: boolean
   container?: {
@@ -24,7 +30,10 @@ export default function InputField({
     placeholder, 
     required, 
     type,
-    onChange, 
+    name,
+    icon, 
+    onChange,
+    onBlur,
     className,
     ...props 
   }: InputProps) {
@@ -36,16 +45,21 @@ export default function InputField({
   return (
     <div className={`${props.container?.className} ${className}`}>
       {label && required ?
-        <label className={props.inputlabel?.className} htmlFor='app-input-field'>{label} <span className='text-ehr-red'>*</span></label> :
-        <label className={props.inputlabel?.className} htmlFor='app-input-field'>{label}</label>}
+        <label className={props.inputlabel?.className} htmlFor="app-input-field">{label} <span className="text-ehr-red">*</span></label> :
+        <label className={props.inputlabel?.className} htmlFor="app-input-field">{label}</label>}
+      <div className="absolute mt-[2.6rem] ml-3">
+        {icon ? <Image alt='icon' src={icon} width={16} height={16} /> : ''}
+        
+      </div>
       <input
         type={type}
+        name={name}
         value={value}
         placeholder={placeholder}
-        onChange={handleChange}
-        className={`${props.input?.className} focus:outline-none`}
+        onChange={onChange}
+        onBlur={onBlur}
+        className={props.input?.className}
         {...props}
-        
       />
     </div>
   )

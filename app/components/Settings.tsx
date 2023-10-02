@@ -2,6 +2,8 @@ import { useState } from "react";
 import Button from "@/app/components/Button";
 import InputField from "@/app/components/InputField";
 import SelectBox from "@/app/components/SelectBox";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const inputFieldStylingProps = {
   container: {
@@ -20,6 +22,33 @@ const Settings = () => {
   const [accountNumber, setAccountNumber] = useState("");
   const [bankName, setBankName] = useState("");
   const [custodian, setCustodian] = useState("");
+
+  const formik = useFormik({
+    initialValues: {
+      accountNumber: "",
+      bankName: "",
+      accountNumber2: "",
+      percentageFees: "",
+      percentageFees2: "",
+    },
+  
+    validationSchema: Yup.object({
+      accountNumber: Yup.string()
+        .required("accountNumber is required"),
+      bankName: Yup.string()
+        .required("bankName is required"),
+      accountNumber2: Yup.string()
+        .required("accountNumber is required"),
+      percentageFees: Yup.string()
+        .required("percentageFees is required"),
+      percentageFees2: Yup.string()
+        .required("percentageFees is required"),
+    }),
+  
+    onSubmit: async (values) => {
+      console.log(values);
+    },
+  });
 
   const handleAccountNumber = (accountNumber: string) => {
     setAccountNumber(accountNumber);
@@ -41,10 +70,12 @@ const Settings = () => {
           <Button
             styling="bg-[#002674] text-white  px-4   rounded-lg "
             value="Update"
+            isDisabled={false}
           />
           <Button
             styling="bg-[#F0F4F8] text-[#475569] py-2 px-4  ml-4 rounded-lg "
             value="Cancel"
+            isDisabled={false}
           />
         </div>
       </div>
@@ -57,13 +88,15 @@ const Settings = () => {
         </p>
         <div className="py-3 w-1/4">
           <InputField
-            value={accountNumber}
+            value={formik.values.accountNumber}
+            name="accountNumber"
             placeholder="934-394-3443"
             required={false}
             type="text"
             className="text-xs"
             label="Account number"
-            onChange={handleAccountNumber}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             {...inputFieldStylingProps}
           />
         </div>
@@ -78,25 +111,29 @@ const Settings = () => {
         <div className="flex w-1/4">
           <div className="py-3 w-1/2">
             <InputField
-              value={bankName}
+              value={formik.values.bankName}
+              name="bankName"
               placeholder="Equity bank"
               required={false}
               type="text"
               className="text-xs"
               label="Bank Name"
-              onChange={handleBankName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               {...inputFieldStylingProps}
             />
           </div>
           <div className="py-3 ml-4  w-1/2">
             <InputField
-              value={accountNumber}
+              value={formik.values.accountNumber2}
+              name="accountNumber2"
               placeholder="233-4455-3455"
               required={false}
               type="text"
               className="text-xs"
               label="Account number"
-              onChange={handleAccountNumber}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               {...inputFieldStylingProps}
             />
           </div>
@@ -123,13 +160,15 @@ const Settings = () => {
           </div>
           <div className="py-3 ml-4  w-1/2">
             <InputField
-              value={accountNumber}
+              value={formik.values.percentageFees}
+              name="percentageFees"
               placeholder="10"
               required={false}
               type="text"
               className="text-xs"
               label="Percentage fees"
-              onChange={handleAccountNumber}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               {...inputFieldStylingProps}
             />
           </div>
@@ -156,13 +195,15 @@ const Settings = () => {
           </div>
           <div className="py-3 ml-4  w-1/2">
             <InputField
-              value={accountNumber}
+              value={formik.values.percentageFees2}
+              name="percentageFees2"
               placeholder="10"
               required={false}
               type="text"
               className="text-xs"
               label="Percentage fees"
-              onChange={handleAccountNumber}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               {...inputFieldStylingProps}
             />
           </div>

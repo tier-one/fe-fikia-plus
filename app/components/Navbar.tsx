@@ -7,6 +7,7 @@ import Link from 'next/link';
 import NotificationBell from './NotificationBell';
 import ProfileButton from './ProfileButton';
 import { usePathname } from 'next/navigation';
+import SearchBar from './SearchBar';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -18,9 +19,9 @@ export default function Navbar() {
 
   return (
     <div className='bg-[#00133B] h-[13vh]'>
-      <div className="flex  text-white lg:mx-20 h-full px-3">
+      <div className="flex  text-white lg:mx-20 h-full px-1">
         <div className='w-1/2 flex justify-around'>
-          <div className='w-1/3 flex '>
+          <div className='w-1/3 flex'>
             <Image src={Logo} alt='Fikia Plus Logo' />
           </div>
           <div className='w-2/3 hidden md:flex items-center justify-around'>
@@ -33,7 +34,8 @@ export default function Navbar() {
           <div>
             <Image src={Waves} alt='waves' />
           </div>
-          <div className='absolute right-10 md:right-0 flex gap-[24px] items-center justify-center h-full'>
+          <div className='absolute right-10 md:right-0 flex gap-[20px] items-center justify-center h-full'>
+            <SearchBar />
             <NotificationBell />
             <ProfileButton />
           </div>

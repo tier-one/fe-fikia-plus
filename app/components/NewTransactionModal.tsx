@@ -3,6 +3,8 @@ import Modal from "@/app/components/Modal";
 import Button from "./Button";
 import SelectBox from "@/app/components/SelectBox";
 import InputField from "@/app/components/InputField";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const inputFieldStylingProps = {
     container: {
@@ -35,6 +37,23 @@ const NewTransactionModal = ({isModalOpen,closeModal}:NewTransactionModalProps) 
 const [transactionType,setTransactionType]=useState('')
 const [client,setClient]=useState('')
 const [amount,setAmount]=useState('')
+
+const formik = useFormik({
+  initialValues: {
+    number: "",
+  },
+
+  validationSchema: Yup.object({
+    number: Yup.string()
+      .required("number is required"),
+  }),
+
+  onSubmit: async (values) => {
+    console.log(values);
+  },
+});
+
+
 const handleTransactionType = (type: string) => {
     setTransactionType(type);
   };
@@ -75,13 +94,15 @@ const handleTransactionType = (type: string) => {
           </div>
           <div className="py-3 w-full">
           <InputField
-            value={amount}
+            value={formik.values.number}
             placeholder="5000"
             required={false}
             type="number"
+            name="number"
             className="text-xs"
             label="Amount"
-            onChange={handleAmount}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             {...inputFieldStylingProps}
           />
         </div>
@@ -91,11 +112,13 @@ const handleTransactionType = (type: string) => {
           value="Cancel"
           styling="bg-[#F0F4F8]  text-[#002674] py-2 px-4 mt-2 ml-4 rounded-lg"
           onClick={() => {}}
+          isDisabled={false}
         />
          <Button
           value="Add transaction"
           styling="bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg"
           onClick={() => {}}
+          isDisabled={false}
         />
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { NextAuthOptions, User } from "next-auth";
+import { Account, NextAuthOptions, User } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
 import emailLogin from "./actions/email_login/emailLogin";
@@ -33,6 +33,19 @@ export const authOptions: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
 
     pages: {
-        signIn: "/auth/login"
+        signIn: "/login"
+    },
+
+    callbacks: {
+      async jwt({ user, token }) {
+        if (user) {
+          token.user = user;
+        }
+        return token;
+      },
+      async session({ session, token }) {
+        session.user = token.user as any;
+        return session;
+      },
     }
 }
