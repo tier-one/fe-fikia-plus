@@ -28,6 +28,7 @@ export default function Navbar() {
             <Link href='/dashboard' className={`py-4 w-1/3 text-center text-gray-300 font-bold ${pathname === '/dashboard' ? 'text-white border-b-4 border-sky-500' : ''}`}>Dashboard</Link>
             <Link href='/dashboard/funds' className={`py-4 w-1/3 text-center text-gray-300 font-bold ${pathname === '/dashboard/funds' ? 'text-white border-b-4 border-sky-500' : ''}`}>Funds</Link>
             <Link href='/dashboard/clients' className={`py-4 w-1/3 text-center text-gray-300 font-bold ${pathname === '/dashboard/clients' ? 'text-white border-b-4 border-sky-500' : ''}`}>Clients</Link>
+            <Link href='/dashboard/assets' className={`py-4 w-1/3 text-center text-gray-300 font-bold ${pathname === '/dashboard/assets' ? 'text-white border-b-4 border-sky-500' : ''}`}>Assets</Link>
           </div>
         </div>
         <div className='static w-1/2 relative flex justify-end' >

@@ -74,8 +74,9 @@ const Table = ({
   const closeRejectModal = () => {
     setIsRejectOpen(false);
   };
+  
   return (
-    <div className="mt-10 rounded-[24px] bg-white p-10 mb-4 flex-grow">
+    <div className="rounded-[24px] mb-4 flex-grow w-full">
       <div className="flex justify-between">
         <p className="text-[#475569] font-semibold text-xl">{title}</p>
         {displayButton ? (
@@ -96,7 +97,7 @@ const Table = ({
               {headers.map((header, index) => (
                 <th
                   key={index}
-                  className={`py-2 px-4 border-b border-gray-200 text-left text-[#475569] ${
+                  className={`py-5 px-4 border-b border-gray-200 font-[500] capitalize text-left text-[#6B7A99] text-[12px] ${
                     actionIndex === index ? "flex justify-between" : ""
                   }`}
                 >
@@ -118,7 +119,7 @@ const Table = ({
                 {Object.values(row).map((cell, cellIndex) => (
                   <td
                     key={cellIndex}
-                    className={`py-2 px-4 border-b border-gray-200 text-left text-[#475569]`}
+                    className={`py-5 px-4 border-b border-gray-200 text-left text-[#475569]`}
                   >
                     {isTableRowLink && idIndex !== undefined ? (
                       <Link
@@ -162,7 +163,7 @@ const Table = ({
                     ) : (
                       <>
                         <p
-                          className={`${
+                          className={`text-[14px] ${
                             changeIndex === cellIndex && cell > 0
                               ? "text-[#22C45E]"
                               : changeIndex === cellIndex && cell < 0

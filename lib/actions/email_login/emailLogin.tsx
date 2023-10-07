@@ -10,7 +10,8 @@ const emailLogin = async (email: string | null | undefined, password: string | n
 
         return res.data;
     } catch (error) {
-        throw error;
+        return error;
+        
     }
 }
 

@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "@/app/components/Table";
 import Modal from "@/app/components/Modal";
 import InputField from "@/app/components/InputField";
 import Button from "@/app/components/Button";
 import SelectBox from "@/app/components/SelectBox";
+import fetchFunds from "@/lib/actions/get_fund/fetchFunds";
+import { useSession } from "next-auth/react";
 
 const inputFieldStylingProps = {
   container: {
@@ -21,6 +23,8 @@ const inputFieldStylingProps = {
 };
 
 export default function Funds() {
+  const { data: session } = useSession();
+  const [recomFunds, setRecomFunds] = useState([]);
   const headers = ["No", "Fund name", "Unit Price", "24h%", "Market Cap"];
 
   const data = [
@@ -102,6 +106,22 @@ export default function Funds() {
       marketCap: 345455656.34,
     },
   ];
+  const token = session?.user?.token;
+
+  useEffect(() => {
+    fetchAllFunds();
+  }, [token])
+
+  const fetchAllFunds = async () => {
+    if (token) {
+      console.log(token, 'this the token');
+      const response = await fetchFunds(token)
+
+      console.log(response, 'Here we have all funds');
+    
+      setRecomFunds(response)
+    }
+  }
 
   return (
     <div className="bg-[#eaeaed] min-h-[87vh] ">
