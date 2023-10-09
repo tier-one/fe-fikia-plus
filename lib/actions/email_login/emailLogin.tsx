@@ -6,7 +6,7 @@ const emailLogin = async (email: string | null | undefined, password: string | n
         password
     }
     try {
-        const res = await API.post(`/api/v1/auth/email/login`, data);
+        const res = await API.post(`/api/v1/auth/email/manager/login`, data);
 
         return res.data;
     } catch (error) {
