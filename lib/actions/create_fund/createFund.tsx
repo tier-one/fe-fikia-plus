@@ -38,14 +38,14 @@ export const createFund = async (form: any, managerId: string | undefined, token
                 CustodianParcentage: Number(form.CustodianParcentage),
                 TrustBankName: form.TrustBankName,
                 TrustPercentage: Number(form.TrustPercentage),
-                fundName: form.fundName,
+                FundName: form.fundName,
                 FundGoal: form.FundGoal,
                 FundSymbol: form.FundSymbol,
-                fundType: form.fundType,
-                fundLogo: fundLogo.url
+                FundType: form.fundType,
+                FundLogo: fundLogo.url
             }
 
-            const res = await API.post(`/api/v1/fund-manager/${managerId}/${investerId}`, datas, { headers });
+            const res = await API.post(`/api/v1/fund/create-fund/${managerId}`, datas, { headers });
 
             toast.success('Fund created successlly', {
                 position: 'top-right',
