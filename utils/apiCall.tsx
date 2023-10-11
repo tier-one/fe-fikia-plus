@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://backend.fikia.io/',
+  baseURL: process.env.NEXTAUTH_URL,
 });
 
 API.interceptors.request.use((req) => {
