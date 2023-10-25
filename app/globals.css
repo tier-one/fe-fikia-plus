@@ -2,3 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+.featureSettings {
+    font-feature-settings: "clig" off, "liga" off;
+    font-style: normal;
+    flex: 1 0 0;
+}
+  
+.flexibility {
+    flex: 1 0 0;
+}
+
+.loading-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+@keyframes dot-animation {
+    0%,
+    25% {
+        content: ".";
+    }
+    50% {
+        content: "..";
+    }
+    75% {
+        content: "...";
+    }
+}
+  
+.loading-dots::after {
+    content: ".";
+    animation: dot-animation 1.5s infinite steps(4);
+    display: inline-block;
+}
