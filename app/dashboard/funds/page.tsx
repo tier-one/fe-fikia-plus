@@ -24,88 +24,10 @@ const inputFieldStylingProps = {
 
 export default function Funds() {
   const { data: session } = useSession();
-  const [recomFunds, setRecomFunds] = useState([]);
-  const headers = ["No", "Fund name", "Unit Price", "24h%", "Market Cap"];
+  const [isLoading, setIsLoading] = useState(true);
+  const [funds, setFunds] = useState<any>([]);
+  const headers = ["No", "Fund name", "Unit Price", "Fund type", "Fund symbol"];
 
-  const data = [
-    {
-      No: 1,
-      name: "Unguka fund",
-      unitPrice: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 2,
-      name: "Terimbere fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 3,
-      name: "Umwalimu fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 4,
-      name: "Ejo heza fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 5,
-      name: "Ejo heza fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 6,
-      name: "Bk fund",
-      fund: 3000,
-      change: -3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 7,
-      name: "Equity fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 8,
-      name: "I&M fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 9,
-      name: "KCB fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 10,
-      name: "Access fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
-    {
-      No: 11,
-      name: "RIM fund",
-      fund: 3000,
-      change: 3.3,
-      marketCap: 345455656.34,
-    },
-  ];
   const token = session?.user?.token;
 
   useEffect(() => {
@@ -114,14 +36,24 @@ export default function Funds() {
 
   const fetchAllFunds = async () => {
     if (token) {
-      console.log(token, 'this the token');
-      const response = await fetchFunds(token)
-
-      console.log(response, 'Here we have all funds');
+      setIsLoading(true);
+      const response = await fetchFunds(token);
     
-      setRecomFunds(response)
+      setFunds(response.fund)
+
+      setIsLoading(false);
     }
   }
+
+  const fundDatas = funds.map((fund: any, index: any) => (
+    {
+      "No": index,
+      "Fund name": fund?.fund?.FundName,
+      "Unit Price": fund?.balance?.fundBalance,
+      "Fund type": fund?.fund?.FundType,
+      "Fund symbol": fund?.fund?.FundSymbol
+    }
+  ));
 
   return (
     <div className="bg-[#eaeaed] min-h-[87vh] ">
@@ -130,12 +62,13 @@ export default function Funds() {
         <div className="flex flex-grow max-h-[66vh]">
           <Table
             headers={headers}
-            data={data}
+            data={fundDatas}
+            isLoading={isLoading}
             title="Funds types"
             buttonText="Create fund"
             buttonStyling="bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg"
             buttonOnClick={() => {}}
-            marketCapIndex={4}
+            marketCapIndex={2}
             changeIndex={3}
             itemsPerPage={7}
             idIndex={0}
