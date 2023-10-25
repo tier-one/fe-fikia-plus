@@ -25,6 +25,7 @@ interface TableProps {
   attachmentIndex?: number;
   actionIndex?: number;
   displayMore?: boolean;
+  isLoading?: boolean;
 }
 
 const Table = ({
@@ -43,13 +44,14 @@ const Table = ({
   displayApprove,
   attachmentIndex,
   actionIndex,
-  displayMore
+  displayMore,
+  isLoading
 }: TableProps) => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const lastIndex = currentPage * itemsPerPage;
   const firstIndex = lastIndex - itemsPerPage;
-  const currentData = data.slice(firstIndex, lastIndex);
+  const currentData = data?.slice(firstIndex, lastIndex);
   const [isApproveOpen, setIsApproveOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
 
@@ -57,7 +59,7 @@ const Table = ({
     router.push('/create-fund')
   }
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = Math.ceil(data?.length / itemsPerPage);
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -113,7 +115,7 @@ const Table = ({
             </tr>
           </thead>
           <tbody>
-            {currentData.map((row, rowIndex) => (
+            {currentData?.map((row, rowIndex) => (
               <tr key={rowIndex}>
                 {Object.values(row).map((cell, cellIndex) => (
                   <td
@@ -212,11 +214,21 @@ const Table = ({
             ))}
           </tbody>
         </table>
+          {!isLoading && currentData?.length === 0 && (
+              <div className="w-full h-[100px] flex justify-center items-center">No funds data</div>
+          )}
+          {isLoading && (
+              <div className='flex w-full h-[100px] justify-center items-center gap-5 loading-container'>
+                <div className='w-[100px] text-[15px]'>
+                  Loading<span className="loading-dots"></span>
+                </div>
+              </div>
+          )}
       </div>
       <div className="flex justify-center mt-4">
         <PaginatedData
           pageSize={itemsPerPage}
-          totalItems={data.length}
+          totalItems={data?.length}
           currentPage={currentPage}
           handlePageChange={handlePageChange}
         />

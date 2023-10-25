@@ -6,6 +6,25 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 const serverUrl = isProduction ? process.env.NEXT_PUBLIC_SERVER_URL : 'http://localhost:3000';
 
+interface CustomError extends Error {
+    response?: {
+      data: {
+        message: string;
+      };
+    };
+}
+
+interface CustomError2 extends Error {
+    response?: {
+      data: {
+        errors: {
+            FundLogo: string;
+        };
+      };
+    };
+}
+
+
 export const uploadImage = async (imagePath: string) => {
     try {
         const response = await fetch(`${serverUrl}/api/upload`, {
@@ -66,17 +85,51 @@ export const createFund = async (form: any, managerId: string | undefined, token
         
 
     } catch (error) {
-        toast.error('Failed to created fund, please contact the adminstrator!', {
-            position: 'top-right',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'colored',
-        });
-        throw error;
+        const customError = error as CustomError;
+        const customError2 = error as CustomError2;
+
+        if (customError.response && customError.response.data && customError.response.data.message) {
+            const errorMessage = customError.response.data.message;
+
+            toast.error(errorMessage, {
+                position: 'top-right',
+                autoClose: 6000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'colored',
+            });
+        } else if (customError2.response && customError2.response.data && customError2.response.data.errors.FundLogo) {
+            const errorMessage = customError2.response.data.errors.FundLogo;
+            toast.error(errorMessage, {
+                position: 'top-right',
+                autoClose: 6000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'colored',
+            });
+        } else {
+            toast.error('Failed to created fund, please contact the adminstrator!', {
+                position: 'top-right',
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'colored',
+            });
+            
+        }
+
+
+
+        return error;
         
     }
 }

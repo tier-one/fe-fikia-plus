@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../components/Card";
 import Table from '../components/Table';
 import Modal from "../components/Modal";
@@ -9,6 +9,8 @@ import Button from "@/app/components/Button";
 import SelectBox from "@/app/components/SelectBox";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useSession } from "next-auth/react";
+import fetchFunds from "@/lib/actions/get_fund/fetchFunds";
 
 const inputFieldStylingProps = {
   container: {
@@ -21,7 +23,7 @@ const inputFieldStylingProps = {
     className: 'py-3 px-5 rounded-lg mt-2 border border-gray-300 placeholder:text-gray-600'
   },
 }
-const headers = ['No', 'Fund name', 'Fund', "24h%", "Market Cap"];
+
 
 const data = [
   {
@@ -138,9 +140,14 @@ const data = [
   }
 ]
 export default function Dashboard() {
+  const { data: session } = useSession();
+  const [isLoading, setIsLoading] = useState(true);
+  const [funds, setFunds] = useState<any>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [fundName, setFundName] = useState('')
-  const [fundType, setFundType] = useState('')
+  const [fundName, setFundName] = useState('');
+  const [fundType, setFundType] = useState('');
+
+  const headers = ["No", "Fund name", "Unit Price", "Fund type", "Fund symbol"];
 
   const formik = useFormik({
     initialValues: {
@@ -174,6 +181,33 @@ export default function Dashboard() {
     "Bk fund",
     "Equity Fund"
   ]
+
+  const token = session?.user?.token;
+
+  useEffect(() => {
+    fetchAllFunds();
+  }, [token])
+
+  const fetchAllFunds = async () => {
+    if (token) {
+      setIsLoading(true);
+      const response = await fetchFunds(token);
+    
+      setFunds(response.fund)
+
+      setIsLoading(false);
+    }
+  }
+
+  const fundDatas = funds?.map((fund: any, index: any) => (
+    {
+      "No": index,
+      "Fund name": fund?.fund?.FundName,
+      "Unit Price": fund?.balance?.fundBalance,
+      "Fund type": fund?.fund?.FundType,
+      "Fund symbol": fund?.fund?.FundSymbol
+    }
+  ));
 
   return (
     <div className="bg-[#eaeaed] min-h-[87vh] ">
@@ -225,7 +259,8 @@ export default function Dashboard() {
         <div className="flex flex-grow min-h-[60vh] w-full overflow-scroll">
           <Table
             headers={headers}
-            data={data}
+            data={fundDatas}
+            isLoading={isLoading}
             title="Funds types"
             buttonText="Create fund"
             buttonStyling="bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg"
