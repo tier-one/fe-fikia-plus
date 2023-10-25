@@ -25,6 +25,7 @@ interface TableProps {
   attachmentIndex?: number;
   actionIndex?: number;
   displayMore?: boolean;
+  isLoading?: boolean;
 }
 
 const Table = ({
@@ -43,7 +44,8 @@ const Table = ({
   displayApprove,
   attachmentIndex,
   actionIndex,
-  displayMore
+  displayMore,
+  isLoading
 }: TableProps) => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
@@ -212,6 +214,16 @@ const Table = ({
             ))}
           </tbody>
         </table>
+          {!isLoading && currentData?.length === 0 && (
+              <div className="w-full h-[100px] flex justify-center items-center">No funds data</div>
+          )}
+          {isLoading && (
+              <div className='flex w-full h-[100px] justify-center items-center gap-5 loading-container'>
+                <div className='w-[100px] text-[15px]'>
+                  Loading<span className="loading-dots"></span>
+                </div>
+              </div>
+          )}
       </div>
       <div className="flex justify-center mt-4">
         <PaginatedData
