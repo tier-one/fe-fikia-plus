@@ -51,7 +51,7 @@ const Table = ({
   const [currentPage, setCurrentPage] = useState(1);
   const lastIndex = currentPage * itemsPerPage;
   const firstIndex = lastIndex - itemsPerPage;
-  const currentData = data.slice(firstIndex, lastIndex);
+  const currentData = data?.slice(firstIndex, lastIndex);
   const [isApproveOpen, setIsApproveOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
 
@@ -59,7 +59,7 @@ const Table = ({
     router.push('/create-fund')
   }
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = Math.ceil(data?.length / itemsPerPage);
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -115,7 +115,7 @@ const Table = ({
             </tr>
           </thead>
           <tbody>
-            {currentData.map((row, rowIndex) => (
+            {currentData?.map((row, rowIndex) => (
               <tr key={rowIndex}>
                 {Object.values(row).map((cell, cellIndex) => (
                   <td
@@ -228,7 +228,7 @@ const Table = ({
       <div className="flex justify-center mt-4">
         <PaginatedData
           pageSize={itemsPerPage}
-          totalItems={data.length}
+          totalItems={data?.length}
           currentPage={currentPage}
           handlePageChange={handlePageChange}
         />

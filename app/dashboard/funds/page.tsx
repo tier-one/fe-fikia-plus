@@ -45,7 +45,7 @@ export default function Funds() {
     }
   }
 
-  const fundDatas = funds.map((fund: any, index: any) => (
+  const fundDatas = funds?.map((fund: any, index: any) => (
     {
       "No": index,
       "Fund name": fund?.fund?.FundName,
@@ -68,7 +68,7 @@ export default function Funds() {
             buttonText="Create fund"
             buttonStyling="bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg"
             buttonOnClick={() => {}}
-            marketCapIndex={2}
+            marketCapIndex={4}
             changeIndex={3}
             itemsPerPage={7}
             idIndex={0}
