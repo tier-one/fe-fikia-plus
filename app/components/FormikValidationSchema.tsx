@@ -9,8 +9,7 @@ export const formikFundInfoValidationSchema = Yup.object({
       .required("fundSymbol is required"),
   fundType: Yup.string()
       .required("fundType is required"),
-  fundLogo: Yup.string()
-      .required("fundLogo is required"),
+  fundLogo: Yup.string(),
 })
 
 export const formikFundSetUpValidationSchema = Yup.object({

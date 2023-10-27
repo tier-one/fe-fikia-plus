@@ -38,11 +38,12 @@ export const uploadImage = async (imagePath: string) => {
     }
 }
 
-export const createFund = async (form: any, managerId: string | undefined, token: string | undefined ) => {
+export const UpdateFunds = async (form: any, fundId: string | undefined, token: string | undefined ) => {
     try {
         const fundLogo = await uploadImage(form.fundLogo);
 
         if (fundLogo) {
+            const investerId = '2a052e1a-93f8-47cf-9b6b-468b0c877981';
             const headers = {
                 'Authorization': `Bearer ${token}`,
             };
@@ -63,9 +64,9 @@ export const createFund = async (form: any, managerId: string | undefined, token
                 FundLogo: fundLogo.url
             }
 
-            const res = await API.post(`/api/v1/fund/create-fund`, datas, { headers });
+            const res = await API.patch(`/api/v1/fund/${fundId}`, datas, { headers });
 
-            toast.success('Fund created successlly', {
+            toast.success('Fund updated successlly', {
                 position: 'top-right',
                 autoClose: 3000,
                 hideProgressBar: false,
