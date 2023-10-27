@@ -4,7 +4,26 @@ import { toast } from 'react-toastify';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-const serverUrl = isProduction ? process.env.NEXT_PUBLIC_SERVER_URL : 'http://localhost:3000';
+const serverUrl = isProduction ? process.env.NEXT_PUBLIC_NEXTAUTH_URL : 'http://localhost:3000';
+
+interface CustomError extends Error {
+    response?: {
+      data: {
+        message: string;
+      };
+    };
+}
+
+interface CustomError2 extends Error {
+    response?: {
+      data: {
+        errors: {
+            FundLogo: string;
+        };
+      };
+    };
+}
+
 
 interface CustomError extends Error {
     response?: {
