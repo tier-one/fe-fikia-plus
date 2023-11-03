@@ -9,8 +9,7 @@ export const formikFundInfoValidationSchema = Yup.object({
       .required("fundSymbol is required"),
   fundType: Yup.string()
       .required("fundType is required"),
-  fundLogo: Yup.string()
-      .required("fundLogo is required"),
+  fundLogo: Yup.string(),
 })
 
 export const formikFundSetUpValidationSchema = Yup.object({
@@ -34,4 +33,96 @@ export const formikFundSetUpValidationSchema = Yup.object({
   TrustPercentage: Yup.string()
       .required("trusteePercentage is required"),
 })
+
+export const formikAssetSetUpValidationSchema = Yup.object({
+    tickerSymbol: Yup.string()
+        .required("tickerSymbol is required"),
+    companyName: Yup.string()
+        .required("companyName is required"),
+    numberOfOutstandingShares:Yup.string()
+        .required("numberOfOutstandingShares is required"),
+    ISIN: Yup.string()
+        .required("ISIN is required"),
+    description: Yup.string()
+        .required("description is required"),
+    currency:Yup.string()
+        .required("currency is required"),
+    exchange: Yup.string()
+        .required("exchange is required"),
+    sectorIndustry: Yup.string()
+        .required("sectorIndustry is required"),
+    assetClass:Yup.string()
+        .required("assetClass is required"),
+    countryOfDomicile:Yup.string()
+        .required("countryOfDomicile is required"),
+
+
+    bondType: Yup.string()
+        .required("bondType is required"),
+    issuer: Yup.string()
+        .required("issuer is required"),
+    faceValue: Yup.string()
+        .required("faceValue is required"),
+    maturityDate: Yup.string()
+        .required("maturityDate is required"),
+    couponRate: Yup.string()
+        .required("couponRate is required"),
+    paymentFrequency: Yup.string()
+        .required("paymentFrequency is required"),
+    yieldToMaturity: Yup.string()
+        .required("yieldToMaturity is required"),
+    creditRating: Yup.string()
+        .required("creditRating is required"),
+    fixedIncomeType: Yup.string()
+        .required("fixedIncomeType is required"),
+    ISIN2: Yup.string()
+        .required("ISIN2 is required"),
+    fixedIncomeName: Yup.string()
+        .required("fixedIncomeName is required"),
+    description2: Yup.string()
+        .required("description2 is required"),
+    countryOfIssuer: Yup.string()
+        .required("countryOfIssuer is required"),
+    effectiveDuration: Yup.string()
+        .required("effectiveDuration is required"),
+    amortizationSchedule: Yup.string()
+        .required("amortizationSchedule is required"),
+    optionality: Yup.string()
+        .required("optionality is required"),
+    callablePuttable: Yup.string()
+        .required("callablePuttable is required"),
+    currency2: Yup.string()
+        .required("currency2 is required"),
+    issueDate: Yup.string()
+        .required("issueDate is required"),
+    listingExchange: Yup.string()
+        .required("listingExchange is required"),
+
+    
+    propertyAddress: Yup.string()
+        .required("propertyAddress is required"),
+    propertyType: Yup.string()
+        .required("propertyType is required"),
+    rentalIncome:Yup.string()
+        .required("rentalIncome is required"),
+
+
+    investmentFundName: Yup.string()
+        .required("investmentFundName is required"),
+    investmentManager: Yup.string()
+        .required("investmentManager is required"),
+    fundStrategy:Yup.string()
+        .required("fundStrategy is required"),
+  })
+
+export const formikAssetInfoValidationSchema = Yup.object({
+    name: Yup.string()
+        .required("assetName is required"),
+    price: Yup.string()
+        .required("assetPrice is required"),
+    value: Yup.string()
+        .required("assetValue is required"),
+    note: Yup.string()
+        .required("assetNotes is required"),
+  })
 

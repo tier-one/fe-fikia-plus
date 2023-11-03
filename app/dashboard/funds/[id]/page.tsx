@@ -1,13 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Card from "@/app/components/Card";
 import Table from "@/app/components/Table";
 import Settings from "@/app/components/Settings";
 import Assets from "@/app/components/Assets";
+import deleteFund from "@/lib/actions/delete_fund/deleteFund";
+import { IoIosWarning } from "react-icons/io";
+import { TiEyeOutline } from 'react-icons/ti';
+import { MdDelete } from "react-icons/md";
+import { CiEdit } from "react-icons/ci";
 import FundTopBar from "@/app/components/FundTopBar";
+import NewAssetModal from "@/app/components/NewTransactionModal"
+import { useParams, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
+import fetchAssetsByFundId from "@/lib/actions/get-assets-by-fundId/getAssetsByFundId";
+
 const inputFieldStylingProps = {
   container: {
     className: "flex flex-col space w-full px-8",
@@ -29,6 +39,7 @@ const headers = [
   "Net asset value",
   "Date",
 ];
+
 
 const data = [
   {
@@ -53,11 +64,96 @@ const data = [
   },
 ];
 export default function Dashboard() {
+  const searchParams = useSearchParams();
+  const fundId = useParams().id;
+  const { data: session } = useSession();
+
   const [activeTab, setActiveTab] = useState("fund-transactions");
+  const [isNewAssetModalOpen, setIsNewAssetModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [assets, setAssets] = useState<any>([]);
+
+  const token = session?.user?.token;
+
+  useEffect(() => {
+    fetchAllAssetsById();
+  }, [token])
+
+  const fetchAllAssetsById = async () => {
+    if (token) {
+      setIsLoading(true);
+      const response = await fetchAssetsByFundId(token, fundId);
+      console.log(response, 'THIS ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"""""""""""""""')
+    
+      setAssets(response)
+
+      setIsLoading(false);
+    }
+  }
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };
+
+  const openNewAssetModal = () => {
+    setIsNewAssetModalOpen(true);
+  }
+  const closeNewAssetModal = () => {
+    setIsNewAssetModalOpen(false);
+  }
+
+
+  // const AssetsDatas = assets?.map((asset: any, index: any) => (
+  //   {
+  //     "Asset name": asset?.name,
+  //     "Price": asset?.price,
+  //     "Asset value": asset?.value,
+  //     "Outstanding Shares": asset?.equityDetails?.numberOfOutstandingShares,
+  //     "Net asset value": 100,
+  //     "Date": asset?.createdAt.split('T')[0],
+  //     "Action": (
+  //       <div 
+  //         className="flex gap-[10px]"
+  //       >
+  //         <div 
+  //           className="text-[#21b500dc] px-[1px] py-[2px] rounded-[5px]"
+  //         >
+  //           <CiEdit 
+  //             className="w-[25px] h-[25px] cursor-pointer"
+  //             onClick= {
+  //               () => {
+  //                 // handleEdit(fund?.fund?.id)
+  //               }
+  //             }
+  //           />
+  //         </div>
+  //         <div 
+  //           className="text-[#ff717186] px-[1px] py-[2px] rounded-[5px]"
+  //         >
+  //           <MdDelete 
+  //             className="w-[25px] h-[25px] cursor-pointer"
+  //             onClick= {
+  //               () => {
+  //                 // handleOpenDeleteModel(fund?.fund?.id)
+  //               }
+  //             }
+  //           />
+  //         </div>
+  //         <div 
+  //           className="text-[#00597feb] px-[1px] py-[2px] rounded-[5px]"
+  //         >
+  //           {/* <Link
+  //             href={`/dashboard/funds/${fund?.fund?.id}`}
+  //           >
+  //             <TiEyeOutline 
+  //               className="w-[25px] h-[25px] cursor-pointer"
+  //             />
+  //           </Link> */}
+  //         </div>
+  //       </div>
+  //     )
+  //   }
+  // ));
 
   return (
     <div className="bg-[#eaeaed] min-h-[87vh] ">
@@ -143,7 +239,7 @@ export default function Dashboard() {
                 
                 <FundTopBar
                   newTransactionName="New Transaction"
-                  newTransactionOnClick={() => {}}
+                  openFormOnclick={openNewAssetModal}
                   exportOnclick={() => {}}
                 />
                
@@ -151,11 +247,15 @@ export default function Dashboard() {
               <Table
                 headers={headers}
                 data={data}
+                // isLoading={isLoading}
                 title=""
                 buttonText="Create fund"
                 buttonStyling="bg-[#002674] text-white  rounded-lg"
                 buttonOnClick={() => {}}
+                marketCapIndex={2}
+                changeIndex={3}
                 itemsPerPage={7}
+                idIndex={0}
                 displayButton={false}
               />
             </div>
@@ -166,6 +266,7 @@ export default function Dashboard() {
           <Settings />
         )}
       </div>
+      <NewAssetModal isModalOpen={isNewAssetModalOpen} closeModal={closeNewAssetModal} />
     </div>
   );
 }

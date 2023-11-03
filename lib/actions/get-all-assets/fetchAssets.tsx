@@ -9,13 +9,13 @@ interface CustomError extends Error {
     };
 }
 
-const fetchFunds = async (token: string | undefined) => {
+const fetchAssets = async (token: string | undefined) => {
     const headers = {
         'Authorization': `Bearer ${token}`,
     };
 
     try {
-        const res = await API.get(`/api/v1/fund/get-all-fund`, { headers });
+        const res = await API.get(`/api/v1/asset`, { headers });
         
         
         return res.data;
@@ -44,4 +44,4 @@ const fetchFunds = async (token: string | undefined) => {
     }
 }
 
-export default fetchFunds;
+export default fetchAssets;
