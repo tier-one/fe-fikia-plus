@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 'use client'
 
 import { useEffect, useState } from "react";
@@ -11,6 +12,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useSession } from "next-auth/react";
 import fetchFunds from "@/lib/actions/get_fund/fetchFunds";
+import { CiEdit } from 'react-icons/ci';
+import { MdDelete } from 'react-icons/md';
+import { IoIosWarning } from 'react-icons/io';
+import { useRouter } from "next/navigation";
+import deleteFund from "@/lib/actions/delete_fund/deleteFund";
+import Link from "next/link";
+import { TiEyeOutline } from "react-icons/ti";
 
 const inputFieldStylingProps = {
   container: {
@@ -25,120 +33,7 @@ const inputFieldStylingProps = {
 }
 
 
-const data = [
-  {
-    "No": 1,
-    "name": "Unguka fund",
-    "fund": 3000,
-    "country": 3.3,
-    "city": 345455656.34
-  },
-  {
-    "No": 2,
-    "name": "Terimbere fund",
-    "fund": 3000,
-    "country": 3.3,
-    "city": 345455656.34
-  },
-  {
-    "No": 3,
-    "name": "Umwalimu fund",
-    "fund": 3000,
-    "country": 3.3,
-    "city": 345455656.34
-  },
-  {
-    "No": 4,
-    "name": "Ejo heza fund",
-    "fund": 3000,
-    "country": 3.3,
-    "city": 345455656.34
-  },
-  {
-    "No": 5,
-    "name": "Ejo heza fund",
-    "fund": 3000,
-    "country": 3.3,
-    "city": 345455656.34
-  },
-  {
-    "No": 6,
-    "name": "Bk fund",
-    "fund": 3000,
-    "country": -3.3,
-    "city": 345455656.34
-  },
-  {
-    "No": 7,
-    "name": "Equity fund",
-    "fund": 3000,
-    "country": 3.3,
-    "city": 345455656.34
-  },
-  {
-    "No": 8,
-    "name": "I&M fund",
-    "fund": 3000,
-    "country": 3.3,
-    "city": 345455656.34
-  },
-  {
-    "No": 9,
-    "name": "KCB fund",
-    "fund": 3000,
-    "country": 3.3,
-    "city": 345455656.34
-  },
-  {
-    "No": 10,
-    "name": "Access fund",
-    "fund": 3000,
-    "country": 3.3,
-    "city": 345455656.34
-  },
-  {
-    "No": 11,
-    "name": "RIM fund",
-    "fund": 3000,
-    "country": 3.3,
-    "city": 345455656.34
-  },
-  {
-    "No": 12,
-    "name": "Unguka fund",
-    "fund": 3000,
-    "country": 3.3,
-    "city": 345455656.34
-  },
-  {
-    "No": 13,
-    "name": "Terimbere fund",
-    "fund": 3000,
-    "country": 3.3,
-    "city": 345455656.34
-  },
-  {
-    "No": 14,
-    "name": "Umwalimu fund",
-    "fund": 3000,
-    "country": 3.3,
-    "city": 345455656.34
-  },
-  {
-    "No": 15,
-    "name": "Ejo heza fund",
-    "fund": 3000,
-    "country": 3.3,
-    "city": 345455656.34
-  },
-  {
-    "No": 16,
-    "name": "Ejo heza fund",
-    "fund": 3000,
-    "country": 3.3,
-    "city": 345455656.34
-  }
-]
+
 export default function Dashboard() {
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(true);
@@ -146,8 +41,13 @@ export default function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
   const [fundName, setFundName] = useState('');
   const [fundType, setFundType] = useState('');
+  const [isDeleteModelOpen, setIsDeleteModelOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [fundId, setFundId] = useState<string>();
 
-  const headers = ["No", "Fund name", "Unit Price", "Fund type", "Fund symbol"];
+  const router = useRouter()
+
+  const headers = ["No", "Fund name", "Unit Price", "Fund type", "Fund symbol", "Actions"];
 
   const formik = useFormik({
     initialValues: {
@@ -176,6 +76,9 @@ export default function Dashboard() {
   const closeModal = () => {
     setIsOpen(false)
   }
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModelOpen(false)
+  }
   
   const fundTypes: string[] = [
     "Bk fund",
@@ -199,13 +102,75 @@ export default function Dashboard() {
     }
   }
 
+  const handleEdit = (fundId: string) => {
+    router.push(`/create-fund?id=${fundId}`)
+  }
+
+  const handleOpenDeleteModel = (fundId: string) => {
+    setIsDeleteModelOpen(true);
+    setFundId(fundId);
+  }
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+
+    const res = await deleteFund(token, fundId);
+
+    setIsDeleting(false);
+    setIsDeleteModelOpen(false);
+    setFunds([]);
+
+    await fetchAllFunds();
+  }
+
   const fundDatas = funds?.map((fund: any, index: any) => (
     {
       "No": index,
       "Fund name": fund?.fund?.FundName,
       "Unit Price": fund?.balance?.fundBalance,
       "Fund type": fund?.fund?.FundType,
-      "Fund symbol": fund?.fund?.FundSymbol
+      "Fund symbol": fund?.fund?.FundSymbol,
+      "Action": (
+        <div 
+          className="flex gap-[10px]"
+        >
+          <div 
+            className="text-[#21b500dc] px-[1px] py-[2px] rounded-[5px]"
+          >
+            <CiEdit 
+              className="w-[25px] h-[25px] cursor-pointer"
+              onClick= {
+                () => {
+                  handleEdit(fund?.fund?.id)
+                }
+              }
+            />
+          </div>
+          <div 
+            className="text-[#ff717186] px-[1px] py-[2px] rounded-[5px]"
+          >
+            <MdDelete 
+              className="w-[25px] h-[25px] cursor-pointer"
+              onClick= {
+                () => {
+                  handleOpenDeleteModel(fund?.fund?.id)
+                }
+              }
+            />
+          </div>
+          <div 
+            className="text-[#00597feb] px-[1px] py-[2px] rounded-[5px]"
+          >
+            <Link
+              href={`/dashboard/funds/${fund?.fund?.id}`}
+            >
+              <TiEyeOutline 
+                className="w-[25px] h-[25px] cursor-pointer"
+              />
+            </Link>
+          </div>
+        </div>
+      )
     }
   ));
 
@@ -230,7 +195,7 @@ export default function Dashboard() {
             icon="/total-funds.svg"
             change={3.3}
             changeIcon="/increase.svg"
-            amount={1500}
+            amount={funds?.length}
             period="last week"
             styles="lg:mr-3 mb-3"
           />
@@ -265,12 +230,27 @@ export default function Dashboard() {
             buttonText="Create fund"
             buttonStyling="bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg"
             buttonOnClick={openModal}
-            marketCapIndex={4}
+            marketCapIndex={2}
             changeIndex={3}
             itemsPerPage={7}
             displayButton={true}
           />
         </div>
+        <Modal isOpen={isDeleteModelOpen} onClose={handleCloseDeleteModal} >
+          <div className="flex flex-col justify-center items-center px-[10px]">
+            <h1 className="flex font-[700] text-[20px] mt-[20px]">Delete Fund?</h1>
+            <p className="flex text-[13px] mt-[10px]">Are you sure you want to delete this fund?</p>
+            <p className="flex text-[13px]">you can't undo this action.</p>
+            <div className="flex flex-col gap-[3px] bg-[#ffe8d9] p-[10px] w-[85%] border-l-2 border-l-[#ff441f] mt-[15px]">
+              <h1 className="flex items-center gap-[5px] font-[700] text-[#5f271c]"><IoIosWarning />Warning</h1>
+              <p className="flex text-[13px] text-[#ff441f] ml-[20px]">By deleting this fund, it will never be recovered again!</p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center px-8 mt-[20px] mb-[20px] gap-[20px]">
+              <Button onClick={handleCloseDeleteModal} styling='bg-[#617d98] text-[#fff] text-[13px] font-[600] py-[5px] px-[50px] mt-2  rounded-[45px] ' value='Cancel' isDisabled={false} />
+              <Button isLoading={isDeleting} onClick={handleDelete} styling='bg-[#e12c38] text-[#fff] text-[13px] font-[600] py-[5px] px-8 mt-2 rounded-[45px] ' value='Delete fund' isDisabled={false} />
+            </div>
+          </div>
+        </Modal>
         <Modal isOpen={isOpen} onClose={closeModal} >
           <div className='bg-white rounded-lg  h-1/1 px-10 py-5'>
             <p className="px-8 text-[#475569] font-semibold">Create Fund</p>

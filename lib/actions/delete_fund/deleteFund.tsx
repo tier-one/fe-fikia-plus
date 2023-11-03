@@ -9,16 +9,26 @@ interface CustomError extends Error {
     };
 }
 
-const fetchFunds = async (token: string | undefined) => {
+const deleteFund = async (token: string | undefined, fundId: string | undefined) => {
     const headers = {
         'Authorization': `Bearer ${token}`,
     };
 
     try {
-        const res = await API.get(`/api/v1/fund/get-all-fund`, { headers });
+        const res = await API.delete(`/api/v1/fund/${fundId}`, { headers });
         
+        toast.success('Successlly deleted', {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+        });
         
-        return res.data;
+        return res;
     } catch (error) {
         const customError = error as CustomError;
 
@@ -44,4 +54,4 @@ const fetchFunds = async (token: string | undefined) => {
     }
 }
 
-export default fetchFunds;
+export default deleteFund;
