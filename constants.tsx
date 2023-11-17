@@ -60,4 +60,11 @@ export const notifications = [
     },
     // ...
   ]
+
+  export const ASSETS_TYPES = [
+    { value: 'Equity Securities' },
+    { value: 'Fixed Income' },
+    { value: 'Real Estate' },
+    { value: 'Alternative Investments' }
+  ];
   

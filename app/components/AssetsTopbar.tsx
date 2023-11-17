@@ -6,6 +6,8 @@ import InputField from './InputField'
 import * as Yup from "yup";
 import NewButton from './NewButton';
 import Image from 'next/image';
+import Button from './Button';
+import Link from 'next/link';
 
 const inputFieldStylingProps = {
     container: {
@@ -18,8 +20,11 @@ const inputFieldStylingProps = {
       className: 'py-3 px-5 rounded-lg mt-2 border border-gray-300 placeholder:text-gray-600'
     },
 }
+type Prop = {
+    newAssetName: string
+}
 
-const AssetsTopbar = () => {
+const AssetsTopbar = ({ newAssetName }: Prop) => {
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -90,6 +95,14 @@ const AssetsTopbar = () => {
 
                     <h1 className='text-[#4B5563] text-[14px] font-[500] leading-[16px] capitalize'>Export</h1>
                 </div>
+
+                <Link href={`/dashboard/assets/create-asset`}>
+                    <Button
+                        value={newAssetName}
+                        styling="bg-[#002674] text-white py-[10px] px-4 ml-4 rounded-lg"
+                        isDisabled={false}
+                    />
+                </Link>
             </div>
         </div>
     </div>
