@@ -1,10 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
 import Button from "./Button";
 
 interface FundTopBarProps {
   newTransactionName: string;
-  newTransactionOnClick: () => void;
+  openFormOnclick: () => void;
   exportOnclick: () => void;
+  fundId?: string;
 }
 
 const inputFieldStylingProps = {
@@ -22,8 +24,9 @@ const inputFieldStylingProps = {
 
 const FundTopBar = ({
   newTransactionName,
-  newTransactionOnClick,
+  openFormOnclick,
   exportOnclick,
+  fundId,
 }: FundTopBarProps) => {
   return (
     <div className="flex justify-end w-3/4 " >
@@ -44,12 +47,14 @@ const FundTopBar = ({
         />
       </div>
 
-      <Button
-        value={newTransactionName}
-        styling="bg-[#002674] text-white py-3 px-4 mt-1 ml-4 rounded-lg"
-        onClick={newTransactionOnClick}
-        isDisabled={false}
-      />
+      {/* <Link href={`/dashboard/assets/create-asset?id=${fundId}`}>
+        <Button
+          value={newTransactionName}
+          styling="bg-[#002674] text-white py-3 px-4 mt-1 ml-4 rounded-lg"
+          // onClick={openFormOnclick}
+          isDisabled={false}
+        />
+      </Link> */}
       <Button
         value="export"
         icon="/export.svg"

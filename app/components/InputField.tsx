@@ -45,7 +45,7 @@ export default function InputField({
   return (
     <div className={`${props.container?.className} ${className}`}>
       {label && required ?
-        <label className={props.inputlabel?.className} htmlFor="app-input-field">{label} <span className="text-ehr-red">*</span></label> :
+        <label className={props.inputlabel?.className} htmlFor="app-input-field">{label} <span className="text-red-500">*</span></label> :
         <label className={props.inputlabel?.className} htmlFor="app-input-field">{label}</label>}
       <div className="absolute mt-[2.6rem] ml-3">
         {icon ? <Image alt='icon' src={icon} width={16} height={16} /> : ''}
