@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 interface TableProps {
   headers: string[];
   data: object[];
+  isLoading: any;
   title: string;
   buttonText?: string;
   buttonStyling?: string;
@@ -30,6 +31,7 @@ interface TableProps {
 const Table = ({
   headers,
   data,
+  isLoading,
   title,
   buttonText,
   buttonStyling,
@@ -127,7 +129,7 @@ const Table = ({
                         href={`/dashboard/funds/${Object.values(row)[idIndex]}`}
                         className="bg-red-500"
                       >
-                        <p
+                        <div
                           className={`${
                             changeIndex === cellIndex && cell > 0
                               ? "text-[#22C45E]"
@@ -146,7 +148,7 @@ const Table = ({
                             : marketCapIndex === cellIndex
                             ? `$${cell.toLocaleString()}`
                             : cell}
-                        </p>
+                        </div>
                       </Link>
                     ) : attachmentIndex === cellIndex ? (
                       <button>
@@ -162,7 +164,7 @@ const Table = ({
                       </button>
                     ) : (
                       <>
-                        <p
+                        <div
                           className={`text-[14px] ${
                             changeIndex === cellIndex && cell > 0
                               ? "text-[#22C45E]"
@@ -181,7 +183,7 @@ const Table = ({
                             : marketCapIndex === cellIndex
                             ? `$${cell.toLocaleString()}`
                             : cell}
-                        </p>
+                        </div>
                       </>
                     )}
                   </td>
@@ -213,6 +215,16 @@ const Table = ({
             ))}
           </tbody>
         </table>
+        {!isLoading && currentData?.length === 0 && (
+              <div className="w-full h-[100px] flex justify-center items-center">No funds data</div>
+          )}
+          {isLoading && (
+              <div className='flex w-full h-[100px] justify-center items-center gap-5 loading-container'>
+                <div className='w-[100px] text-[15px]'>
+                  Loading<span className="loading-dots"></span>
+                </div>
+              </div>
+          )}
       </div>
       <div className="flex justify-center mt-4">
         <PaginatedData
