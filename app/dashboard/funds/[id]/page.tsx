@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -13,10 +14,16 @@ import { TiEyeOutline } from 'react-icons/ti';
 import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import FundTopBar from "@/app/components/FundTopBar";
-import NewAssetModal from "@/app/components/NewTransactionModal"
+import NewTransactionModal from "@/app/components/NewTransactionModal"
 import { useParams, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import fetchAssetsByFundId from "@/lib/actions/get-assets-by-fundId/getAssetsByFundId";
+import fetchTransactions from "@/lib/actions/get-transactions/fetchTransactions";
+import Modal from "@/app/components/Modal";
+import Button from "@/app/components/Button";
+import deleteTransaction from "@/lib/actions/delete_transaction/deleteTransaction";
+import fetchTransactionById from "@/lib/actions/get_transactionById/fetchTransactionById";
+import fetchClients from "@/lib/actions/get-all-clients/fetchAllClients";
 
 const inputFieldStylingProps = {
   container: {
@@ -33,11 +40,13 @@ const inputFieldStylingProps = {
 const headers = [
   "Client name",
   "Transaction type",
-  "Debit(RWF)",
+  // "Debit(RWF)",
   "Credit",
   "Number of units",
-  "Net asset value",
+  "status",
+  // "Net asset value",
   "Date",
+  "Actions"
 ];
 
 
@@ -68,24 +77,49 @@ export default function Dashboard() {
   const fundId = useParams().id;
   const { data: session } = useSession();
 
+  const [isDeleteModelOpen, setIsDeleteModelOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [activeTab, setActiveTab] = useState("fund-transactions");
-  const [isNewAssetModalOpen, setIsNewAssetModalOpen] = useState(false);
+  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
+  const [allTransactions, setAllTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [clients, setClients] = useState([]);
   const [assets, setAssets] = useState<any>([]);
+  const [transactionId, setTransactionId] = useState<string>();
+  const [updateTransaction, setUpdateTransaction] = useState<any>()
 
   const token = session?.user?.token;
 
   useEffect(() => {
-    fetchAllAssetsById();
+    // fetchAllAssetsById();
+    getTransactions();
+    getClients();
   }, [token])
+
+  const getClients = async () => {
+    if (token) {
+      const res = await fetchClients(token);
+      setClients(res);
+    }
+  }
 
   const fetchAllAssetsById = async () => {
     if (token) {
       setIsLoading(true);
       const response = await fetchAssetsByFundId(token, fundId);
-      console.log(response, 'THIS ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"""""""""""""""')
     
       setAssets(response)
+
+      setIsLoading(false);
+    }
+  }
+
+  const getTransactions = async () => {
+    if (token) {
+      setIsLoading(true);
+
+      const res = await fetchTransactions(token);
+      setAllTransactions(res);
 
       setIsLoading(false);
     }
@@ -95,68 +129,130 @@ export default function Dashboard() {
     setActiveTab(tab);
   };
 
-  const openNewAssetModal = () => {
-    setIsNewAssetModalOpen(true);
+  const openNewTransactionModal = () => {
+    setIsNewTransactionModalOpen(true);
   }
-  const closeNewAssetModal = () => {
-    setIsNewAssetModalOpen(false);
+  const closeNewTransactionModal = () => {
+    setIsNewTransactionModalOpen(false);
+
+    var currentUrl = window.location.href;
+    var urlParts = currentUrl.split('?');
+
+    if (urlParts.length >= 2) {
+        var baseUrl = urlParts[0];
+
+        window.history.pushState({}, '', baseUrl);
+    }
+  }
+
+  const handleOpenDeleteModel = (assetId: string) => {
+    setIsDeleteModelOpen(true);
+    setTransactionId(assetId);
+  }
+
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModelOpen(false)
+  }
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+
+    const res = await deleteTransaction(token, transactionId);
+
+    setIsDeleting(false);
+    setIsDeleteModelOpen(false);
+    setAssets([]);
+
+    await getTransactions();
+  }
+
+  const getSingleTransaction = async (transId: string) => {
+    const results = await fetchTransactionById(token, transId);
+    
+    setUpdateTransaction(results)
+  }
+
+  const handleEdit = (transactionId: string) => {
+    openNewTransactionModal()
+    var newUrl = window.location.href;
+
+    newUrl += '?id=' + transactionId;
+
+    window.history.pushState({path:newUrl}, '', newUrl);
+
+    getSingleTransaction(transactionId)
   }
 
 
-  // const AssetsDatas = assets?.map((asset: any, index: any) => (
-  //   {
-  //     "Asset name": asset?.name,
-  //     "Price": asset?.price,
-  //     "Asset value": asset?.value,
-  //     "Outstanding Shares": asset?.equityDetails?.numberOfOutstandingShares,
-  //     "Net asset value": 100,
-  //     "Date": asset?.createdAt.split('T')[0],
-  //     "Action": (
-  //       <div 
-  //         className="flex gap-[10px]"
-  //       >
-  //         <div 
-  //           className="text-[#21b500dc] px-[1px] py-[2px] rounded-[5px]"
-  //         >
-  //           <CiEdit 
-  //             className="w-[25px] h-[25px] cursor-pointer"
-  //             onClick= {
-  //               () => {
-  //                 // handleEdit(fund?.fund?.id)
-  //               }
-  //             }
-  //           />
-  //         </div>
-  //         <div 
-  //           className="text-[#ff717186] px-[1px] py-[2px] rounded-[5px]"
-  //         >
-  //           <MdDelete 
-  //             className="w-[25px] h-[25px] cursor-pointer"
-  //             onClick= {
-  //               () => {
-  //                 // handleOpenDeleteModel(fund?.fund?.id)
-  //               }
-  //             }
-  //           />
-  //         </div>
-  //         <div 
-  //           className="text-[#00597feb] px-[1px] py-[2px] rounded-[5px]"
-  //         >
-  //           {/* <Link
-  //             href={`/dashboard/funds/${fund?.fund?.id}`}
-  //           >
-  //             <TiEyeOutline 
-  //               className="w-[25px] h-[25px] cursor-pointer"
-  //             />
-  //           </Link> */}
-  //         </div>
-  //       </div>
-  //     )
-  //   }
-  // ));
+  const transactionsDatas = allTransactions?.map((transaction: any, index: any) => (
+    {
+      "Client name": transaction?.investorFullNames,
+      "Transaction type": transaction?.transactionType,
+      "Credit": transaction?.price,
+      "Number of units": transaction?.amount,
+      "status": transaction?.status,
+      "Date": transaction?.createdAt.split('T')[0],
+      "Action": (
+        <div 
+          className="flex gap-[10px]"
+        >
+          <div 
+            className="text-[#21b500dc] px-[1px] py-[2px] rounded-[5px]"
+          >
+            <CiEdit 
+              className="w-[25px] h-[25px] cursor-pointer"
+              onClick= {
+                () => {
+                  handleEdit(transaction?.id)
+                }
+              }
+            />
+          </div>
+          <div 
+            className="text-[#ff717186] px-[1px] py-[2px] rounded-[5px]"
+          >
+            <MdDelete 
+              className="w-[25px] h-[25px] cursor-pointer"
+              onClick= {
+                () => {
+                  handleOpenDeleteModel(transaction?.id)
+                }
+              }
+            />
+          </div>
+          <div 
+            className="text-[#00597feb] px-[1px] py-[2px] rounded-[5px]"
+          >
+            {/* <Link
+              href={`/dashboard/funds/${fund?.fund?.id}`}
+            >
+              <TiEyeOutline 
+                className="w-[25px] h-[25px] cursor-pointer"
+              />
+            </Link> */}
+          </div>
+        </div>
+      )
+    }
+  ));
 
   return (
-    <div className="bg-[#eaeaed] min-h-[87vh] ">
+    <div className="bg-[#eaeaed] min-h-[87vh]">
+      <Modal isOpen={isDeleteModelOpen} onClose={handleCloseDeleteModal} >
+        <div className="flex flex-col justify-center items-center px-[10px]">
+          <h1 className="flex font-[700] text-[20px] mt-[20px]">Delete Transaction?</h1>
+          <p className="flex text-[13px] mt-[10px]">Are you sure you want to delete this transaction?</p>
+          <p className="flex text-[13px]">you can't undo this action.</p>
+          <div className="flex flex-col gap-[3px] bg-[#ffe8d9] p-[10px] w-[85%] border-l-2 border-l-[#ff441f] mt-[15px]">
+            <h1 className="flex items-center gap-[5px] font-[700] text-[#5f271c]"><IoIosWarning />Warning</h1>
+            <p className="flex text-[13px] text-[#ff441f] ml-[20px]">By deleting this transaction, it will never be recovered again!</p>
+          </div>
+          <div className="flex flex-wrap items-center justify-center px-8 mt-[20px] mb-[20px] gap-[20px]">
+            <Button onClick={handleCloseDeleteModal} styling='bg-[#617d98] text-[#fff] text-[13px] font-[600] py-[5px] px-[50px] mt-2  rounded-[45px] ' value='Cancel' isDisabled={false} />
+            <Button isLoading={isDeleting} onClick={handleDelete} styling='bg-[#e12c38] text-[#fff] text-[13px] font-[600] py-[5px] px-8 mt-2 rounded-[45px] ' value='Delete Asset' isDisabled={false} />
+          </div>
+        </div>
+      </Modal>
       <div className="flex flex-col  lg:mx-[9rem] ">
         <div className="flex mt-3">
           <Link
@@ -205,7 +301,7 @@ export default function Dashboard() {
                 icon="/client.svg"
                 change={3.3}
                 changeIcon="/increase.svg"
-                amount={1500}
+                amount={clients?.length}
                 period="last week"
                 styles="lg:mr-3 mb-3"
               />
@@ -231,7 +327,7 @@ export default function Dashboard() {
               />
             </div>
 
-            <div className="flex  flex-col flex-grow max-h-[48vh] bg-white p-5 rounded-[24px]">
+            <div className="flex mb-20 flex-col flex-grow min-h-[48vh] bg-white p-5 rounded-[24px]">
               <div className="flex justify-between mx-8 py-4" >
                 <p className="text-[#475569] font-semibold  text-3xl   w-1/4 py-2" >
                   Transactions
@@ -239,21 +335,22 @@ export default function Dashboard() {
                 
                 <FundTopBar
                   newTransactionName="New Transaction"
-                  openFormOnclick={openNewAssetModal}
+                  openFormOnclick={openNewTransactionModal}
                   exportOnclick={() => {}}
+                  isButtonVisible={true}
                 />
                
               </div>
               <Table
                 headers={headers}
-                data={data}
-                // isLoading={isLoading}
+                data={transactionsDatas}
+                isLoading={isLoading}
                 title=""
                 buttonText="Create fund"
                 buttonStyling="bg-[#002674] text-white  rounded-lg"
                 buttonOnClick={() => {}}
                 marketCapIndex={2}
-                changeIndex={3}
+                // changeIndex={3}
                 itemsPerPage={7}
                 idIndex={0}
                 displayButton={false}
@@ -266,7 +363,12 @@ export default function Dashboard() {
           <Settings />
         )}
       </div>
-      <NewAssetModal isModalOpen={isNewAssetModalOpen} closeModal={closeNewAssetModal} />
+      <NewTransactionModal 
+        isModalOpen={isNewTransactionModalOpen} 
+        closeModal={closeNewTransactionModal} 
+        getTransactions={getTransactions}
+        updateTransaction={updateTransaction}
+      />
     </div>
   );
 }

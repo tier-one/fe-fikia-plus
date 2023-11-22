@@ -59,5 +59,30 @@ export const notifications = [
       email: "example@gmail.com",
     },
     // ...
-  ]
+  ];
+
+  export const ASSETS_TYPES = [
+    { value: 'Equity Securities' },
+    { value: 'Fixed Income' },
+    { value: 'Real Estate' },
+    { value: 'Alternative Investments' }
+  ];
+
+  export const TRANSACTION_TYPES = [
+    { value: 'buy' },
+    { value: 'sell' }
+  ];
+
+  export const CLIENTS = [
+      { value: 'Eric Niyonkuru' },
+      { value: 'Ntare Jim' },
+      { value: 'Manzi Olivier '}
+  ];
+
+  export const STATUS = [
+    { value: 'pending' },
+    { value: 'completed' },
+    { value: 'cancelled'},
+    { value: 'failed'}
+];
   

@@ -3,7 +3,7 @@
 import AssetInfo from '@/app/components/AssetInfo';
 import AssetSetup from '@/app/components/AssetSetup';
 import Button from '@/app/components/Button';
-import { formikAssetInfoValidationSchema, formikAssetSetUpValidationSchema, formikFundInfoValidationSchema, formikFundSetUpValidationSchema } from '@/app/components/FormikValidationSchema';
+import { formikAlternativeAssetsValidationSchema, formikAssetInfoValidationSchema, formikEquityAssetsValidationSchema, formikFixedIncomeAssetsValidationSchema, formikFundInfoValidationSchema, formikFundSetUpValidationSchema, formikRealEstateAssetsValidationSchema } from '@/app/components/FormikValidationSchema';
 import FundInfo from '@/app/components/FundInfo';
 import FundSetup from '@/app/components/FundSetup';
 import NewButton from '@/app/components/NewButton';
@@ -54,7 +54,6 @@ const CreateAsset = () => {
   
     const getSingleAsset = async () => {
       const results = await fetchAssetById(token, assetId);
-      console.log(results, 'This is the single asset')
   
       setUpdateAsset(results)
     }
@@ -74,6 +73,7 @@ const CreateAsset = () => {
           price: "",
           value: "",
           note: "",
+          type: ""
       },
   
       validationSchema: formikAssetInfoValidationSchema,
@@ -83,56 +83,27 @@ const CreateAsset = () => {
           handleContinue();
       },
     });
-  
-  
-    const formik2 = useFormik({
+
+
+    const equityFormik = useFormik({
       initialValues: {
-          tickerSymbol: "",
-          companyName: "",
-          numberOfOutstandingShares: "",
-          ISIN: "",
-          description: "",
-          currency: "",
-          exchange: "",
-          sectorIndustry: "",
-          assetClass: "",
-          countryOfDomicile: "",
-
-          bondType: "",
-          issuer: "",
-          faceValue: "",
-          maturityDate: "",
-          couponRate: "",
-          paymentFrequency: "",
-          yieldToMaturity: "",
-          creditRating: "",
-          fixedIncomeType: "",
-          ISIN2: "",
-          fixedIncomeName: "",
-          description2: "",
-          countryOfIssuer: "",
-          effectiveDuration: "",
-          amortizationSchedule: "",
-          optionality: "",
-          callablePuttable: "",
-          currency2: "",
-          issueDate: "",
-          listingExchange: "",
-
-          propertyAddress: "",
-          propertyType: "",
-          rentalIncome: "",
-
-          investmentFundName: "",
-          investmentManager: "",
-          fundStrategy: "",
+        tickerSymbol: "",
+        companyName: "",
+        numberOfOutstandingShares: "",
+        ISIN: "",
+        description: "",
+        currency: "",
+        exchange: "",
+        sectorIndustry: "",
+        assetClass: "",
+        countryOfDomicile: "",
       },
-  
-      validationSchema: formikAssetSetUpValidationSchema,
-  
+
+      validationSchema: formikEquityAssetsValidationSchema,
+
       onSubmit: async (values) => {
         setIsLoading(true);
-  
+
         assetValues = {
           ...infoValues,
           ...values
@@ -154,8 +125,132 @@ const CreateAsset = () => {
   
   
         setIsLoading(false);
-        
+      }
+    });
+
+    const fixedIncomeFormik = useFormik({
+      initialValues: {
+        bondType: "",
+        issuer: "",
+        faceValue: "",
+        maturityDate: "",
+        couponRate: "",
+        paymentFrequency: "",
+        yieldToMaturity: "",
+        creditRating: "",
+        fixedIncomeType: "",
+        ISIN: "",
+        fixedIncomeName: "",
+        description: "",
+        countryOfIssuer: "",
+        effectiveDuration: "",
+        amortizationSchedule: "",
+        optionality: "",
+        callablePuttable: "",
+        currency: "",
+        issueDate: "",
+        listingExchange: "",
       },
+
+      validationSchema: formikFixedIncomeAssetsValidationSchema,
+
+      onSubmit: async (values) => {
+        setIsLoading(true);
+
+        assetValues = {
+          ...infoValues,
+          ...values
+        }
+  
+        if (!isUpdate) {
+            console.log('IS CREATING ASSET')
+            const results = await createAsset(assetValues, token);
+        }
+  
+        if (isUpdate) {
+            console.log('IS UPDATING ASSET')
+            const res = await UpdateAsset(assetValues, assetId, token)
+        }
+
+        handleResetFormik();
+
+        router.push(`dashboard/assets`)
+  
+  
+        setIsLoading(false);
+      }
+    });
+
+    const realEstateFormik = useFormik({
+      initialValues: {
+        propertyAddress: "",
+        propertyType: "",
+        rentalIncome: "",
+      },
+
+      validationSchema: formikRealEstateAssetsValidationSchema,
+
+      onSubmit: async (values) => {
+        setIsLoading(true);
+
+        assetValues = {
+          ...infoValues,
+          ...values
+        }
+  
+        if (!isUpdate) {
+            console.log('IS CREATING ASSET')
+            const results = await createAsset(assetValues, token);
+        }
+  
+        if (isUpdate) {
+            console.log('IS UPDATING ASSET')
+            const res = await UpdateAsset(assetValues, assetId, token)
+        }
+
+        handleResetFormik();
+
+        router.push(`dashboard/assets`)
+  
+  
+        setIsLoading(false);
+      }
+    });
+
+    const alternativeFormik = useFormik({
+      initialValues: {
+        investmentFundName: "",
+        investmentManager: "",
+        fundStrategy: "",
+      },
+
+      validationSchema: formikAlternativeAssetsValidationSchema,
+
+      onSubmit: async (values) => {
+        setIsLoading(true);
+
+        assetValues = {
+          ...infoValues,
+          ...values
+        }
+  
+        if (!isUpdate) {
+            console.log('IS CREATING ASSET')
+            const results = await createAsset(assetValues, token);
+        }
+  
+        if (isUpdate) {
+            console.log('IS UPDATING ASSET')
+            const res = await UpdateAsset(assetValues, assetId, token)
+        }
+
+        handleResetFormik();
+
+        router.push(`dashboard/assets`)
+  
+  
+        setIsLoading(false);
+      }
     });
   
     const handleContinue = () => {
@@ -164,7 +259,10 @@ const CreateAsset = () => {
 
     const handleResetFormik = () => {
         formik.resetForm();
-        formik2.resetForm()
+        equityFormik.resetForm();
+        fixedIncomeFormik.resetForm();
+        realEstateFormik.resetForm();
+        alternativeFormik.resetForm();
     }
 
     useEffect(() => {
@@ -182,51 +280,74 @@ const CreateAsset = () => {
     }, [updateAsset]);
 
     useEffect(() => {
-        if (updateAsset) {
-          formik2.setValues({
-            ...formik2.values,
-            tickerSymbol: updateAsset?.equityDetails?.tickerSymbol,
-            companyName: updateAsset?.equityDetails?.companyName,
-            numberOfOutstandingShares: updateAsset?.equityDetails?.numberOfOutstandingShares,
-            ISIN: updateAsset?.equityDetails?.ISIN,
-            description: updateAsset?.equityDetails?.description,
-            currency: updateAsset?.equityDetails?.currency,
-            exchange: updateAsset?.equityDetails?.exchange,
-            sectorIndustry: updateAsset?.equityDetails?.sectorIndustry,
-            assetClass: updateAsset?.equityDetails?.assetClass,
-            countryOfDomicile: updateAsset?.equityDetails?.countryOfDomicile,
+      if (updateAsset) {
+        equityFormik.setValues({
+          ...equityFormik.values,
+          tickerSymbol: updateAsset?.equityDetails?.tickerSymbol,
+          companyName: updateAsset?.equityDetails?.companyName,
+          numberOfOutstandingShares: updateAsset?.equityDetails?.numberOfOutstandingShares,
+          ISIN: updateAsset?.equityDetails?.ISIN,
+          description: updateAsset?.equityDetails?.description,
+          currency: updateAsset?.equityDetails?.currency,
+          exchange: updateAsset?.equityDetails?.exchange,
+          sectorIndustry: updateAsset?.equityDetails?.sectorIndustry,
+          assetClass: updateAsset?.equityDetails?.assetClass,
+          countryOfDomicile: updateAsset?.equityDetails?.countryOfDomicile,
+        });
+        setIsUpdate(true);
+        setAssetIdToUpdate(updateAsset.id)
+      }
+    }, [updateAsset]);
 
-            bondType: updateAsset?.fixedIncomeDetails?.bondType,
-            issuer: updateAsset?.fixedIncomeDetails?.issuer,
-            faceValue: updateAsset?.fixedIncomeDetails?.faceValue,
-            maturityDate: updateAsset?.fixedIncomeDetails?.maturityDate,
-            couponRate: updateAsset?.fixedIncomeDetails?.couponRate,
-            paymentFrequency: updateAsset?.fixedIncomeDetails?.paymentFrequency,
-            yieldToMaturity: updateAsset?.fixedIncomeDetails?.yieldToMaturity,
-            creditRating: updateAsset?.fixedIncomeDetails?.creditRating,
-            fixedIncomeType: updateAsset?.fixedIncomeDetails?.fixedIncomeType,
-            ISIN2: updateAsset?.fixedIncomeDetails?.ISIN,
-            fixedIncomeName: updateAsset?.fixedIncomeDetails?.fixedIncomeName,
-            description2: updateAsset?.fixedIncomeDetails?.description,
-            countryOfIssuer: updateAsset?.fixedIncomeDetails?.countryOfIssuer,
-            effectiveDuration: updateAsset?.fixedIncomeDetails?.effectiveDuration,
-            amortizationSchedule: updateAsset?.fixedIncomeDetails?.amortizationSchedule,
-            optionality: updateAsset?.fixedIncomeDetails?.optionality,
-            callablePuttable: updateAsset?.fixedIncomeDetails?.callablePuttable,
-            currency2: updateAsset?.fixedIncomeDetails?.currency,
-            issueDate: updateAsset?.fixedIncomeDetails?.issueDate,
-            listingExchange: updateAsset?.fixedIncomeDetails?.listingExchange,
+    useEffect(() => {
+      if (updateAsset) {
+        fixedIncomeFormik.setValues({
+          ...fixedIncomeFormik.values,
+          bondType: updateAsset?.fixedIncomeDetails?.bondType,
+          issuer: updateAsset?.fixedIncomeDetails?.issuer,
+          faceValue: updateAsset?.fixedIncomeDetails?.faceValue,
+          maturityDate: updateAsset?.fixedIncomeDetails?.maturityDate,
+          couponRate: updateAsset?.fixedIncomeDetails?.couponRate,
+          paymentFrequency: updateAsset?.fixedIncomeDetails?.paymentFrequency,
+          yieldToMaturity: updateAsset?.fixedIncomeDetails?.yieldToMaturity,
+          creditRating: updateAsset?.fixedIncomeDetails?.creditRating,
+          fixedIncomeType: updateAsset?.fixedIncomeDetails?.fixedIncomeType,
+          ISIN: updateAsset?.fixedIncomeDetails?.ISIN,
+          fixedIncomeName: updateAsset?.fixedIncomeDetails?.fixedIncomeName,
+          description: updateAsset?.fixedIncomeDetails?.description,
+          countryOfIssuer: updateAsset?.fixedIncomeDetails?.countryOfIssuer,
+          effectiveDuration: updateAsset?.fixedIncomeDetails?.effectiveDuration,
+          amortizationSchedule: updateAsset?.fixedIncomeDetails?.amortizationSchedule,
+          optionality: updateAsset?.fixedIncomeDetails?.optionality,
+          callablePuttable: updateAsset?.fixedIncomeDetails?.callablePuttable,
+          currency: updateAsset?.fixedIncomeDetails?.currency,
+          issueDate: updateAsset?.fixedIncomeDetails?.issueDate,
+          listingExchange: updateAsset?.fixedIncomeDetails?.listingExchange,
+        });
+      }
+    }, [updateAsset]);
 
-            propertyAddress: updateAsset?.realEstateDetails?.propertyAddress,
-            propertyType: updateAsset?.realEstateDetails?.propertyType,
-            rentalIncome: updateAsset?.realEstateDetails?.rentalIncome,
+    useEffect(() => {
+      if (updateAsset) {
+        realEstateFormik.setValues({
+          ...realEstateFormik.values,
+          propertyAddress: updateAsset?.realEstateDetails?.propertyAddress,
+          propertyType: updateAsset?.realEstateDetails?.propertyType,
+          rentalIncome: updateAsset?.realEstateDetails?.rentalIncome,
+        });
+      }
+    }, [updateAsset]);
 
-            investmentFundName: updateAsset?.alternativeInvestmentDetails?.investmentFundName,
-            investmentManager: updateAsset?.alternativeInvestmentDetails?.investmentManager,
-            fundStrategy: updateAsset?.alternativeInvestmentDetails?.fundStrategy,
-          });
-        }
-    }, [updateAsset])
+    useEffect(() => {
+      if (updateAsset) {
+        alternativeFormik.setValues({
+          ...alternativeFormik.values,
+          investmentFundName: updateAsset?.alternativeInvestmentDetails?.investmentFundName,
+          investmentManager: updateAsset?.alternativeInvestmentDetails?.investmentManager,
+          fundStrategy: updateAsset?.alternativeInvestmentDetails?.fundStrategy,
+        });
+      }
+    }, [updateAsset]);
 
   return (
     <div className='w-full min-h-[87vh] h-auto bg-[#eaeaed] p-[40px]'>
@@ -244,7 +365,14 @@ const CreateAsset = () => {
 
                     <Button 
                         value={clickedEvent === 1 ? 'Continue': clickedEvent !== 1 && !isUpdate ? 'Save asset': 'Update asset'}
-                        onClick={clickedEvent === 1 ? formik.handleSubmit : formik2.handleSubmit}
+                        onClick={() => {
+                          clickedEvent === 1 ? 
+                          formik.handleSubmit() : formik.values.type === "Equity Securities" ?
+                          equityFormik.handleSubmit() : formik.values.type === "Fixed Income" ?
+                          fixedIncomeFormik.handleSubmit() : formik.values.type === "Real Estate" ?
+                          realEstateFormik.handleSubmit() : formik.values.type === "Alternative Investments" &&
+                          alternativeFormik.handleSubmit()
+                        }}
                         styling='flex py-[12px] px-[16px] justify-center items-center gap-[8px] rounded-[8px] border border-[#031F57] bg-[#031F57] text-[#FFF] text-[14px] font-[500] leading-[16px]'
                         isLoading={isLoading}
                     />
@@ -285,7 +413,15 @@ const CreateAsset = () => {
 
                     {clickedEvent === 1 && <AssetInfo formik={formik} />}
 
-                    {clickedEvent === -1 && <AssetSetup formik2={formik2} />}
+                    {clickedEvent === -1 && 
+                      <AssetSetup
+                        equityFormik={equityFormik}
+                        fixedIncomeFormik={fixedIncomeFormik}
+                        realEstateFormik={realEstateFormik}
+                        alternativeFormik={alternativeFormik}
+                        formik={formik}
+                      />
+                    }
                 </div>
             </div>
         </div>

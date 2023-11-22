@@ -34,7 +34,7 @@ export const formikFundSetUpValidationSchema = Yup.object({
       .required("trusteePercentage is required"),
 })
 
-export const formikAssetSetUpValidationSchema = Yup.object({
+export const formikEquityAssetsValidationSchema = Yup.object({
     tickerSymbol: Yup.string()
         .required("tickerSymbol is required"),
     companyName: Yup.string()
@@ -55,8 +55,9 @@ export const formikAssetSetUpValidationSchema = Yup.object({
         .required("assetClass is required"),
     countryOfDomicile:Yup.string()
         .required("countryOfDomicile is required"),
+});
 
-
+export const formikFixedIncomeAssetsValidationSchema = Yup.object({
     bondType: Yup.string()
         .required("bondType is required"),
     issuer: Yup.string()
@@ -75,12 +76,12 @@ export const formikAssetSetUpValidationSchema = Yup.object({
         .required("creditRating is required"),
     fixedIncomeType: Yup.string()
         .required("fixedIncomeType is required"),
-    ISIN2: Yup.string()
-        .required("ISIN2 is required"),
+    ISIN: Yup.string()
+        .required("ISIN is required"),
     fixedIncomeName: Yup.string()
         .required("fixedIncomeName is required"),
-    description2: Yup.string()
-        .required("description2 is required"),
+    description: Yup.string()
+        .required("description is required"),
     countryOfIssuer: Yup.string()
         .required("countryOfIssuer is required"),
     effectiveDuration: Yup.string()
@@ -91,29 +92,31 @@ export const formikAssetSetUpValidationSchema = Yup.object({
         .required("optionality is required"),
     callablePuttable: Yup.string()
         .required("callablePuttable is required"),
-    currency2: Yup.string()
-        .required("currency2 is required"),
+    currency: Yup.string()
+        .required("currency is required"),
     issueDate: Yup.string()
         .required("issueDate is required"),
     listingExchange: Yup.string()
         .required("listingExchange is required"),
+});
 
-    
+export const formikRealEstateAssetsValidationSchema = Yup.object({
     propertyAddress: Yup.string()
         .required("propertyAddress is required"),
     propertyType: Yup.string()
         .required("propertyType is required"),
     rentalIncome:Yup.string()
         .required("rentalIncome is required"),
+});
 
-
+export const formikAlternativeAssetsValidationSchema = Yup.object({
     investmentFundName: Yup.string()
         .required("investmentFundName is required"),
     investmentManager: Yup.string()
         .required("investmentManager is required"),
     fundStrategy:Yup.string()
         .required("fundStrategy is required"),
-  })
+})
 
 export const formikAssetInfoValidationSchema = Yup.object({
     name: Yup.string()
@@ -124,5 +127,25 @@ export const formikAssetInfoValidationSchema = Yup.object({
         .required("assetValue is required"),
     note: Yup.string()
         .required("assetNotes is required"),
-  })
+    type: Yup.string()
+        .required("Asset type is required"),
+})
+
+export const formikTransactionInfoValidationSchema = Yup.object({
+    transactionType: Yup.string()
+        .required("Transaction type is required"),
+    investorFullNames: Yup.string()
+        .required("Client name is required"),
+    amount: Yup.string()
+        .required("Amount is required")
+})
+
+export const formikTransactionSetUpValidationSchema = Yup.object({
+    price: Yup.string()
+        .required("Price is required"),
+    status: Yup.string()
+        .required("Status is required"),
+    note: Yup.string()
+        .required("Note is required")
+})
 
