@@ -27,7 +27,7 @@ const fetchAssets = async (token: string | undefined) => {
 
             toast.warn(errorMessage, {
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -38,9 +38,7 @@ const fetchAssets = async (token: string | undefined) => {
         }
 
         
-        return {
-            fund: []
-        };
+        return [];
     }
 }
 

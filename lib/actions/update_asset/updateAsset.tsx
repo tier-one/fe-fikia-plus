@@ -82,7 +82,6 @@ export const UpdateAsset = async (form: any, assetId: string | null | undefined,
                 fundStrategy: form.fundStrategy,
             },
         }
-        console.log(datas, 'THIS THE ASSETS VALUE TO UPDATE')
 
         const res = await API.patch(`/api/v1/asset/${assetId}`, datas, { headers });
 

@@ -32,7 +32,7 @@ export const createAsset = async (form: any, token: string | undefined ) => {
             'Authorization': `Bearer ${token}`,
         };
 
-        const datas = {
+        const formDatas = {
             name: form.name,
             price: form.price,
             value: form.value,
@@ -47,7 +47,7 @@ export const createAsset = async (form: any, token: string | undefined ) => {
                 exchange: form.exchange,
                 sectorIndustry: form.sectorIndustry,
                 assetClass: form.assetClass,
-                countryOfDomicile: form.countryOfDomicile,
+                countryOfDomicile: form.countryOfDomicile
             },
             fixedIncomeDetails: {
                 bondType: form.bondType,
@@ -59,30 +59,52 @@ export const createAsset = async (form: any, token: string | undefined ) => {
                 yieldToMaturity: form.yieldToMaturity,
                 creditRating: form.creditRating,
                 fixedIncomeType: form.fixedIncomeType,
-                ISIN: form.ISIN2,
+                ISIN: form.ISIN,
                 fixedIncomeName: form.fixedIncomeName,
-                description: form.description2,
+                description: form.description,
                 countryOfIssuer: form.countryOfIssuer,
                 effectiveDuration: form.effectiveDuration,
                 amortizationSchedule: form.amortizationSchedule,
                 optionality: form.optionality,
                 callablePuttable: form.callablePuttable,
-                currency: form.currency2,
+                currency: form.currency,
                 issueDate: form.issueDate,
                 listingExchange: form.listingExchange
             },
             realEstateDetails: {
                 propertyAddress: form.propertyAddress,
                 propertyType: form.propertyType,
-                rentalIncome: form.rentalIncome,
+                rentalIncome: form.rentalIncome
             },
             alternativeInvestmentDetails: {
                 investmentFundName: form.investmentFundName,
                 investmentManager: form.investmentManager,
-                fundStrategy: form.fundStrategy,
+                fundStrategy: form.fundStrategy
             },
         }
-        console.log(datas, 'THIS THE ASSETS VALUE')
+
+        // Function to pick only existing type details
+        const pickRelevantDetails = (formDatas: { name?: any; price?: any; value?: any; note?: any; equityDetails: any; fixedIncomeDetails: any; realEstateDetails: any; alternativeInvestmentDetails: any; }) => {
+            if (formDatas.equityDetails.tickerSymbol) {
+                return { equityDetails: formDatas.equityDetails };
+            } else if (formDatas.fixedIncomeDetails.bondType) {
+                return { fixedIncomeDetails: formDatas.fixedIncomeDetails };
+            } else if (formDatas.realEstateDetails.propertyAddress) {
+                return { realEstateDetails: formDatas.realEstateDetails };
+            } else if (formDatas.alternativeInvestmentDetails.investmentFundName) {
+                return { alternativeInvestmentDetails: formDatas.alternativeInvestmentDetails };
+            }
+        };
+
+        // Prepare the data object with only the relevant details
+        const relevantDetails = pickRelevantDetails(formDatas);
+        const datas = {
+            name: form.name,
+            price: form.price,
+            value: form.value,
+            note: form.note,
+            ...relevantDetails
+        };
 
         const res = await API.post(`/api/v1/asset/assets`, datas, { headers });
 
