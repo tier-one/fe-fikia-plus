@@ -16,7 +16,6 @@ import fetchAssets from '@/lib/actions/get-all-assets/fetchAssets';
 import fetchAssetsByFundId from '@/lib/actions/get-assets-by-fundId/getAssetsByFundId';
 import { CiEdit } from 'react-icons/ci';
 
-// const headers = ["No", "Asset name", "Unit Price", "24h%", "Market Cap"];
 
 const headers = [
   "Asset name",
@@ -28,70 +27,6 @@ const headers = [
   "Action",
 ];
 
-// const headers = [
-//   "Asset Name",
-//   "Unit Price",
-//   "24 Hrs",
-//   "Market Cap",
-//   "Volume",
-//   "Asset Type",
-// ];
-
-  // const data = [
-  //   {
-  //     "Asset Name": "Grazia Appartment",
-  //     "Unit Price": "100,000,000",
-  //     "24 Hrs": "0.5 UP",
-  //     "Market Cap": "120,000",
-  //     "Volume": "120,000,000",
-  //     "Asset Type": "Equity Securities",
-  //   },
-  
-  //   {
-  //     "Asset Name": "Grazia Appartment",
-  //     "Unit Price": "100,000,000",
-  //     "24 Hrs": "0.5 UP",
-  //     "Market Cap": "120,000",
-  //     "Volume": "120,000,000",
-  //     "Asset Type": "Equity Securities",
-  //   },
-  
-  //   {
-  //     "Asset Name": "Grazia Appartment",
-  //     "Unit Price": "100,000,000",
-  //     "24 Hrs": "0.5 UP",
-  //     "Market Cap": "120,000",
-  //     "Volume": "120,000,000",
-  //     "Asset Type": "Equity Securities",
-  //   },
-  
-  //   {
-  //     "Asset Name": "Grazia Appartment",
-  //     "Unit Price": "100,000,000",
-  //     "24 Hrs": "0.5 UP",
-  //     "Market Cap": "120,000",
-  //     "Volume": "120,000,000",
-  //     "Asset Type": "Equity Securities",
-  //   },
-  
-  //   {
-  //     "Asset Name": "Grazia Appartment",
-  //     "Unit Price": "100,000,000",
-  //     "24 Hrs": "0.5 UP",
-  //     "Market Cap": "120,000",
-  //     "Volume": "120,000,000",
-  //     "Asset Type": "Equity Securities",
-  //   },
-  
-  //   {
-  //     "Asset Name": "Grazia Appartment",
-  //     "Unit Price": "100,000,000",
-  //     "24 Hrs": "0.5 UP",
-  //     "Market Cap": "120,000",
-  //     "Volume": "120,000,000",
-  //     "Asset Type": "Equity Securities",
-  //   },
-  // ];
 const Assets = () => {
   const router = useRouter();
   const [isDeleteModelOpen, setIsDeleteModelOpen] = useState(false);

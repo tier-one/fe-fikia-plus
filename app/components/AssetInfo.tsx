@@ -1,7 +1,10 @@
+import { ASSETS_TYPES } from "@/constants";
 import { FormikProps } from "formik";
 import Image from 'next/image'
 import React, { ChangeEvent } from 'react'
 import InputField from './InputField'
+import SelectBox from "./SelectBox";
+import SelectInputField from "./SelectInputField";
 import TextArea from "./TextArea";
 
 const inputFieldStylingProps = {
@@ -22,6 +25,7 @@ type Props = {
         price: string;
         value: string;
         note: string;
+        type: string
     }>;
   }
 
@@ -87,6 +91,25 @@ const AssetInfo = ({ formik }: Props) => {
                 {formik.touched.value && formik.errors.value ? (
                   <p className="flex px-[3px] text-[10px] text-center text-red-600 self-stretch">
                     {formik.errors.value}
+                  </p>
+                ) : null}
+            </div>
+
+            <div className="w-full h-[100px] flex flex-col justify-start items-center">
+                <SelectInputField
+                    value={formik.values.type}
+                    label="Asset type"
+                    name="type"
+                    required
+                    options={ASSETS_TYPES}
+                    selectClass="w-full"
+                    placeholder="Choose a type"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                />
+                {formik.touched.type && formik.errors.type ? (
+                  <p className="flex px-[3px] text-[10px] text-center text-red-600 self-stretch">
+                    {formik.errors.type}
                   </p>
                 ) : null}
             </div>
