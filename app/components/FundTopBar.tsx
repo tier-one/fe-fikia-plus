@@ -7,6 +7,7 @@ interface FundTopBarProps {
   openFormOnclick: () => void;
   exportOnclick: () => void;
   fundId?: string;
+  isButtonVisible?: boolean;
 }
 
 const inputFieldStylingProps = {
@@ -27,6 +28,7 @@ const FundTopBar = ({
   openFormOnclick,
   exportOnclick,
   fundId,
+  isButtonVisible,
 }: FundTopBarProps) => {
   return (
     <div className="flex justify-end w-3/4 " >
@@ -47,14 +49,14 @@ const FundTopBar = ({
         />
       </div>
 
-      {/* <Link href={`/dashboard/assets/create-asset?id=${fundId}`}>
+      {isButtonVisible && (
         <Button
           value={newTransactionName}
           styling="bg-[#002674] text-white py-3 px-4 mt-1 ml-4 rounded-lg"
-          // onClick={openFormOnclick}
+          onClick={openFormOnclick}
           isDisabled={false}
         />
-      </Link> */}
+      )}
       <Button
         value="export"
         icon="/export.svg"

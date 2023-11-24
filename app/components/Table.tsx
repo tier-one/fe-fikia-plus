@@ -215,7 +215,7 @@ const Table = ({
           </tbody>
         </table>
           {!isLoading && currentData?.length === 0 && (
-              <div className="w-full h-[100px] flex justify-center items-center">No funds data</div>
+              <div className="w-full h-[100px] flex justify-center items-center">No datas</div>
           )}
           {isLoading && (
               <div className='flex w-full h-[100px] justify-center items-center gap-5 loading-container'>
