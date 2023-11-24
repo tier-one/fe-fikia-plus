@@ -1,124 +1,197 @@
-import {useState} from 'react'
+'use client';
+
+import {useEffect, useState} from 'react'
 import Modal from "@/app/components/Modal";
 import Button from "./Button";
-import SelectBox from "@/app/components/SelectBox";
-import InputField from "@/app/components/InputField";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-
-const inputFieldStylingProps = {
-    container: {
-      className: "flex flex-col space",
-    },
-    inputlabel: {
-      className: "text-base text-gray-600 font-light",
-    },
-    input: {
-      className:
-        "py-3 px-5 rounded-lg mt-2 border border-gray-300 placeholder:text-gray-600",
-    },
-  };
+import { formikTransactionInfoValidationSchema, formikTransactionSetUpValidationSchema } from './FormikValidationSchema';
+import TransactionsInfo from './TransactionsInfo';
+import TransactionSetUp from './TransactionSetUp';
+import createTransactions from '@/lib/actions/create-transactions/createTransactions';
+import { useSession } from 'next-auth/react';
+import { useParams, useSearchParams } from 'next/navigation';
+import fetchClients from '@/lib/actions/get-all-clients/fetchAllClients';
+import fetchTransactions from '@/lib/actions/get-transactions/fetchTransactions';
+import fetchTransactionById from '@/lib/actions/get_transactionById/fetchTransactionById';
+import updateTransactions from '@/lib/actions/update-transaction/updateTransaction';
 
 interface NewTransactionModalProps {
     isModalOpen: boolean;
     closeModal: () => void;
+    getTransactions?: any;
+    updateTransaction?: any
 }
-const transactionTypes:string[]=[
-    'contribution',
-    'saving',
-    'investment'
-]
-const clients:string[]=[
-    'Eric Niyonkuru',
-    'Ntare Jim',
-    'Manzi Olivier'
-]
-const NewTransactionModal = ({isModalOpen,closeModal}:NewTransactionModalProps) => {
-const [transactionType,setTransactionType]=useState('')
-const [client,setClient]=useState('')
-const [amount,setAmount]=useState('')
 
-const formik = useFormik({
-  initialValues: {
-    number: "",
-  },
+const NewTransactionModal = ({isModalOpen, closeModal, getTransactions, updateTransaction}: NewTransactionModalProps) => {
+  const {data: session} = useSession();
+  const [activeStep, setActiveStep] = useState(1);
+  const [transactionValues, setTransactionValues] = useState({});
+  const [clients, setClients] = useState([]);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [transactionIdToUpdate, setTransactionIdToUpdate] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
+  const searchParams = useSearchParams();
 
-  validationSchema: Yup.object({
-    number: Yup.string()
-      .required("number is required"),
-  }),
+  const token = session?.user?.token;
+  const fundId = useParams().id;
 
-  onSubmit: async (values) => {
-    console.log(values);
-  },
-});
+  const transactionId = searchParams?.get('id');
 
+  const getClients = async () => {
+    if (token) {
+      const res = await fetchClients(token);
+      setClients(res);
+    }
+  }
 
-const handleTransactionType = (type: string) => {
-    setTransactionType(type);
-  };
-  const handleClient = (name: string) => {
-    setClient(name);
-  };
-  const handleAmount = (amount: string) => {
-    setAmount(amount);
-  };
+  const CLIENTS = clients?.map((client: {firstName: string, lastName: string}) => {
+    return { "value": `${client.firstName} ${client.lastName}` };
+  });
+
+  useEffect(() => {
+    getClients();
+  }, [token])
+
+  let transactionDatas = {};
+
+  const transactionInfoFormik = useFormik({
+    initialValues: {
+      transactionType: "",
+      tradeDate: "",
+      broker: "",
+      typeOfInstrument: ""
+    },
+
+    validationSchema: formikTransactionInfoValidationSchema,
+
+    onSubmit: async (values) => {
+      setTransactionValues(values)
+      handleContinue();
+    },
+  });
+
+  const transactionSetUpFormik = useFormik({
+    initialValues: {
+      instrument: "",
+      numberOfShares: "",
+      price: "",
+      commission: "",
+      status: ""
+    },
+
+    validationSchema: formikTransactionSetUpValidationSchema,
+
+    onSubmit: async (values) => {
+      setIsLoading(true);
+
+      transactionDatas = {
+        ...transactionValues,
+        ...values
+      }
+
+      if (!isUpdate) {
+        const results = await createTransactions(transactionDatas, token, fundId);
+        setActiveStep(1);
+        setIsUpdate(false)
+      }
+
+      if (isUpdate) {
+          setActiveStep(1);
+          setIsUpdate(false)
+          const res = await updateTransactions(transactionDatas, token, transactionIdToUpdate)
+      }
+
+      handleResetFormik();
+
+      getTransactions();
+
+      closeModal();
+
+      setIsLoading(false);
+    },
+  });
+
+  useEffect(() => {
+    if (updateTransaction) {
+      transactionInfoFormik.setValues({
+        ...transactionInfoFormik.values,
+        transactionType: updateTransaction?.transactionType,
+        tradeDate: updateTransaction?.tradeDate,
+        broker: updateTransaction?.broker,
+        typeOfInstrument: updateTransaction?.typeOfInstrument
+      });
+      setIsUpdate(true);
+      setTransactionIdToUpdate(updateTransaction.id)
+    }
+  }, [updateTransaction]);
+
+  useEffect(() => {
+    if (updateTransaction) {
+      transactionSetUpFormik.setValues({
+        ...transactionSetUpFormik.values,
+        instrument: updateTransaction?.instrument,
+        numberOfShares: updateTransaction?.numberOfShares,
+        price: updateTransaction?.price,
+        commission: updateTransaction?.commission,
+        status: updateTransaction?.status
+      });
+    }
+  }, [updateTransaction]);
+
+  const handleResetFormik = () => {
+    transactionInfoFormik.resetForm();
+    transactionSetUpFormik.resetForm();
+  }
+
+  const handleContinue = () => {
+    setActiveStep(2);
+  }
+
+  const handleCloseModal = () => {
+    closeModal();
+    handleResetFormik();
+    setActiveStep(1)
+    setIsUpdate(false)
+  }
+
   return (
-    <Modal isOpen={isModalOpen} onClose={closeModal}>
+    <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
     <div className="bg-white rounded-lg  h-1/1 px-10 py-3">
       <p className="text-3xl pb-2 text-[#475569] border-b border-[#FOF4F8]">
-      New transaction 
+        New transaction 
       </p>
 
-      <div className="py-3 w-full">
-            <SelectBox
-              value={transactionType}
-              required={false}
-              values={transactionTypes}
-              className="text-xs"
-              label="Transaction type"
-              onChange={handleTransactionType}
-              {...inputFieldStylingProps}
-            />
-          </div>
-          <div className="py-3 w-full">
-            <SelectBox
-              value={client}
-              required={false}
-              values={clients}
-              className="text-xs"
-              label="Select client"
-              onChange={ handleClient}
-              {...inputFieldStylingProps}
-            />
-          </div>
-          <div className="py-3 w-full">
-          <InputField
-            value={formik.values.number}
-            placeholder="5000"
-            required={false}
-            type="number"
-            name="number"
-            className="text-xs"
-            label="Amount"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            {...inputFieldStylingProps}
-          />
-        </div>
+     {activeStep === 1 && (
+          <TransactionsInfo formik={transactionInfoFormik} CLIENTS={CLIENTS} />
+      )}
+      
+      {activeStep === 2 && (
+          <TransactionSetUp formik={transactionSetUpFormik} />
+      )}
+
       <div className="flex justify-end">
-        
         <Button
           value="Cancel"
           styling="bg-[#F0F4F8]  text-[#002674] py-2 px-4 mt-2 ml-4 rounded-lg"
-          onClick={() => {}}
+          onClick={() => {
+            closeModal()
+            setActiveStep(1)
+            transactionInfoFormik.resetForm()
+            transactionSetUpFormik.resetForm()
+            setIsUpdate(false)
+          }}
           isDisabled={false}
         />
-         <Button
-          value="Add transaction"
+        <Button
+          value={activeStep === 1 ? "Continue" : activeStep !== 1 && !isUpdate ? "Add transaction" : "Update transaction"}
           styling="bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg"
-          onClick={() => {}}
+          onClick={() => {
+            activeStep === 1 ? 
+            transactionInfoFormik.handleSubmit() :
+            transactionSetUpFormik.handleSubmit()
+          }}
           isDisabled={false}
+          isLoading={isLoading}
         />
       </div>
     </div>

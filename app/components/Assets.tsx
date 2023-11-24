@@ -164,6 +164,7 @@ const Assets = () => {
           openFormOnclick={openNewAssetModal}
           exportOnclick={() => {}}
           fundId={fundId}
+          isButtonVisible={false}
         />
       </div>
       <div className="flex flex-grow max-h-[48vh]">
