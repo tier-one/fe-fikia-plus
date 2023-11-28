@@ -57,8 +57,9 @@ const NewTransactionModal = ({isModalOpen, closeModal, getTransactions, updateTr
   const transactionInfoFormik = useFormik({
     initialValues: {
       transactionType: "",
-      investorFullNames: "",
-      amount: "",
+      tradeDate: "",
+      broker: "",
+      typeOfInstrument: ""
     },
 
     validationSchema: formikTransactionInfoValidationSchema,
@@ -71,9 +72,11 @@ const NewTransactionModal = ({isModalOpen, closeModal, getTransactions, updateTr
 
   const transactionSetUpFormik = useFormik({
     initialValues: {
+      instrument: "",
+      numberOfShares: "",
       price: "",
-      status: "",
-      note: "",
+      commission: "",
+      status: ""
     },
 
     validationSchema: formikTransactionSetUpValidationSchema,
@@ -113,8 +116,9 @@ const NewTransactionModal = ({isModalOpen, closeModal, getTransactions, updateTr
       transactionInfoFormik.setValues({
         ...transactionInfoFormik.values,
         transactionType: updateTransaction?.transactionType,
-        investorFullNames: updateTransaction?.investorFullNames,
-        amount: updateTransaction?.amount
+        tradeDate: updateTransaction?.tradeDate,
+        broker: updateTransaction?.broker,
+        typeOfInstrument: updateTransaction?.typeOfInstrument
       });
       setIsUpdate(true);
       setTransactionIdToUpdate(updateTransaction.id)
@@ -125,9 +129,11 @@ const NewTransactionModal = ({isModalOpen, closeModal, getTransactions, updateTr
     if (updateTransaction) {
       transactionSetUpFormik.setValues({
         ...transactionSetUpFormik.values,
+        instrument: updateTransaction?.instrument,
+        numberOfShares: updateTransaction?.numberOfShares,
         price: updateTransaction?.price,
-        status: updateTransaction?.status,
-        note: updateTransaction?.note
+        commission: updateTransaction?.commission,
+        status: updateTransaction?.status
       });
     }
   }, [updateTransaction]);
@@ -152,7 +158,7 @@ const NewTransactionModal = ({isModalOpen, closeModal, getTransactions, updateTr
     <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
     <div className="bg-white rounded-lg  h-1/1 px-10 py-3">
       <p className="text-3xl pb-2 text-[#475569] border-b border-[#FOF4F8]">
-      New transaction 
+        New transaction 
       </p>
 
      {activeStep === 1 && (
