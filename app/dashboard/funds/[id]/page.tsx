@@ -38,40 +38,17 @@ const inputFieldStylingProps = {
   },
 };
 const headers = [
-  "Client name",
-  "Transaction type",
-  // "Debit(RWF)",
-  "Credit",
-  "Number of units",
+  "Trade date",
+  "Type of transaction",
+  "Instrument",
+  "Number of shares",
+  "Price",
   "status",
-  // "Net asset value",
-  "Date",
+  "Net cost/proceeds",
+  "total costs",
   "Actions"
 ];
 
-
-const data = [
-  {
-    "Client name": "Marvin McKinney",
-    "transaction type": "Redemption",
-    "Debit(RWF)": "-",
-    Credit: 50000,
-    "Number of units": 50000,
-
-    "Net asset value": 50000,
-    Date: "12 May,2023",
-  },
-
-  {
-    Client: "Jenny Wilson",
-    "transaction type": "Contribution",
-    "Debit(RWF)": 100000,
-    Credit: 40000,
-    "Number of units": 50300,
-    "Net asset value": 50300,
-    Date: "12 May,2023",
-  },
-];
 export default function Dashboard() {
   const searchParams = useSearchParams();
   const fundId = useParams().id;
@@ -186,12 +163,14 @@ export default function Dashboard() {
 
   const transactionsDatas = allTransactions?.map((transaction: any, index: any) => (
     {
-      "Client name": transaction?.investorFullNames,
-      "Transaction type": transaction?.transactionType,
-      "Credit": transaction?.price,
-      "Number of units": transaction?.amount,
+      "Trade date": transaction?.tradeDate,
+      "Type of transaction": transaction?.transactionType,
+      "Instrument": transaction?.instrument,
+      "Number of shares": transaction?.numberOfShares,
+      "Price": transaction?.price,
       "status": transaction?.status,
-      "Date": transaction?.createdAt.split('T')[0],
+      "Net cost/proceeds": transaction?.price * transaction?.numberOfShares,
+      "total costs": (transaction?.price * transaction?.numberOfShares) - transaction?.commission,
       "Action": (
         <div 
           className="flex gap-[10px]"
@@ -349,7 +328,7 @@ export default function Dashboard() {
                 buttonText="Create fund"
                 buttonStyling="bg-[#002674] text-white  rounded-lg"
                 buttonOnClick={() => {}}
-                marketCapIndex={2}
+                marketCapIndex={4}
                 // changeIndex={3}
                 itemsPerPage={7}
                 idIndex={0}

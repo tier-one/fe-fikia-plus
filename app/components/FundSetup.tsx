@@ -91,12 +91,12 @@ const FundSetup = ({ formik2 }: Props) => {
                     </div>
                 </div>
 
-                <NewButton 
+                {/* <NewButton 
                     title='Add New' 
                     onClick={formik2.handleSubmit}
                     buttonStyles='flex py-[12px] px-[16px] justify-center items-center gap-[8px] mt-2 rounded-[8px] border border-[#E5E9F0] bg-[#FFF]' 
                     textStyle='text-[#031F57] text-[14px] font-[500] leading-[16px] capitalize'
-                />
+                /> */}
             </div>
 
             <div className='h-[1px] w-full self-stretch bg-[#E5E9F0]'></div>
@@ -154,12 +154,12 @@ const FundSetup = ({ formik2 }: Props) => {
                     </div>
                 </div>
 
-                <NewButton 
+                {/* <NewButton 
                     title='Add New' 
                     onClick={formik2.handleSubmit}
                     buttonStyles='flex py-[12px] px-[16px] justify-center items-center gap-[8px] mt-2 rounded-[8px] border border-[#E5E9F0] bg-[#FFF]' 
                     textStyle='text-[#031F57] text-[14px] font-[500] leading-[16px] capitalize'
-                />
+                /> */}
             </div>
 
             <div className='h-[1px] w-full self-stretch bg-[#E5E9F0]'></div>
@@ -273,12 +273,12 @@ const FundSetup = ({ formik2 }: Props) => {
                     </div>
                 </div>
 
-                <NewButton 
+                {/* <NewButton 
                     title='Add New' 
                     onClick={formik2.handleSubmit}
                     buttonStyles='flex py-[12px] px-[16px] justify-center items-center gap-[8px] mt-2 rounded-[8px] border border-[#E5E9F0] bg-[#FFF]' 
                     textStyle='text-[#031F57] text-[14px] font-[500] leading-[16px] capitalize'
-                />
+                /> */}
             </div>
         </div>
     </div>

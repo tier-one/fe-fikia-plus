@@ -134,18 +134,24 @@ export const formikAssetInfoValidationSchema = Yup.object({
 export const formikTransactionInfoValidationSchema = Yup.object({
     transactionType: Yup.string()
         .required("Transaction type is required"),
-    investorFullNames: Yup.string()
-        .required("Client name is required"),
-    amount: Yup.string()
-        .required("Amount is required")
+    tradeDate: Yup.string()
+        .required("Trade date is required"),
+    broker: Yup.string()
+        .required("Broker is required"),
+    typeOfInstrument: Yup.string()
+        .required("Type of instrument is required")
 })
 
 export const formikTransactionSetUpValidationSchema = Yup.object({
+    instrument: Yup.string()
+        .required("Instrument is required"),
+    numberOfShares: Yup.string()
+        .required("Number of shares is required"),
     price: Yup.string()
         .required("Price is required"),
+    commission: Yup.string()
+        .required("Commission is required"),
     status: Yup.string()
-        .required("Status is required"),
-    note: Yup.string()
-        .required("Note is required")
+        .required("Status is required")
 })
 
