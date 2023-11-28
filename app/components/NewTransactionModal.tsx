@@ -14,6 +14,7 @@ import fetchClients from '@/lib/actions/get-all-clients/fetchAllClients';
 import fetchTransactions from '@/lib/actions/get-transactions/fetchTransactions';
 import fetchTransactionById from '@/lib/actions/get_transactionById/fetchTransactionById';
 import updateTransactions from '@/lib/actions/update-transaction/updateTransaction';
+import fetchAssets from '@/lib/actions/get-all-assets/fetchAssets';
 
 interface NewTransactionModalProps {
     isModalOpen: boolean;
@@ -30,6 +31,7 @@ const NewTransactionModal = ({isModalOpen, closeModal, getTransactions, updateTr
   const [isUpdate, setIsUpdate] = useState(false);
   const [transactionIdToUpdate, setTransactionIdToUpdate] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
+  const [assets, setAssets] = useState<any>([]);
   const searchParams = useSearchParams();
 
   const token = session?.user?.token;
@@ -52,13 +54,30 @@ const NewTransactionModal = ({isModalOpen, closeModal, getTransactions, updateTr
     getClients();
   }, [token])
 
+  useEffect(() => {
+    fetchAllAssets();
+  }, [token])
+  
+  const fetchAllAssets = async () => {
+    if (token) {
+      const response = await fetchAssets(token);
+    
+      setAssets(response)
+    }
+  }
+
+  const ASSETS = assets?.map((asset: {name: string}) => {
+    return { "value": `${asset?.name}`}
+  })
+
   let transactionDatas = {};
 
   const transactionInfoFormik = useFormik({
     initialValues: {
       transactionType: "",
-      investorFullNames: "",
-      amount: "",
+      tradeDate: "",
+      broker: "",
+      typeOfInstrument: ""
     },
 
     validationSchema: formikTransactionInfoValidationSchema,
@@ -71,9 +90,11 @@ const NewTransactionModal = ({isModalOpen, closeModal, getTransactions, updateTr
 
   const transactionSetUpFormik = useFormik({
     initialValues: {
+      instrument: "",
+      numberOfShares: "",
       price: "",
-      status: "",
-      note: "",
+      commission: "",
+      status: ""
     },
 
     validationSchema: formikTransactionSetUpValidationSchema,
@@ -113,8 +134,9 @@ const NewTransactionModal = ({isModalOpen, closeModal, getTransactions, updateTr
       transactionInfoFormik.setValues({
         ...transactionInfoFormik.values,
         transactionType: updateTransaction?.transactionType,
-        investorFullNames: updateTransaction?.investorFullNames,
-        amount: updateTransaction?.amount
+        tradeDate: updateTransaction?.tradeDate,
+        broker: updateTransaction?.broker,
+        typeOfInstrument: updateTransaction?.typeOfInstrument
       });
       setIsUpdate(true);
       setTransactionIdToUpdate(updateTransaction.id)
@@ -125,9 +147,11 @@ const NewTransactionModal = ({isModalOpen, closeModal, getTransactions, updateTr
     if (updateTransaction) {
       transactionSetUpFormik.setValues({
         ...transactionSetUpFormik.values,
+        instrument: updateTransaction?.instrument,
+        numberOfShares: updateTransaction?.numberOfShares,
         price: updateTransaction?.price,
-        status: updateTransaction?.status,
-        note: updateTransaction?.note
+        commission: updateTransaction?.commission,
+        status: updateTransaction?.status
       });
     }
   }, [updateTransaction]);
@@ -152,7 +176,7 @@ const NewTransactionModal = ({isModalOpen, closeModal, getTransactions, updateTr
     <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
     <div className="bg-white rounded-lg  h-1/1 px-10 py-3">
       <p className="text-3xl pb-2 text-[#475569] border-b border-[#FOF4F8]">
-      New transaction 
+        New transaction 
       </p>
 
      {activeStep === 1 && (
@@ -160,7 +184,7 @@ const NewTransactionModal = ({isModalOpen, closeModal, getTransactions, updateTr
       )}
       
       {activeStep === 2 && (
-          <TransactionSetUp formik={transactionSetUpFormik} />
+          <TransactionSetUp formik={transactionSetUpFormik} ASSETS={ASSETS} />
       )}
 
       <div className="flex justify-end">
