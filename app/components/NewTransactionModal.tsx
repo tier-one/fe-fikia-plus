@@ -14,6 +14,7 @@ import fetchClients from '@/lib/actions/get-all-clients/fetchAllClients';
 import fetchTransactions from '@/lib/actions/get-transactions/fetchTransactions';
 import fetchTransactionById from '@/lib/actions/get_transactionById/fetchTransactionById';
 import updateTransactions from '@/lib/actions/update-transaction/updateTransaction';
+import fetchAssets from '@/lib/actions/get-all-assets/fetchAssets';
 
 interface NewTransactionModalProps {
     isModalOpen: boolean;
@@ -30,6 +31,7 @@ const NewTransactionModal = ({isModalOpen, closeModal, getTransactions, updateTr
   const [isUpdate, setIsUpdate] = useState(false);
   const [transactionIdToUpdate, setTransactionIdToUpdate] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
+  const [assets, setAssets] = useState<any>([]);
   const searchParams = useSearchParams();
 
   const token = session?.user?.token;
@@ -51,6 +53,22 @@ const NewTransactionModal = ({isModalOpen, closeModal, getTransactions, updateTr
   useEffect(() => {
     getClients();
   }, [token])
+
+  useEffect(() => {
+    fetchAllAssets();
+  }, [token])
+  
+  const fetchAllAssets = async () => {
+    if (token) {
+      const response = await fetchAssets(token);
+    
+      setAssets(response)
+    }
+  }
+
+  const ASSETS = assets?.map((asset: {name: string}) => {
+    return { "value": `${asset?.name}`}
+  })
 
   let transactionDatas = {};
 
@@ -166,7 +184,7 @@ const NewTransactionModal = ({isModalOpen, closeModal, getTransactions, updateTr
       )}
       
       {activeStep === 2 && (
-          <TransactionSetUp formik={transactionSetUpFormik} />
+          <TransactionSetUp formik={transactionSetUpFormik} ASSETS={ASSETS} />
       )}
 
       <div className="flex justify-end">
