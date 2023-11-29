@@ -26,23 +26,23 @@ type Props = {
         commission: string;
         status: string;
     }>;
+    ASSETS: any
 }
 
-const TransactionSetUp = ({ formik}: Props) => {
+const TransactionSetUp = ({ formik, ASSETS }: Props) => {
   return (
     <div>
       <div className="py-3 w-full">
-        <InputField
-          value={formik.values.instrument}
-          placeholder="Enter instrument"
-          required={true}
-          type="text"
-          name="instrument"
-          className="text-xs"
-          label="Instrument"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          {...inputFieldStylingProps}
+        <SelectInputField
+            value={formik.values.instrument}
+            label="Instrument"
+            name="instrument"
+            required={true}
+            options={ASSETS}
+            selectClass="w-full"
+            placeholder="Choose an instrument"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
         />
         {formik.touched.instrument && formik.errors.instrument ? (
           <p className="flex px-[3px] text-[10px] text-center text-red-600 self-stretch">
