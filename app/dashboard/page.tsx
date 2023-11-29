@@ -19,6 +19,8 @@ import { useRouter } from "next/navigation";
 import deleteFund from "@/lib/actions/delete_fund/deleteFund";
 import Link from "next/link";
 import { TiEyeOutline } from "react-icons/ti";
+import fetchSubs from "@/lib/actions/get-subscriptions/fetchSubs";
+import fetchTransactions from "@/lib/actions/get-transactions/fetchTransactions";
 
 const inputFieldStylingProps = {
   container: {
@@ -44,10 +46,12 @@ export default function Dashboard() {
   const [isDeleteModelOpen, setIsDeleteModelOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [fundId, setFundId] = useState<string>();
+  const [subs, setSubs] = useState<any>([]);
+  const [allTransactions, setAllTransactions] = useState<any>([]);
 
   const router = useRouter()
 
-  const headers = ["No", "Fund name", "Unit Price", "Fund type", "Fund symbol", "Actions"];
+  const headers = ["No", "Fund name", "Unit Price", "NAV", "Fund type", "Fund symbol", "Actions"];
 
   const formik = useFormik({
     initialValues: {
@@ -89,6 +93,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchAllFunds();
+    fetchAllSubs();
+    getTransactions();
   }, [token])
 
   const fetchAllFunds = async () => {
@@ -97,6 +103,30 @@ export default function Dashboard() {
       const response = await fetchFunds(token);
     
       setFunds(response.fund)
+
+      setIsLoading(false);
+    }
+  }
+
+  const getTransactions = async () => {
+    if (token) {
+      setIsLoading(true);
+
+      const res = await fetchTransactions(token);
+      setAllTransactions(res);
+
+      setIsLoading(false);
+    }
+  }
+
+  const fetchAllSubs = async () => {
+    if (token) {
+      setIsLoading(true);
+
+      const response = await fetchSubs(token);
+      console.log(response)
+    
+      setSubs(response);
 
       setIsLoading(false);
     }
@@ -128,6 +158,7 @@ export default function Dashboard() {
       "No": index,
       "Fund name": fund?.fund?.FundName,
       "Unit Price": fund?.balance?.fundBalance,
+      "NAV": `$${0}`,
       "Fund type": fund?.fund?.FundType,
       "Fund symbol": fund?.fund?.FundSymbol,
       "Action": (
@@ -185,7 +216,7 @@ export default function Dashboard() {
             icon="/client.svg"
             change={3.3}
             changeIcon="/increase.svg"
-            amount={1500}
+            amount={subs?.length}
             period="last week"
             styles="lg:mr-3 mb-3"
           />
@@ -199,7 +230,7 @@ export default function Dashboard() {
             period="last week"
             styles="lg:mr-3 mb-3"
           />
-          <Card
+          {/* <Card
             title="Total market Cap"
             imageAlt="Total market Cap"
             icon="/market-cap.svg"
@@ -208,14 +239,14 @@ export default function Dashboard() {
             amount={1500}
             period="last week"
             styles="lg:mr-3 mb-3"
-          />
+          /> */}
           <Card
             title="Total transactions"
             imageAlt="Total transactions"
             icon="/total-transactions.svg"
             change={3.3}
             changeIcon="/increase.svg"
-            amount={1500}
+            amount={allTransactions?.length}
             period="last week"
             styles="mb-3"
           />
