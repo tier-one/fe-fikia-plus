@@ -76,6 +76,15 @@ const Table = ({
   const closeRejectModal = () => {
     setIsRejectOpen(false);
   };
+
+  const handleApproveSub = () => {
+    console.log('APPROVING')
+  }
+
+  const handleRejectSub = () => {
+    console.log('REJECTING')
+  }
+
   return (
     <div className="mt-10 rounded-[24px] bg-white p-10 mb-4 flex-grow">
       <div className="flex justify-between">
@@ -163,7 +172,7 @@ const Table = ({
                       </button>
                     ) : (
                       <>
-                        <p
+                        <div
                           className={`${
                             changeIndex === cellIndex && cell > 0
                               ? "text-[#22C45E]"
@@ -182,7 +191,7 @@ const Table = ({
                             : marketCapIndex === cellIndex
                             ? `$${cell.toLocaleString()}`
                             : cell}
-                        </p>
+                        </div>
                       </>
                     )}
                   </td>
@@ -245,13 +254,15 @@ const Table = ({
             <Button
               value="Approve"
               styling={buttonStyling}
-              onClick={() => {}}
+              onClick={() => {
+                handleApproveSub()
+              }}
               isDisabled={false}
             />
             <Button
               value="Cancel"
               styling="bg-[#F0F4F8]  text-[#002674] py-2 px-4 mt-2 ml-4 rounded-lg"
-              onClick={() => {}}
+              onClick={() => closeApproveModal()}
               isDisabled={false}
             />
           </div>
@@ -267,11 +278,17 @@ const Table = ({
             be undone.{" "}
           </p>
           <div className="flex justify-end mt-4">
-            <Button value="Reject" styling={buttonStyling} onClick={() => {}} isDisabled={false} />
+            <Button 
+              value="Reject"
+              styling={buttonStyling}
+              onClick={() => {
+                handleRejectSub()
+              }}
+              isDisabled={false} />
             <Button
               value="Cancel"
               styling="bg-[#F0F4F8]  text-[#002674] py-2 px-4 mt-2 ml-4 rounded-lg"
-              onClick={() => {}}
+              onClick={() => closeRejectModal()}
               isDisabled={false}
             />
           </div>
