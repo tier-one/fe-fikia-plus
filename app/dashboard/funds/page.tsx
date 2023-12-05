@@ -39,7 +39,7 @@ export default function Funds() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [fundId, setFundId] = useState<string>();
 
-  const headers = ["No", "Fund name", "Unit Price", "Fund type", "Fund symbol", "Actions"];
+  const headers = ["No", "Fund name", "Unit Price", "NAV", "Fund type", "Fund symbol", "Actions"];
 
   const token = session?.user?.token;
 
@@ -88,6 +88,7 @@ export default function Funds() {
       "No": index,
       "Fund name": fund?.fund?.FundName,
       "Unit Price": fund?.balance?.fundBalance,
+      "NAV": `$${0}`,
       "Fund type": fund?.fund?.FundType,
       "Fund symbol": fund?.fund?.FundSymbol,
       "Action": (
