@@ -21,9 +21,7 @@ const fetchSubs = async (token: string | undefined) => {
     } catch (error) {
         const customError = error as CustomError;
         
-        return {
-            fund: []
-        };
+        return [];
     }
 }
 
