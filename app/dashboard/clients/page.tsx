@@ -83,8 +83,6 @@ export default function Clients() {
   const handleApproveSub = async () => {
     setIsApproving(true)
 
-    console.log(subscriptionId)
-
     await approveSubs(token, subscriptionId)
 
     setIsApproving(false)
@@ -96,8 +94,6 @@ export default function Clients() {
 
   const handleRejectSub = async () => {
     setIsRejecting(true)
-
-    console.log(subscriptionId)
 
     await rejectSubs(token, subscriptionId)
 
@@ -130,24 +126,25 @@ export default function Clients() {
       // "status": `${sub?.status}`,
       "Actions": (
         <div className="py-4 px-4 border-b border-gray-200 text-left text-[#475569] flex justify-between">
-          <div className="">
-            {sub?.status !== "approved" && (<Button
-              value="Approve"
-              styling="bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg"
-              onClick={() => {
-                openApproveModal(sub?.id)
-              }}
-              isDisabled={false}
-            />)}
-            {sub?.status !== "rejected" && (<Button
-              value="Reject"
-              styling="bg-white text-[#002674] py-2 px-4 mt-2 ml-4 rounded-lg border border-[#002674]"
-              onClick={() => {
-                openRejectModal(sub?.id)
-              }}
-              isDisabled={false}
-            />)}
-          </div>
+          {sub?.status !== "approved" ? 
+            (<div className="">
+              {sub?.status !== "approved" && (<Button
+                value="Approve"
+                styling="bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg"
+                onClick={() => {
+                  openApproveModal(sub?.id)
+                }}
+                isDisabled={false}
+              />)}
+              {sub?.status !== "rejected" && (<Button
+                value="Reject"
+                styling="bg-white text-[#002674] py-2 px-4 mt-2 ml-4 rounded-lg border border-[#002674]"
+                onClick={() => {
+                  openRejectModal(sub?.id)
+                }}
+                isDisabled={false}
+              />)}
+            </div>) : "___"}
         </div>
       )
     }
