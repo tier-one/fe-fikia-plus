@@ -48,10 +48,12 @@ export const createFund = async (form: any, managerId: string | undefined, token
             };
 
             const datas = {
-                AccoutDepositoryBankName: form.AccoutDepositoryBankName,
-                AccountDepositoryAccountNumber: form.AccountDepositoryAccountNumber,
-                CashAccountBankName: form.CashAccountBankName,
-                CashAccountNumber: form.CashAccountNumber,
+                // AccoutDepositoryBankName: form.AccoutDepositoryBankName,
+                // AccountDepositoryAccountNumber: form.AccountDepositoryAccountNumber,
+                // CashAccountBankName: form.CashAccountBankName,
+                // CashAccountNumber: form.CashAccountNumber,
+                DepositoryAccounts: form.depositoryAccounts,
+                CashAccounts: form.cashAccounts,
                 CustodianBankName: form.CustodianBankName,
                 CustodianParcentage: Number(form.CustodianParcentage),
                 TrustBankName: form.TrustBankName,

@@ -111,10 +111,10 @@ const CreateFund = () => {
     if (updateFunds) {
       formik2.setValues({
         ...formik2.values,
-        AccoutDepositoryBankName: updateFunds.AccoutDepositoryBankName,
-        AccountDepositoryAccountNumber: updateFunds.AccountDepositoryAccountNumber,
-        CashAccountBankName: updateFunds.CashAccountBankName,
-        CashAccountNumber: updateFunds.CashAccountNumber,
+        // AccoutDepositoryBankName: updateFunds.AccoutDepositoryBankName,
+        // AccountDepositoryAccountNumber: updateFunds.AccountDepositoryAccountNumber,
+        // CashAccountBankName: updateFunds.CashAccountBankName,
+        // CashAccountNumber: updateFunds.CashAccountNumber,
         CustodianBankName: updateFunds.CustodianBankName,
         CustodianParcentage: updateFunds.CustodianParcentage,
         TrustBankName: updateFunds.TrustBankName,
@@ -126,11 +126,21 @@ const CreateFund = () => {
 
   const formik2 = useFormik({
     initialValues: {
-        AccoutDepositoryBankName: "",
-        AccountDepositoryAccountNumber: "",
+        depositoryAccounts: [
+          {
+            AccoutDepositoryBankName: "",
+            AccountDepositoryAccountNumber: "",
+            DespositoryAccountCurrency: "",
+          }
+        ],
 
-        CashAccountBankName: "",
-        CashAccountNumber: "",
+        cashAccounts: [
+          {
+            CashAccountBankName: "",
+            CashAccountNumber: "",
+            CashAccountCurrency: "",
+          }
+        ],
 
         CustodianBankName: "",
         CustodianParcentage: "",
@@ -148,7 +158,7 @@ const CreateFund = () => {
         ...infoValues,
         ...values
       }
-
+      
       if (!isUpdate) {
         const results = await createFund(fundValues, managerId, token);
       }
@@ -160,14 +170,14 @@ const CreateFund = () => {
 
       setIsLoading(false);
       
-      values.AccoutDepositoryBankName=""
-      values.AccountDepositoryAccountNumber=""
-      values.CashAccountBankName=""
-      values.CashAccountNumber=""
-      values.CustodianBankName=""
-      values.CustodianParcentage=""
-      values.TrustBankName=""
-      values.TrustPercentage=""
+      // values.AccoutDepositoryBankName=""
+      // values.AccountDepositoryAccountNumber=""
+      // values.CashAccountBankName=""
+      // values.CashAccountNumber=""
+      // values.CustodianBankName=""
+      // values.CustodianParcentage=""
+      // values.TrustBankName=""
+      // values.TrustPercentage=""
       
     },
   });

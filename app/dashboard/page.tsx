@@ -157,8 +157,8 @@ export default function Dashboard() {
     {
       "No": index,
       "Fund name": fund?.fund?.FundName,
-      "Unit Price": fund?.balance?.fundBalance,
-      "NAV": `$${0}`,
+      "Unit Price": `${fund?.fund?.DepositoryAccounts[0]?.DespositoryAccountCurrency} ${fund?.balance?.fundBalance}`,
+      "NAV": `${fund?.fund?.DepositoryAccounts[0]?.DespositoryAccountCurrency} ${fund?.balance?.fundBalance}`,
       "Fund type": fund?.fund?.FundType,
       "Fund symbol": fund?.fund?.FundSymbol,
       "Action": (
@@ -261,7 +261,6 @@ export default function Dashboard() {
             buttonText="Create fund"
             buttonStyling="bg-[#002674] text-white py-2 px-4 mt-2 ml-4 rounded-lg"
             buttonOnClick={openModal}
-            marketCapIndex={2}
             changeIndex={3}
             itemsPerPage={7}
             displayButton={true}

@@ -7,7 +7,7 @@ import '../globals.css'
 // const jost = Jost({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Notification',
+  title: 'Create Fund',
   description: 'Make Investments Easy',
 }
 
