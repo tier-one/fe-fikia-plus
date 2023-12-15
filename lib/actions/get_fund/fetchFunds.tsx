@@ -15,7 +15,7 @@ const fetchFunds = async (token: string | undefined) => {
     };
 
     try {
-        const res = await API.get(`/api/v1/fund/get-all-fund`, { headers });
+        const res = await API.get(`/api/v1/fund/manager-funds`, { headers });
         
         
         return res.data;

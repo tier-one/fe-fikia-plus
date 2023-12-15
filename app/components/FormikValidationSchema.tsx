@@ -13,15 +13,27 @@ export const formikFundInfoValidationSchema = Yup.object({
 })
 
 export const formikFundSetUpValidationSchema = Yup.object({
-  AccoutDepositoryBankName: Yup.string()
-      .required("depositoryBankName is required"),
-  AccountDepositoryAccountNumber: Yup.string()
-      .required("depositoryAccountNo is required"),
+  depositoryAccounts: Yup.array().of(
+    Yup.object().shape({
+        AccoutDepositoryBankName: Yup.string()
+            .required("Depository bank name is required"),
+        AccountDepositoryAccountNumber: Yup.string()
+            .required("Depository account number is required"),
+        DespositoryAccountCurrency: Yup.string()
+            .required("currency is required"),
+    })
+  ),
 
-  CashAccountBankName:Yup.string()
-      .required("cashBankName is required"),
-  CashAccountNumber: Yup.string()
-      .required("cashAccountNo is required"),
+  cashAccounts: Yup.array().of(
+    Yup.object().shape({
+        CashAccountBankName:Yup.string()
+            .required("cashBankName is required"),
+        CashAccountNumber: Yup.string()
+            .required("cashAccountNo is required"),
+        CashAccountCurrency: Yup.string()
+            .required("currency is required"),
+    })
+  ),
 
   CustodianBankName: Yup.string()
       .required("custodianBankName is required"),

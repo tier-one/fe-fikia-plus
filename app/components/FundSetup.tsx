@@ -1,6 +1,6 @@
 import React from 'react'
 import InputField from './InputField'
-import { FormikProps, useFormik } from 'formik'
+import { FormikErrors, FormikProps, FormikTouched, FormikValues, useFormik } from 'formik'
 import * as Yup from "yup";
 import Button from './Button';
 import NewButton from './NewButton';
@@ -20,11 +20,17 @@ const inputFieldStylingProps = {
 
 type Props = {
     formik2: FormikProps<{
-        AccoutDepositoryBankName: string;
-        AccountDepositoryAccountNumber: string;
+        depositoryAccounts: {
+            AccoutDepositoryBankName: string;
+            AccountDepositoryAccountNumber: string;
+            DespositoryAccountCurrency: string,
+        }[];
 
-        CashAccountBankName: string;
-        CashAccountNumber: string;
+        cashAccounts: {
+            CashAccountBankName: string;
+            CashAccountNumber: string;
+            CashAccountCurrency: string,
+        }[];
 
         CustodianBankName: string;
         CustodianParcentage: string;
@@ -35,6 +41,47 @@ type Props = {
   }
 
 const FundSetup = ({ formik2 }: Props) => {
+
+  const addDepositoryAccount = () => {
+        const newAccount = {
+            AccoutDepositoryBankName: '',
+            AccountDepositoryAccountNumber: '',
+            DepostoryAccountCurrency: '',
+        };
+        const depositoryAccounts = [...formik2.values.depositoryAccounts, newAccount];
+        formik2.setFieldValue('depositoryAccounts', depositoryAccounts);
+  };
+
+  const addCashAccount = () => {
+    const newAccount = {
+        CashAccountBankName: '',
+        CashAccountNumber: '',
+        cashAccountCurrency: '',
+    };
+    const cashAccounts = [...formik2.values.cashAccounts, newAccount];
+    formik2.setFieldValue('cashAccounts', cashAccounts);
+  };
+
+  const getErrorMessage = (index: number, fieldName: 'AccoutDepositoryBankName' | 'AccountDepositoryAccountNumber' | 'DespositoryAccountCurrency') => {
+    const errorsArray = formik2.errors.depositoryAccounts as FormikErrors<{ AccoutDepositoryBankName: string; AccountDepositoryAccountNumber: string; DespositoryAccountCurrency: string; }>[];
+    const touchedArray = formik2.touched.depositoryAccounts as FormikTouched<{ AccoutDepositoryBankName: string; AccountDepositoryAccountNumber: string; DespositoryAccountCurrency: string; }>[];
+
+    const error = errorsArray && errorsArray[index] ? errorsArray[index][fieldName] : undefined;
+    const touched = touchedArray && touchedArray[index] ? touchedArray[index][fieldName] : undefined;
+
+    return touched && error ? error : null;
+  };
+
+  const getErrorMessage2 = (index: number, fieldName: 'CashAccountBankName' | 'CashAccountNumber' | 'CashAccountCurrency') => {
+    const errorsArray = formik2.errors.cashAccounts as FormikErrors<{ CashAccountBankName: string; CashAccountNumber: string; CashAccountCurrency: string; }>[];
+    const touchedArray = formik2.touched.cashAccounts as FormikTouched<{ CashAccountBankName: string; CashAccountNumber: string; CashAccountCurrency: string; }>[];
+
+    const error = errorsArray && errorsArray[index] ? errorsArray[index][fieldName] : undefined;
+    const touched = touchedArray && touchedArray[index] ? touchedArray[index][fieldName] : undefined;
+
+    return touched && error ? error : null;
+  };
+
   return (
     <div className='flex flex-col items-start gap-[24px] self-stretch'>
         <div className='flex flex-col items-start gap-[24px] self-stretch'>
@@ -49,54 +96,82 @@ const FundSetup = ({ formik2 }: Props) => {
                     </p>
                 </div>
 
-                <div className='flex items-start gap-[16px] self-stretch'>
-                    <div className="w-full h-[100px] flex flex-col justify-start items-center">
-                        <InputField
-                            value={formik2.values.AccoutDepositoryBankName}
-                            placeholder='E.g Equity Bank'
-                            required={false}
-                            type='text'
-                            name="AccoutDepositoryBankName"
-                            className='text-xs'
-                            label='Bank Name'
-                            onChange={formik2.handleChange}
-                            onBlur={formik2.handleBlur}
-                            {...inputFieldStylingProps}
-                        />
-                        {formik2.touched.AccoutDepositoryBankName && formik2.errors.AccoutDepositoryBankName ? (
-                            <p className="flex px-[3px] text-[10px] text-center text-red-600 self-stretch">
-                                {formik2.errors.AccoutDepositoryBankName}
-                            </p>
-                        ) : null}
-                    </div>
+                {formik2.values.depositoryAccounts.map((account, index) => 
+                    <div key={index} className='flex items-start gap-[16px] self-stretch'>
+                        <div className="w-full h-[100px] flex flex-col justify-start items-center">
+                            <InputField
+                                value={account.AccoutDepositoryBankName}
+                                placeholder='E.g Equity Bank'
+                                required={false}
+                                type='text'
+                                name={`depositoryAccounts[${index}].AccoutDepositoryBankName`}
+                                className='text-xs'
+                                label='Bank Name'
+                                onChange={formik2.handleChange}
+                                onBlur={formik2.handleBlur}
+                                {...inputFieldStylingProps}
+                            />
+                            {
+                                getErrorMessage(index, 'AccoutDepositoryBankName') && (
+                                    <p className="w-full text-[10px] text-red-600">
+                                    {getErrorMessage(index, 'AccoutDepositoryBankName')}
+                                    </p>
+                                )
+                            }
+                        </div>
 
-                    <div className="w-full h-[100px] flex flex-col justify-start items-center">
-                        <InputField
-                            value={formik2.values.AccountDepositoryAccountNumber}
-                            placeholder='E.g 0045-7750-1877-603'
-                            required={false}
-                            type='text'
-                            name="AccountDepositoryAccountNumber"
-                            className='text-xs'
-                            label='Account Number'
-                            onChange={formik2.handleChange}
-                            onBlur={formik2.handleBlur}
-                            {...inputFieldStylingProps}
-                        />
-                        {formik2.touched.AccountDepositoryAccountNumber && formik2.errors.AccountDepositoryAccountNumber ? (
-                            <p className="flex px-[3px] text-[10px] text-center text-red-600 self-stretch">
-                                {formik2.errors.AccountDepositoryAccountNumber}
-                            </p>
-                        ) : null}
-                    </div>
-                </div>
+                        <div className="w-full h-[100px] flex flex-col justify-start items-center">
+                            <InputField
+                                value={account.AccountDepositoryAccountNumber}
+                                placeholder='E.g 0045-7750-1877-603'
+                                required={false}
+                                type='text'
+                                name={`depositoryAccounts[${index}].AccountDepositoryAccountNumber`}
+                                className='text-xs'
+                                label='Account Number'
+                                onChange={formik2.handleChange}
+                                onBlur={formik2.handleBlur}
+                                {...inputFieldStylingProps}
+                            />
+                            {
+                                getErrorMessage(index, 'AccountDepositoryAccountNumber') && (
+                                    <p className="w-full text-[10px] text-red-600">
+                                    {getErrorMessage(index, 'AccountDepositoryAccountNumber')}
+                                    </p>
+                                )
+                            }
+                        </div>
 
-                {/* <NewButton 
+                        <div className="h-[100px] w-[100px] flex flex-col justify-start items-center">
+                            <InputField
+                                value={account.DespositoryAccountCurrency}
+                                placeholder='E.g USD'
+                                required={false}
+                                type='text'
+                                name={`depositoryAccounts[${index}].DespositoryAccountCurrency`}
+                                className='text-xs'
+                                label='Currency'
+                                onChange={formik2.handleChange}
+                                onBlur={formik2.handleBlur}
+                                {...inputFieldStylingProps}
+                            />
+                            {
+                                getErrorMessage(index, 'DespositoryAccountCurrency') && (
+                                    <p className="w-full text-[10px] text-red-600">
+                                        {getErrorMessage(index, 'DespositoryAccountCurrency')}
+                                    </p>
+                                )
+                            }
+                        </div>
+                    </div>
+                )}
+
+                <NewButton 
                     title='Add New' 
-                    onClick={formik2.handleSubmit}
+                    onClick={addDepositoryAccount}
                     buttonStyles='flex py-[12px] px-[16px] justify-center items-center gap-[8px] mt-2 rounded-[8px] border border-[#E5E9F0] bg-[#FFF]' 
                     textStyle='text-[#031F57] text-[14px] font-[500] leading-[16px] capitalize'
-                /> */}
+                />
             </div>
 
             <div className='h-[1px] w-full self-stretch bg-[#E5E9F0]'></div>
@@ -112,54 +187,82 @@ const FundSetup = ({ formik2 }: Props) => {
                     </p>
                 </div>
 
-                <div className='flex items-start gap-[16px] self-stretch'>
-                    <div className="w-full h-[100px] flex flex-col justify-start items-center">
-                        <InputField
-                            value={formik2.values.CashAccountBankName}
-                            placeholder='E.g Equity Bank'
-                            required={false}
-                            type='text'
-                            name="CashAccountBankName"
-                            className='text-xs'
-                            label='Bank Name'
-                            onChange={formik2.handleChange}
-                            onBlur={formik2.handleBlur}
-                            {...inputFieldStylingProps}
-                        />
-                        {formik2.touched.CashAccountBankName && formik2.errors.CashAccountBankName ? (
-                                <p className="flex px-[3px] text-[10px] text-center text-red-600 self-stretch">
-                                    {formik2.errors.CashAccountBankName}
-                                </p>
-                        ) : null}
-                    </div>
-                    
-                    <div className="w-full h-[100px] flex flex-col justify-start items-center">
-                        <InputField
-                            value={formik2.values.CashAccountNumber}
-                            placeholder='E.g 0045-7750-1877-603'
-                            required={false}
-                            type='text'
-                            name="CashAccountNumber"
-                            className='text-xs'
-                            label='Account Number'
-                            onChange={formik2.handleChange}
-                            onBlur={formik2.handleBlur}
-                            {...inputFieldStylingProps}
-                        />
-                        {formik2.touched.CashAccountNumber && formik2.errors.CashAccountNumber ? (
-                                <p className="flex px-[3px] text-[10px] text-center text-red-600 self-stretch">
-                                    {formik2.errors.CashAccountNumber}
-                                </p>
-                        ) : null}
-                    </div>
-                </div>
+                {formik2.values.cashAccounts.map((account, index) => 
+                    <div key={index} className='flex items-start gap-[16px] self-stretch'>
+                        <div className="w-full h-[100px] flex flex-col justify-start items-center">
+                            <InputField
+                                value={account.CashAccountBankName}
+                                placeholder='E.g Equity Bank'
+                                required={false}
+                                type='text'
+                                name={`cashAccounts[${index}].CashAccountBankName`}
+                                className='text-xs'
+                                label='Bank Name'
+                                onChange={formik2.handleChange}
+                                onBlur={formik2.handleBlur}
+                                {...inputFieldStylingProps}
+                            />
+                            {
+                                getErrorMessage2(index, 'CashAccountBankName') && (
+                                    <p className="w-full text-[10px] text-red-600">
+                                    {getErrorMessage2(index, 'CashAccountBankName')}
+                                    </p>
+                                )
+                            }
+                        </div>
+                        
+                        <div className="w-full h-[100px] flex flex-col justify-start items-center">
+                            <InputField
+                                value={account.CashAccountNumber}
+                                placeholder='E.g 0045-7750-1877-603'
+                                required={false}
+                                type='text'
+                                name={`cashAccounts[${index}].CashAccountNumber`}
+                                className='text-xs'
+                                label='Account Number'
+                                onChange={formik2.handleChange}
+                                onBlur={formik2.handleBlur}
+                                {...inputFieldStylingProps}
+                            />
+                            {
+                                getErrorMessage2(index, 'CashAccountNumber') && (
+                                    <p className="w-full text-[10px] text-red-600">
+                                    {getErrorMessage2(index, 'CashAccountNumber')}
+                                    </p>
+                                )
+                            }
+                        </div>
 
-                {/* <NewButton 
+                        <div className="h-[100px] w-[100px] flex flex-col justify-start items-center">
+                            <InputField
+                                value={account.CashAccountCurrency}
+                                placeholder='E.g USD'
+                                required={false}
+                                type='text'
+                                name={`cashAccounts[${index}].CashAccountCurrency`}
+                                className='text-xs'
+                                label='Currency'
+                                onChange={formik2.handleChange}
+                                onBlur={formik2.handleBlur}
+                                {...inputFieldStylingProps}
+                            />
+                            {
+                                getErrorMessage2(index, 'CashAccountCurrency') && (
+                                    <p className="w-full text-[10px] text-red-600">
+                                        {getErrorMessage2(index, 'CashAccountCurrency')}
+                                    </p>
+                                )
+                            }
+                        </div>
+                    </div>
+                )}
+
+                <NewButton 
                     title='Add New' 
-                    onClick={formik2.handleSubmit}
+                    onClick={addCashAccount}
                     buttonStyles='flex py-[12px] px-[16px] justify-center items-center gap-[8px] mt-2 rounded-[8px] border border-[#E5E9F0] bg-[#FFF]' 
                     textStyle='text-[#031F57] text-[14px] font-[500] leading-[16px] capitalize'
-                /> */}
+                />
             </div>
 
             <div className='h-[1px] w-full self-stretch bg-[#E5E9F0]'></div>
