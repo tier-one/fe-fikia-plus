@@ -124,7 +124,6 @@ export default function Dashboard() {
       setIsLoading(true);
 
       const response = await fetchSubs(token);
-      console.log(response)
     
       setSubs(response);
 
@@ -205,6 +204,72 @@ export default function Dashboard() {
     }
   ));
 
+  const LastWeekTimeStamp = () => {
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 5);
+
+    return oneWeekAgo.toISOString();
+  }
+
+
+  const calculateFundIncrease = () => {
+    let fundIncrease;
+
+    const fundsForLastWeek = funds?.filter((fund: any) => fund?.fund?.createdAt <= LastWeekTimeStamp())
+    const fundsForLastWeekLength = fundsForLastWeek?.length !== 0 ? fundsForLastWeek?.length : 1
+
+    const fundsForThisWeek = funds?.filter((fund: any) => fund?.fund?.createdAt > LastWeekTimeStamp())
+
+    if (fundsForLastWeekLength === 0) {
+      fundIncrease = (fundsForThisWeek?.length - fundsForLastWeekLength)
+    } else {
+      fundIncrease = (fundsForThisWeek?.length - fundsForLastWeekLength) / fundsForLastWeekLength
+    }
+
+    const fundsIncreasePercentage = fundIncrease * 100
+
+    return fundsIncreasePercentage;
+  }
+
+  const calculateTransactionsIncrease = () => {
+    let transactionIncrease;
+
+    const transactionsForLastWeek = allTransactions?.filter((transaction: any) => transaction?.createdAt <= LastWeekTimeStamp())
+    const transactionsForLastWeekLength = transactionsForLastWeek?.length
+
+    const transactionsForThisWeek = allTransactions?.filter((transaction: any) => transaction?.createdAt > LastWeekTimeStamp())
+
+    if (transactionsForLastWeekLength === 0) {
+      transactionIncrease = (transactionsForThisWeek?.length - transactionsForLastWeekLength)
+    } else {
+      transactionIncrease = (transactionsForThisWeek?.length - transactionsForLastWeekLength) / transactionsForLastWeekLength
+    }
+
+    const transactionsIncreasePercentage = transactionIncrease * 100
+
+    return transactionsIncreasePercentage;
+  }
+
+  const calculateSubscriptionIncrease = () => {
+    let subscriptionIncrease;
+
+    const subscriptionsForLastWeek = subs?.filter((sub: any) => sub?.createdAt <= LastWeekTimeStamp())
+    const subscriptionsForLastWeekLength = subscriptionsForLastWeek?.length
+
+    const subscriptionsForThisWeek = subs?.filter((sub: any) => sub?.createdAt > LastWeekTimeStamp())
+
+    if (subscriptionsForLastWeekLength === 0) {
+      subscriptionIncrease = (subscriptionsForThisWeek?.length - subscriptionsForLastWeekLength)
+    } else {
+      subscriptionIncrease = (subscriptionsForThisWeek?.length - subscriptionsForLastWeekLength) / subscriptionsForLastWeekLength
+    }
+
+    const subscriptionsIncreasePercentage = subscriptionIncrease * 100
+
+    return subscriptionsIncreasePercentage;
+  }
+
+
   return (
     <div className="bg-[#eaeaed] min-h-[87vh] ">
       <div className='flex flex-col justify-center lg:mx-[9rem]'>
@@ -214,7 +279,7 @@ export default function Dashboard() {
             title="Total Clients"
             imageAlt="Total Clients"
             icon="/client.svg"
-            change={3.3}
+            change={calculateSubscriptionIncrease()}
             changeIcon="/increase.svg"
             amount={subs?.length}
             period="last week"
@@ -224,7 +289,7 @@ export default function Dashboard() {
             title="Total funds"
             imageAlt="Total funds"
             icon="/total-funds.svg"
-            change={3.3}
+            change={calculateFundIncrease()}
             changeIcon="/increase.svg"
             amount={funds?.length}
             period="last week"
@@ -244,7 +309,7 @@ export default function Dashboard() {
             title="Total transactions"
             imageAlt="Total transactions"
             icon="/total-transactions.svg"
-            change={3.3}
+            change={calculateTransactionsIncrease()}
             changeIcon="/increase.svg"
             amount={allTransactions?.length}
             period="last week"
